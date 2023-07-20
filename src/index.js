@@ -1,0 +1,672 @@
+
+export default class LemonSqueezy {
+
+  apiKey;
+  apiUrl = 'https://api.lemonsqueezy.me/';
+
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+  }
+
+
+  /**
+   * Builds a params object for the API query based on provided and allowed filters.
+   * Also converts pagination parameters `page` to `page[number]` and `perPage` to `page[size]`
+   * @params {Object} [args] Arguments to the API method
+   * @params {Array} [allowedFilters] List of filters the API query permits (camelCase)
+   */
+  buildParams(args, allowedFilters = []) {
+    let params = {}
+    for (let filter in args) {
+      if (allowedFilters.includes(filter)) {
+        let queryFilter = filter.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+        params['filter['+queryFilter+']'] = args[filter]
+      } else {
+        if (filter == 'include') {
+          params['include'] = args[filter]
+        }
+        if (filter == 'page') {
+          params['page[number]'] = args[filter]
+        }
+        if (filter == 'perPage') {
+          params['page[size]'] = args[filter]
+        }
+      }
+    }
+    return params
+  }
+
+  /**
+   * Base API query
+   * @param {string} path
+   * @param {string} [method] POST, GET, PATCH, DELETE
+   * @param {Object} [params] URL query parameters
+   * @param {Object} [payload] Object/JSON payload
+   * @returns {Object} JSON
+   */
+  async queryApi({
+    path,
+    method = 'GET',
+    params,
+    payload
+  }) {
+
+    try {
+
+      // Prepare URL
+      const url = new URL(path, this.apiUrl);
+      if (params && method === "GET") {
+        Object.entries(params).forEach(([key, value]) =>
+          url.searchParams.append(key, value)
+        );
+      }
+
+      // fetch options
+      const options = {
+        headers: {
+          Accept: "application/vnd.api+json",
+          Authorization: `Bearer ${this.apiKey}`,
+          "Content-Type": "application/vnd.api+json"
+        },
+        method
+      }
+
+      if (payload) {
+        options['body'] = JSON.stringify(payload)
+      }
+
+      const response = await fetch(url.href, options);
+
+      if (!response.ok) {
+        let errorsJson = await response.json()
+        throw {
+          status: response.status,
+          message: response.statusText,
+          errors: errorsJson.errors,
+        };
+      }
+
+      return await response.json();
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Get current user
+   * @returns {Object} JSON
+   */
+  async getUser() {
+    return this.queryApi({ path: 'v1/users/me' });
+  }
+
+  /**
+   * Get stores
+   * @param {Object} [params]
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"stores,products,discounts,license-keys,subscriptions,webhooks"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getStores(params = {}) {
+    params = this.buildParams(params)
+    return this.queryApi({ path: 'v1/stores', params });
+  }
+
+  /**
+   * Get a store
+   * @params {string} id
+   * @param {Object} [params]
+   * @param {"stores,products,discounts,license-keys,subscriptions,webhooks"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getStore(id, params = {}) {
+    return this.queryApi({ path: 'v1/stores/'+id, params });
+  }
+
+  /**
+   * Get products
+   * @param {Object} [params]
+   * @param {number} [params.storeId] Filter products by store
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"store,variants"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getProducts(params = {}) {
+    params = this.buildParams(params, ['storeId'])
+    return this.queryApi({ path: 'v1/products', params });
+  }
+
+  /**
+   * Get a product
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {"store,variants"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getProduct(id, params = {}) {
+    return this.queryApi({ path: 'v1/products/'+id, params });
+  }
+
+  /**
+   * Get variants
+   * @param {Object} [params]
+   * @param {number} [params.productId] Filter variants by product
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"product,files"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getVariants(params = {}) {
+    params = this.buildParams(params, ['productId'])
+    return this.queryApi({ path: 'v1/variants', params });
+  }
+
+  /**
+   * Get a variant
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {product,files} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getVariant(id, params = {}) {
+    return this.queryApi({ path: 'v1/variants/'+id, params });
+  }
+
+  /**
+   * Create a checkout
+   * @param {number} storeId
+   * @param {number} variantId
+   * @param {Object} [attributes] An object of values used to configure the checkout
+   *                              https://docs.lemonsqueezy.com/api/checkouts#create-a-checkout
+   * @returns {Object} JSON
+   */
+  async createCheckout(storeId, variantId, attributes = {}) {
+    let payload = {
+      'data': {
+        'type': 'checkouts',
+        'attributes': attributes,
+        'relationships': {
+          'store': {
+            'data': {
+              'type': 'stores',
+              'id': '' + storeId // convert to string
+            }
+          },
+          'variant': {
+            'data': {
+              'type': 'variants',
+              'id': '' + variantId // convert to string
+            }
+          }
+        }
+      }
+    }
+    return this.queryApi({ path: 'v1/checkouts', method: 'POST', payload });
+  }
+
+  /**
+   * Get checkouts
+   * @param {Object} [params]
+   * @param {number} [params.storeId] Filter variants by store
+   * @param {number} [params.variantId] Filter checkouts by variant
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"store,variant"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getCheckouts(params = {}) {
+    params = this.buildParams(params, ['storeId', 'variantId'])
+    return this.queryApi({ path: 'v1/checkouts', params });
+  }
+
+  /**
+   * Get a checkout
+   * @params {string} id
+   * @param {Object} [params]
+   * @param {"store,variant"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getCheckout(id, params = {}) {
+    return this.queryApi({ path: 'v1/checkouts/'+id });
+  }
+
+  /**
+   * Get customers
+   * @param {Object} [params]
+   * @param {number} [params.storeId] Filter customers by store
+   * @param {number} [params.email] Filter customers (i.e. search) by email address
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"license-keys,orders,store,subscriptions"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getCustomers(params = {}) {
+    params = this.buildParams(params, ['storeId', 'email'])
+    return this.queryApi({ path: 'v1/customers', params });
+  }
+
+  /**
+   * Get a customer
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {"license-keys,orders,store,subscriptions"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getCustomer(id, params = {}) {
+    return this.queryApi({ path: 'v1/customers/'+id, params });
+  }
+
+  /**
+   * Get orders
+   * @param {Object} [params]
+   * @param {number} [params.storeId] Filter orders by store
+   * @param {number} [params.userEmail] Filter orders by email address
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"customer,discount-redemptions,license-keys,order-items,store,subscriptions"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getOrders(params = {}) {
+    params = this.buildParams(params, ['storeId', 'userEmail'])
+    return this.queryApi({ path: 'v1/orders', params });
+  }
+
+  /**
+   * Get an order
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {"customer,discount-redemptions,license-keys,order-items,store,subscriptions"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getOrder(id, params = {}) {
+    return this.queryApi({ path: 'v1/orders/'+id, params });
+  }
+
+  /**
+   * Get files
+   * @param {Object} [params]
+   * @param {number} [params.variantId] Filter orders by variant
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"variant"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getFiles(params = {}) {
+    params = this.buildParams(params, ['variantId'])
+    return this.queryApi({ path: 'v1/files', params });
+  }
+
+  /**
+   * Get a file
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {"variant"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getFile(id, params = {}) {
+    return this.queryApi({ path: 'v1/files/'+id, params });
+  }
+
+  /**
+   * Get order items
+   * @param {Object} [params]
+   * @param {number} [params.orderId] Filter order items by order
+   * @param {number} [params.productId] Filter order items by product
+   * @param {number} [params.variantId] Filter order items by variant
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"order,product,variant"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getOrderItems(params = {}) {
+    params = this.buildParams(params, ['orderId', 'productId', 'variantId'])
+    return this.queryApi({ path: 'v1/order-items', params });
+  }
+
+  /**
+   * Get an order item
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {"order,product,variant"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getOrderItem(id, params = {}) {
+    return this.queryApi({ path: 'v1/order-items/'+id, params });
+  }
+
+  /**
+   * Get subscriptions
+   * @param {Object} [params]
+   * @param {number} [params.storeId] Filter subscriptions by store
+   * @param {number} [params.orderId] Filter subscriptions by order
+   * @param {number} [params.orderItemId] Filter subscriptions by order item
+   * @param {number} [params.productId] Filter subscriptions by product
+   * @param {number} [params.variantId] Filter subscriptions by variant
+   * @param {"on_trial"|"active"|"paused"|"past_due"|"unpaid"|"cancelled"|"expired"} [params.status] Filter subscriptions by status
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"store,customer,order,order-item,product,variant"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getSubscriptions(params = {}) {
+    params = this.buildParams(params, ['storeId', 'orderId', 'orderItemId', 'productId', 'variantId', 'status'])
+    return this.queryApi({ path: 'v1/subscriptions', params });
+  }
+
+
+  /**
+   * Get a subscription
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {"store,customer,order,order-item,product,variant"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getSubscription(id, params = {}) {
+    return this.queryApi({ path: 'v1/subscriptions/'+id, params });
+  }
+
+  /**
+   * Update a subscription's plan
+   * @param {number} id
+   * @param {Object} [options]
+   * @param {number} [options.variantId] ID of variant (required if changing plans)
+   * @param {number} [options.productId] ID of product (required if changing plans)
+   * @param {number} [options.billingAnchor] Set the billing day (1–31) used for renewal charges
+   * @param {"immediate"|"disable"} [options.proration] If not included, proration will occur at the next renewal date.
+   *                                   Use 'immediate' to charge a prorated amount immediately.
+   *                                   Use 'disable' to charge a full ammount immediately.
+   * @returns {Object} JSON
+   */
+  async updateSubscription(id, { variantId, productId, billingAnchor, proration } = {}) {
+    let attributes = {
+      variant_id: variantId,
+      product_id: productId,
+      billing_anchor: billingAnchor
+    }
+    if (proration == 'disable') attributes.disable_prorations = true
+    if (proration == 'immediate') attributes.invoice_immediately = true
+    let payload = {
+      data: {
+        type: 'subscriptions',
+        id: '' + id,
+        attributes
+      }
+    }
+    return this.queryApi({ path: 'v1/subscriptions/'+id, method: 'PATCH', payload });
+  }
+
+  /**
+   * Cancel a subscription
+   * @param {number} id
+   * @returns {Object} JSON
+   */
+  async cancelSubscription(id) {
+    return this.queryApi({ path: 'v1/subscriptions/'+id, method: 'DELETE' });
+  }
+
+  /**
+   * Resume (un-cancel) a subscription
+   * @param {number} id
+   * @returns {Object} JSON
+   */
+  async resumeSubscription(id) {
+    let payload = {
+      data: {
+        type: 'subscriptions',
+        id: '' + id,
+        attributes: {
+          cancelled: false,
+        }
+      }
+    }
+    return this.queryApi({ path: 'v1/subscriptions/'+id, method: 'PATCH', payload });
+  }
+
+  /**
+   * Pause a subscription
+   * @param {number} id
+   * @param {Object} [options]
+   * @param {"void"|"free"} [options.mode] Pause mode: "void" (default) or "free"
+   * @param {string} [options.resumes_at] Date to automatically resume the subscription (ISO-8601 format)
+   * @returns {Object} JSON
+   */
+  async pauseSubscription(id, { mode, resumes_at } = {}) {
+    let pause = { mode: 'void' }
+    if (mode) pause.mode = mode
+    if (resumes_at) pause.resumes_at = resumes_at
+    let payload = {
+      data: {
+        type: 'subscriptions',
+        id: '' + id,
+        attributes: { pause }
+      }
+    }
+    return this.queryApi({ path: 'v1/subscriptions/'+id, method: 'PATCH', payload });
+  }
+
+  /**
+   * Unpause a subscription
+   * @param {number} id
+   * @returns {Object} JSON
+   */
+  async unpauseSubscription(id) {
+    let payload = {
+      data: {
+        type: 'subscriptions',
+        id: '' + id,
+        attributes: { pause: null }
+      }
+    }
+    return this.queryApi({ path: 'v1/subscriptions/'+id, method: 'PATCH', payload });
+  }
+
+  /**
+   * Get subscription invoices
+   * @param {Object} [params]
+   * @param {number} [params.storeId] Filter subscription invoices by store
+   * @param {number} [params.status] Filter subscription invoices by status
+   * @param {boolean} [params.refunded] Filter subscription invoices by refunded
+   * @param {number} [params.subscriptionId] Filter subscription invoices by subscription
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"store,subscription"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getSubscriptionInvoices(params = {}) {
+    params = this.buildParams(params, ['storeId', 'status', 'refunded', 'subscriptionId'])
+    return this.queryApi({ path: 'v1/subscription-invoices', params });
+  }
+
+  /**
+   * Get a subscription invoice
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {"store,subscription"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getSubscriptionInvoice(id, params = {}) {
+    return this.queryApi({ path: 'v1/subscription-invoices/'+id, params });
+  }
+
+  /**
+   * Get discounts
+   * @param {Object} [params]
+   * @param {number} [params.storeId] Filter discounts by store
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"store,variants,discount-redemptions"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getDiscounts(params = {}) {
+    params = this.buildParams(params, ['storeId'])
+    return this.queryApi({ path: 'v1/discounts', params });
+  }
+
+  /**
+   * Get a discount
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {store|variants|discount-redemptions} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getDiscount(id, params = {}) {
+    return this.queryApi({ path: 'v1/discounts/'+id, params });
+  }
+
+  /**
+   * Create a discount
+   * @param {string} name Name of discount
+   * @param {string} [code] Discount code
+   * ... TODO
+   * @returns {Object} JSON
+   */
+  async createDiscount({
+    storeId,
+    name,
+    code,
+    amount,
+    amountType='percent',
+    duration='once',
+    durationInMonths,
+    variantIds,
+    maxRedemptions,
+    startsAt,
+    expiresAt
+  }) {
+    if (!storeId) throw 'You must include a `storeId`.'
+    if (!name) throw 'You must include a `name`.'
+    if (!code) throw 'You must include a `code`.'
+    if (!amount) throw 'You must include an `amount`.'
+    let attributes = {
+      name,
+      code,
+      amount,
+      amount_type: amountType,
+      duration,
+      starts_at: startsAt,
+      expires_at: expiresAt
+    }
+    if (durationInMonths && duration != 'once') {
+      attributes.duration_in_months = durationInMonths
+    }
+    if (maxRedemptions) {
+      attributes.is_limited_redemptions = true
+      attributes.max_redemptions = maxRedemptions
+    }
+    let payload = {
+      data: {
+        type: 'discounts',
+        attributes,
+        relationships: {
+          store: {
+            data: {
+              type: 'stores',
+              id: '' + storeId
+            }
+          }
+        }
+      }
+    }
+    if (variantIds) {
+      let variantData = []
+      for (var i = 0; i < variantIds.length; i++) {
+        variantData.push({ type: 'variants', id: '' + variantIds[i] })
+      }
+      payload.data.attributes.is_limited_to_products = true
+      payload.data.relationships.variants = {
+        data: variantData
+      }
+    }
+    return this.queryApi({ path: 'v1/discounts', method: 'POST', payload });
+  }
+
+  /**
+   * Delete a discount
+   * @param {number} id
+   */
+  async deleteDiscount(id) {
+    this.queryApi({ path: 'v1/discounts/'+id, method: 'DELETE' });
+  }
+
+  /**
+   * Get discount redemptions
+   * @param {Object} [params]
+   * @param {number} [params.discountId] Filter discount redemptions by discount
+   * @param {number} [params.orderId] Filter discount redemptions by order
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"discount,order"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getDiscountRedemptions(params = {}) {
+    params = this.buildParams(params, ['discountId', 'orderId'])
+    return this.queryApi({ path: 'v1/discount-redemptions', params });
+  }
+
+  /**
+   * Get a discount redemption
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {"discount,order"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getDiscountRedemption(id, params = {}) {
+    return this.queryApi({ path: 'v1/discount-redemptions/'+id, params });
+  }
+
+  /**
+   * Get license keys
+   * @param {Object} [params]
+   * @param {number} [params.storeId] Filter license keys by store
+   * @param {number} [params.orderId] Filter license keys by order
+   * @param {number} [params.orderItemId] Filter license keys by order item
+   * @param {number} [params.productId] Filter license keys by product
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"store,customer,order,order-item,product,license-key-instances"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getLicenseKeys(params = {}) {
+    params = this.buildParams(params, ['storeId', 'orderId', 'orderItemId', 'productId'])
+    return this.queryApi({ path: 'v1/license-keys', params });
+  }
+
+  /**
+   * Get a license key
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {"store,customer,order,order-item,product,license-key-instances"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getLicenseKey(id, params = {}) {
+    return this.queryApi({ path: 'v1/license-keys/'+id, params });
+  }
+
+  /**
+   * Get license key instances
+   * @param {Object} [params]
+   * @param {number} [params.licenseKeyId] Filter license keys instances by license key
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"license-key"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getLicenseKeys(params = {}) {
+    params = this.buildParams(params, ['licenseKeyId'])
+    return this.queryApi({ path: 'v1/license-key-instances', params });
+  }
+
+  /**
+   * Get a license key instance
+   * @param {number} id
+   * @param {Object} [params]
+   * @param {"license-key"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getLicenseKey(id, params = {}) {
+    return this.queryApi({ path: 'v1/license-key-instances/'+id, params });
+  }
+}
