@@ -1,9 +1,16 @@
 # The official Javascript wrapper for the Lemon Squeezy API
 
+## Introduction
+
+Please read the [API reference introduction page](https://docs.lemonsqueezy.com/api) to understand how the API works.
+
 ## Installation
 
+TODO
 
 ## Usage
+
+### Basic usage
 
 ```javascript
 import LemonSqueezy from 'lemonsqueezy.js'
@@ -12,28 +19,36 @@ const ls = new LemonSqueezy(API_KEY);
 const products = await ls.getProducts()
 ```
 
-Parameters for requests are sent in objects. For list methods, these parameters are used for filtering and for list pagination. For individual record methods, you can use `include`. For create and update methods, these parameters contain the values for the request.
+Parameters for requests should be passed in an object. For list methods, these parameters are used for filtering and for list pagination. For create and update methods, these parameters contain the values for the request.
 
 ```javascript
-const subscriptions = await.getSubscriptions({ storeId: 123, perPage: 50 })
+const subscriptions = await ls.getSubscriptions({ storeId: 123, perPage: 50 })
 
-const subscription = await.getSubscription(123, { include: 'subscription-invoices' })
+const subscription = await ls.getSubscription({ id: 123, include: 'subscription-invoices' })
+
+const subscription = await ls.cancelSubscription({ id: 123 })
 ```
 
-You can use `include` in every "read" method to pull in related objects (works for both individual and list methods).
+### Including related resources
 
-There are pagination parameters for every list method: `page`, `perPage`.
+You can use `include` in every "read" method to pull in [related resources](https://docs.lemonsqueezy.com/api#including-related-resources) (works for both individual and list methods).
 
 ```javascript
-// Using `include` to load related resources (see https://docs.lemonsqueezy.com/api#including-related-resources).
-const product = await ls.getProduct(23, { include: 'variants' })
-// A configured request for a list of orders for store #3
+const product = await ls.getProduct({ id: 123 include: 'variants' })
+````
+
+### Pagination
+
+There are pagination parameters for every list method: `page`, `perPage`. If `perPage` is omitted, the API returns 10 records per page.
+
+```javascript
+// Querying a list of orders for store #3, 50 records per page, page 2, including store and customer related resoueces
 const order = await ls.getOrders({ storeId: 3, perPage: 50, page: 2, include: 'store,customer' })
 ````
 
 ### Handling errors
 
-Each method will throw an exception if there are issues with the request. An object will be returned containing error details.
+Each method will throw an exception if there are issues with the request. JSON will be returned containing error details.
 
 Use `try { .. } catch { ... }` to access this object. Error messages will be available in a list in `errors`.
 
@@ -93,17 +108,123 @@ Don't use this package directly in the browser as this will expose your API key,
 
 ## Methods
 
+---
 
-getProducts({ storeId, pageSize, page })
+### getUser()
 
-getProduct(id)
+Get the current user.
 
-getVariants({ productId, pageSize, page })
+Returns a [User object](https://docs.lemonsqueezy.com/api/users).
 
-getVariant(id)
+[API reference](https://docs.lemonsqueezy.com/api/users#retrieve-the-authenticated-user).
 
-createCheckout(storeId, variantId, attributes)
+#### Parameters
 
-getCheckouts({ storeId, variantId, pageSize, page })
+None.
 
-getCheckout(id)
+#### Example
+
+```
+const user = await ls.getUser()
+```
+
+---
+
+### getStores(parameters)
+
+Get the current user's stores.
+
+Returns a list of [Store objects](https://docs.lemonsqueezy.com/api/stores).
+
+[API reference](https://docs.lemonsqueezy.com/api/stores#list-all-stores).
+
+#### Parameters
+
+| Parameter | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `perPage`| number | 10 | |
+| `page` | number | 1 | |
+| `include`| string | | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
+
+#### Example
+
+```
+const stores = await ls.getStores()
+
+const stores = await ls.getStores({ include: 'products' })
+```
+
+---
+
+### getStore(parameters)
+
+Get a store.
+
+Returns a [Store object](https://docs.lemonsqueezy.com/api/stores).
+
+[API reference](https://docs.lemonsqueezy.com/api/stores#retrieve-a-store).
+
+#### Parameters
+
+| Parameter | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `id` | number | | |
+| `include`| string | | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
+
+#### Example
+
+```
+const store = await ls.getStore({ id: 123 })
+```
+
+---
+
+### getProducts(parameters)
+
+Get a list of products.
+
+Returns a list of [Product objects](https://docs.lemonsqueezy.com/api/products).
+
+[API reference](https://docs.lemonsqueezy.com/api/products#list-all-products).
+
+#### Parameters
+
+| Parameter | Type | Default | Notes |
+| --- | --- | --- | --- | 
+| `storeId` | number | | |
+| `perPage` | number | 10 | |
+| `page` | number | 1 | |
+| `include`| string | | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
+
+#### Example
+
+```
+const products = await ls.getProducts({ storeId: 123, perPage: 50, include: 'variants' })
+```
+
+---
+
+### getProduct(parameters)
+
+Get a product.
+
+Returns a [Product object](https://docs.lemonsqueezy.com/api/products).
+
+[API reference](https://docs.lemonsqueezy.com/api/products#retrieve-a-product).
+
+#### Parameters
+
+| Parameter | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `id` | number | | |
+| `include`| string | | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
+
+#### Example
+
+```
+const products = await ls.getProduct({ id: 123 })
+```
+
+---
+
+More to follow.
