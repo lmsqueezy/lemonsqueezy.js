@@ -4,9 +4,11 @@
 
 Please read the [API reference introduction page](https://docs.lemonsqueezy.com/api) to understand how the API works.
 
+**This README is a work-in-progress.**
+
 ## Installation
 
-TODO
+Install with `npm install lemonsqueezy.js`
 
 ## Usage
 
@@ -14,7 +16,7 @@ TODO
 
 ```javascript
 import LemonSqueezy from 'lemonsqueezy.js'
-const ls = new LemonSqueezy(API_KEY);
+const ls = new LemonSqueezy(API_KEY); // Recommend storing in an env file, e.g. process.env.LEMONSQUEEZY_API_KEY
 
 const products = await ls.getProducts()
 ```
@@ -50,7 +52,7 @@ const order = await ls.getOrders({ storeId: 3, perPage: 50, page: 2, include: 's
 
 Each method will throw an exception if there are issues with the request. JSON will be returned containing error details.
 
-Use `try { .. } catch { ... }` to access this object. Error messages will be available in a list in `errors`.
+Use `try { ... } catch { ... }` to access this object. Error messages will be available in a list in `errors`.
 
 ```javascript
 // "something" is not a valid value for `include`
@@ -166,10 +168,10 @@ Returns a [Store object](https://docs.lemonsqueezy.com/api/stores).
 
 #### Parameters
 
-| Parameter | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `id` | number | | |
-| `include`| string | | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Required | | |
+| `include`| string | No | | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
 
 #### Example
 
@@ -189,12 +191,12 @@ Returns a list of [Product objects](https://docs.lemonsqueezy.com/api/products).
 
 #### Parameters
 
-| Parameter | Type | Default | Notes |
-| --- | --- | --- | --- | 
-| `storeId` | number | | |
-| `perPage` | number | 10 | |
-| `page` | number | 1 | |
-| `include`| string | | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `storeId` | number | No | | |
+| `perPage` | number | No | 10 | |
+| `page` | number | No | 1 | |
+| `include`| string | No | | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
 
 #### Example
 
@@ -216,7 +218,7 @@ Returns a [Product object](https://docs.lemonsqueezy.com/api/products).
 
 | Parameter | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `id` | number | | |
+| `id` required | number | | |
 | `include`| string | | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
 
 #### Example
@@ -227,4 +229,4 @@ const products = await ls.getProduct({ id: 123 })
 
 ---
 
-More to follow.
+More methods to follow.
