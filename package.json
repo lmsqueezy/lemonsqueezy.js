@@ -4,14 +4,21 @@
   "version": "1.0.0",
   "author": "Lemon Squeezy",
   "license": "MIT",
+  "main": "index.js",
   "homepage": "https://github.com/lmsqueezy/lemonsqueezy.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/lmsqueezy/lemonsqueezy.js.git"
   },
+  "bugs": {
+    "url": "https://github.com/lmsqueezy/lemonsqueezy.js/issues"
+  },
   "keywords": [
     "api",
     "lemonsqueezy",
     "javascript"
-  ]
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }

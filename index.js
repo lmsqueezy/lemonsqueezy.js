@@ -2,7 +2,7 @@
 export default class LemonSqueezy {
 
   apiKey;
-  apiUrl = 'https://api.lemonsqueezy.me/';
+  apiUrl = 'https://api.lemonsqueezy.com/';
 
   constructor(apiKey) {
     this.apiKey = apiKey;
@@ -86,7 +86,9 @@ export default class LemonSqueezy {
         };
       }
 
-      return await response.json();
+      if (method !== 'DELETE') {
+        return await response.json();
+      }
 
     } catch (error) {
       throw error;
@@ -717,5 +719,100 @@ export default class LemonSqueezy {
     if (!id) throw 'You must provide an ID.'
     params = this.buildParams(params)
     return this.queryApi({ path: 'v1/license-key-instances/'+id, params });
+  }
+
+  /**
+   * Get webhooks
+   * @param {Object} [params]
+   * @param {number} [params.storeId] Filter webhooks by store
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"store"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getWebhooks(params = {}) {
+    params = this.buildParams(params, ['storeId'])
+    return this.queryApi({ path: 'v1/webhooks', params });
+  }
+
+  /**
+   * Get a webhook
+   * @param {Object} params
+   * @param {number} params.id
+   * @param {"store"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getWebhook({ id, ...params } = {}) {
+    if (!id) throw 'You must provide an ID.'
+    params = this.buildParams(params)
+    return this.queryApi({ path: 'v1/webhooks/'+id, params });
+  }
+
+  /**
+   * Create a webhook
+   * @param {Object} params
+   * @param {string} params.url Endpoint URL that the webhooks should be sent to
+   * @param {Array} params.events List of webhook events to receive
+   * @param {string} params.secret Signing secret (between 6 and 40 characters)
+   * @returns {Object} JSON
+   */
+  async createWebhook({ storeId, url, events, secret } = {}) {
+    if (!storeId) throw 'You must provide a store ID.'
+    if (!url) throw 'You must provide a URL.'
+    if (!events || events?.length < 1) throw 'You must provide a list of events.'
+    if (!secret) throw 'You must provide a signing secret.'
+    let payload = {
+      data: {
+        type: 'webhooks',
+        attributes: {
+          url,
+          events,
+          secret
+        },
+        relationships: {
+          store: {
+            data: {
+              type: 'stores',
+              id: '' + storeId
+            }
+          }
+        }
+      }
+    }
+    return this.queryApi({ path: 'v1/webhooks', method: 'POST', payload });
+  }
+
+  /**
+   * Update a webhook
+   * @param {Object} params
+   * @param {number} params.id
+   * @param {string} [params.url] Endpoint URL that the webhooks should be sent to
+   * @param {Array} [params.events] List of webhook events to receive
+   * @param {string} [params.secret] Signing secret (between 6 and 40 characters)
+   * @returns {Object} JSON
+   */
+  async updateWebhook({ id, url, events, secret } = {}) {
+    if (!id) throw 'You must provide an ID.'
+    let attributes = {}
+    if (url) attributes.url = url
+    if (events) attributes.events = events
+    if (secret) attributes.secret = secret
+    let payload = {
+      data: {
+        type: 'webhooks',
+        id: '' + id,
+        attributes
+      }
+    }
+    return this.queryApi({ path: 'v1/webhooks/'+id, method: 'PATCH', payload });
+  }
+
+  /**
+   * Delete a webhook
+   * @param {Object} params
+   * @param {number} params.id
+   */
+  async deleteWebhook({ id }) {
+    this.queryApi({ path: 'v1/webhooks/'+id, method: 'DELETE' });
   }
 }
