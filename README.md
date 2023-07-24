@@ -1,4 +1,4 @@
-# The official Javascript wrapper for the Lemon Squeezy API
+# The official Lemon Squeezy JavaScript SDK
 
 ## Introduction
 
@@ -8,7 +8,15 @@ Please read the [API reference introduction page](https://docs.lemonsqueezy.com/
 
 ## Installation
 
-Install with `npm install lemonsqueezy.js`
+### Install the pacakge
+
+Install with `npm install @lemonsqueezy/lemonsqueezy.js`
+
+### Create an API key
+
+Create a new API key from [Settings > API](https://app.lemonsqueezy.com/settings/api) in your Lemon Squeezy dashboard.
+
+Add this API key into your project, for example as `LEMONSQUEEZY_API_KEY` in your `.env` file.
 
 ## Usage
 
@@ -16,7 +24,7 @@ Install with `npm install lemonsqueezy.js`
 
 ```javascript
 import LemonSqueezy from 'lemonsqueezy.js'
-const ls = new LemonSqueezy(API_KEY); // Recommend storing in an env file, e.g. process.env.LEMONSQUEEZY_API_KEY
+const ls = new LemonSqueezy(process.env.LEMONSQUEEZY_API_KEY);
 
 const products = await ls.getProducts()
 ```
@@ -41,7 +49,9 @@ const product = await ls.getProduct({ id: 123 include: 'variants' })
 
 ### Pagination
 
-There are pagination parameters for every list method: `page`, `perPage`. If `perPage` is omitted, the API returns 10 records per page.
+Endpoints that return a list of results can be paged using optional `page` and `perPage` values.
+If `perPage` is omitted, the API returns the default of 10 results per page.
+`perPage` should be a value between 1 and 100.
 
 ```javascript
 // Querying a list of orders for store #3, 50 records per page, page 2, including store and customer related resoueces
@@ -80,10 +90,9 @@ try {
 
 ### Looping lists
 
-Endpoints that return a list of results can be paged using optional `page` and `perPage` values.
-If `perPage` is omitted, the API returns the default of 10 results per page.
-`perPage` should be a value between 1 and 100.
-You can use the `lastPage` value in the `meta.page` object to check if you are on the last page of results.
+You can use `page` and `perPage` to loop lists of results.
+
+Responses contain a `meta.page` object, which describes the pagination of your requests. In this example, you can use the `lastPage` value to check if you are on the last page of results.
 
 ```javascript
 let hasNextPage = true
@@ -142,11 +151,11 @@ Returns a list of [Store objects](https://docs.lemonsqueezy.com/api/stores).
 
 #### Parameters
 
-| Parameter | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `perPage`| number | 10 | |
-| `page` | number | 1 | |
-| `include`| string | | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `perPage`| number | | 10 | |
+| `page` | number | | 1 | |
+| `include`| string | | | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
 
 #### Example
 
@@ -170,8 +179,8 @@ Returns a [Store object](https://docs.lemonsqueezy.com/api/stores).
 
 | Parameter | Type | Required | Default | Notes |
 | --- | --- | --- | --- | --- |
-| `id` | number | Required | | |
-| `include`| string | No | | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
 
 #### Example
 
@@ -193,14 +202,16 @@ Returns a list of [Product objects](https://docs.lemonsqueezy.com/api/products).
 
 | Parameter | Type | Required | Default | Notes |
 | --- | --- | --- | --- | --- | 
-| `storeId` | number | No | | |
-| `perPage` | number | No | 10 | |
-| `page` | number | No | 1 | |
-| `include`| string | No | | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
+| `storeId` | number | - | - | Filter products by store. |
+| `perPage` | number | - | 10 | |
+| `page` | number | - | 1 | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
 
 #### Example
 
 ```
+const products = await ls.getProducts()
+
 const products = await ls.getProducts({ storeId: 123, perPage: 50, include: 'variants' })
 ```
 
@@ -216,15 +227,311 @@ Returns a [Product object](https://docs.lemonsqueezy.com/api/products).
 
 #### Parameters
 
-| Parameter | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `id` required | number | | |
-| `include`| string | | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
 
 #### Example
 
 ```
-const products = await ls.getProduct({ id: 123 })
+const product = await ls.getProduct({ id: 123 })
+```
+
+---
+
+### getVariants(parameters)
+
+Get a list of variants.
+
+Returns a list of [Variant objects](https://docs.lemonsqueezy.com/api/variants).
+
+[API reference](https://docs.lemonsqueezy.com/api/variants#list-all-variants).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `productId` | number | - | - | Filter variants by product. |
+| `perPage` | number | - | 10 | |
+| `page` | number | - | 1 | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>product</li><li>files</li></ul> |
+
+#### Example
+
+```
+const variants = await ls.getVariants()
+
+const variants = await ls.getVariants({ productId: 123, perPage: 50, include: 'product' })
+```
+
+---
+
+### getVariant(parameters)
+
+Get a variant.
+
+Returns a [Variant object](https://docs.lemonsqueezy.com/api/variants).
+
+[API reference](https://docs.lemonsqueezy.com/api/variants#retrieve-a-variant).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>product</li><li>files</li></ul> |
+
+#### Example
+
+```
+const variant = await ls.getVariant({ id: 123 })
+```
+
+---
+
+### getCheckouts(parameters)
+
+Get a list of checkouts.
+
+Returns a list of [Checkout objects](https://docs.lemonsqueezy.com/api/checkouts).
+
+[API reference](https://docs.lemonsqueezy.com/api/checkouts#list-all-checkouts).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `storeId` | number | - | - | Filter checkouts by store. |
+| `variantId` | number | - | - | Filter checkouts by variant. |
+| `perPage` | number | - | 10 | |
+| `page` | number | - | 1 | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variant</li></ul> |
+
+#### Example
+
+```
+const checkouts = await ls.getCheckouts()
+
+const checkouts = await ls.getCheckouts({ storeId: 123, perPage: 50 })
+```
+
+---
+
+### getCheckout(parameters)
+
+Get a checkout.
+
+Returns a [Checkout object](https://docs.lemonsqueezy.com/api/checkouts).
+
+[API reference](https://docs.lemonsqueezy.com/api/checkouts#retrieve-a-checkout).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | string | Yes | - | Checkout IDs are UUIDs. |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variant</li></ul> |
+
+#### Example
+
+```
+const checkout = await ls.getCheckout({ id: 'edc0158c-794a-445d-bfad-24ab66baeb01' })
+```
+
+---
+
+### createCheckout(parameters)
+
+Create a checkout.
+
+This method allows you to retrieve a product's checkout URL (using store and variant IDs) or create fully customised checkouts (using additional attributes).
+
+Returns a [Checkout object](https://docs.lemonsqueezy.com/api/checkouts).
+
+[API reference](https://docs.lemonsqueezy.com/api/checkouts#create-a-checkout).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `storeId` | number | Yes | - | |
+| `variantId` | number | Yes | - | |
+| `attributes` | Object | - | - | An [object of values](https://docs.lemonsqueezy.com/api/checkouts#create-a-checkout) used to configure the checkout. |
+
+#### Example
+
+```
+let attributes = {
+  checkout_data: {
+    email: 'user@gmail.com',
+    discount_code: '10PERCENT',
+    custom: {
+      user_id: 123
+    }
+  },
+  product_options: {
+    redirect_url: 'https://customredirect.com'
+  },
+  checkout_options: {
+    dark: true,
+    logo: false
+  }
+}
+
+const checkout = await ls.createCheckout({ storeId: 123, variantId: 123, attributes })
+```
+
+---
+
+### getCustomers(parameters)
+
+Get a list of customers.
+
+Returns a list of [Customer objects](https://docs.lemonsqueezy.com/api/customers).
+
+[API reference](https://docs.lemonsqueezy.com/api/customers#list-all-customers).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `storeId` | number | - | - | Filter customers by store. |
+| `email` | string | - | - | Filter customers by email address. |
+| `perPage` | number | - | 10 | |
+| `page` | number | - | 1 | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>license-keys</li><li>orders</li><li>store</li><li>subscriptions</li></ul> |
+
+#### Example
+
+```
+const customers = await ls.getCustomers()
+
+const customers = await ls.getCustomers({ email: 'customer@gmail.com', include: 'orders,license-keys,subscriptions' })
+```
+
+---
+
+### getCustomer(parameters)
+
+Get a customer.
+
+Returns a [Customer object](https://docs.lemonsqueezy.com/api/customers).
+
+[API reference](https://docs.lemonsqueezy.com/api/customers#retrieve-a-customer).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>license-keys</li><li>orders</li><li>store</li><li>subscriptions</li></ul> |
+
+#### Example
+
+```
+const customer = await ls.getCustomer({ id: 123 })
+```
+
+---
+
+### getOrders(parameters)
+
+Get a list of orders.
+
+Returns a list of [Order objects](https://docs.lemonsqueezy.com/api/orders).
+
+[API reference](https://docs.lemonsqueezy.com/api/orders#list-all-orders).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `storeId` | number | - | - | Filter orders by store. |
+| `userEmail` | string | - | - | Filter orders by email address. |
+| `perPage` | number | - | 10 | |
+| `page` | number | - | 1 | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>customer</li><li>discount-redemptions</li><li>license-keys</li><li>order-items</li><li>store</li><li>subscriptions</li></ul> |
+
+#### Example
+
+```
+const orders = await ls.getOrders()
+
+const orders = await ls.getOrders({ email: 'customer@gmail.com', include: 'orders,license-keys,subscriptions' })
+```
+
+---
+
+### getOrder(parameters)
+
+Get an order.
+
+Returns a [Order object](https://docs.lemonsqueezy.com/api/orders).
+
+[API reference](https://docs.lemonsqueezy.com/api/orders#retrieve-a-order).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>customer</li><li>discount-redemptions</li><li>license-keys</li><li>order-items</li><li>store</li><li>subscriptions</li></ul> |
+
+#### Example
+
+```
+const order = await ls.getOrder({ id: 123 })
+```
+
+---
+
+### getFiles(parameters)
+
+Get a list of files.
+
+Returns a list of [File objects](https://docs.lemonsqueezy.com/api/files).
+
+[API reference](https://docs.lemonsqueezy.com/api/files#list-all-files).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `variantId` | number | - | - | Filter files by variant. |
+| `perPage` | number | - | 10 | |
+| `page` | number | - | 1 | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>variant</li></ul> |
+
+#### Example
+
+```
+const files = await ls.getFiles()
+
+const files = await ls.getFiles({ variantId: 123 })
+```
+
+---
+
+### getFile(parameters)
+
+Get an file.
+
+Returns a [File object](https://docs.lemonsqueezy.com/api/files).
+
+[API reference](https://docs.lemonsqueezy.com/api/files#retrieve-a-file).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>variant</li></ul> |
+
+#### Example
+
+```
+const file = await ls.getFile({ id: 123 })
 ```
 
 ---
