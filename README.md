@@ -8,7 +8,7 @@ Please read the [API reference introduction page](https://docs.lemonsqueezy.com/
 
 ## Installation
 
-### Install the pacakge
+### Install the package
 
 Install with `npm install @lemonsqueezy/lemonsqueezy.js`
 
@@ -23,7 +23,7 @@ Add this API key into your project, for example as `LEMONSQUEEZY_API_KEY` in you
 ### Basic usage
 
 ```javascript
-import LemonSqueezy from 'lemonsqueezy.js'
+import LemonSqueezy from '@lemonsqueezy/lemonsqueezy.js'
 const ls = new LemonSqueezy(process.env.LEMONSQUEEZY_API_KEY);
 
 const products = await ls.getProducts()
@@ -44,7 +44,7 @@ const subscription = await ls.cancelSubscription({ id: 123 })
 You can use `include` in every "read" method to pull in [related resources](https://docs.lemonsqueezy.com/api#including-related-resources) (works for both individual and list methods).
 
 ```javascript
-const product = await ls.getProduct({ id: 123 include: 'variants' })
+const product = await ls.getProduct({ id: 123, include: 'variants' })
 ````
 
 ### Pagination
@@ -57,6 +57,48 @@ If `perPage` is omitted, the API returns the default of 10 results per page.
 // Querying a list of orders for store #3, 50 records per page, page 2, including store and customer related resoueces
 const order = await ls.getOrders({ storeId: 3, perPage: 50, page: 2, include: 'store,customer' })
 ````
+
+### Looping lists
+
+You can also use `page` and `perPage` to loop lists of results.
+
+"List" method responses contain a `meta.page` object, which describes the pagination of your request.
+
+```json
+{
+  "meta": {
+    "page": {
+      "currentPage": 1,
+      "from": 1,
+      "lastPage": 16,
+      "perPage": 10,
+      "to": 10,
+      "total": 154
+    }
+  },
+  ...
+}
+```
+
+In this example, you can use the `lastPage` value to check if you are on the last page of results.
+
+```javascript
+let hasNextPage = true
+let perPage = 100
+let page = 1
+let variants = []
+while (hasNextPage) {
+  const resp = await ls.getVariants({ perPage, page });
+  
+  variants = variants.concat(resp['data'])
+
+  if (resp.meta.page.lastPage > page) {
+    page += 1
+  } else {
+    hasNextPage = false
+  }
+}
+```
 
 ### Handling errors
 
@@ -88,33 +130,9 @@ try {
 }
 ```
 
-### Looping lists
-
-You can use `page` and `perPage` to loop lists of results.
-
-Responses contain a `meta.page` object, which describes the pagination of your requests. In this example, you can use the `lastPage` value to check if you are on the last page of results.
-
-```javascript
-let hasNextPage = true
-let perPage = 100
-let page = 1
-let variants = []
-while (hasNextPage) {
-  const resp = await ls.getVariants({ perPage, page });
-  
-  variants = variants.concat(resp['data'])
-
-  if (resp.meta.page.lastPage > page) {
-    page += 1
-  } else {
-    hasNextPage = false
-  }
-}
-```
-
 ## Notes
 
-Don't use this package directly in the browser as this will expose your API key, which would provide access to your full store.
+Do not use this package directly in the browser. as this will expose your API key. This would give anyone full API access to your Lemon Squeezy account and store(s).
 
 
 ## Methods
@@ -515,7 +533,7 @@ const files = await ls.getFiles({ variantId: 123 })
 
 ### getFile(parameters)
 
-Get an file.
+Get a file.
 
 Returns a [File object](https://docs.lemonsqueezy.com/api/files).
 
