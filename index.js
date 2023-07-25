@@ -353,7 +353,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getOrderItem({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in getOrderItem().'
     params = this.buildParams(params)
     return this.queryApi({ path: 'v1/order-items/'+id, params });
   }
@@ -386,7 +386,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getSubscription({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in getSubscription().'
     params = this.buildParams(params)
     return this.queryApi({ path: 'v1/subscriptions/'+id, params });
   }
@@ -404,7 +404,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async updateSubscription({ id, variantId, productId, billingAnchor, proration } = {}) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in updateSubscription().'
     let attributes = {
       variant_id: variantId,
       product_id: productId,
@@ -429,7 +429,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async cancelSubscription({ id }) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in cancelSubscription().'
     return this.queryApi({ path: 'v1/subscriptions/'+id, method: 'DELETE' });
   }
 
@@ -440,7 +440,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async resumeSubscription({ id }) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in resumeSubscription().'
     let payload = {
       data: {
         type: 'subscriptions',
@@ -462,7 +462,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async pauseSubscription({ id, mode, resumes_at } = {}) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in pauseSubscription().'
     let pause = { mode: 'void' }
     if (mode) pause.mode = mode
     if (resumes_at) pause.resumes_at = resumes_at
@@ -483,7 +483,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async unpauseSubscription({ id }) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in unpauseSubscription().'
     let payload = {
       data: {
         type: 'subscriptions',

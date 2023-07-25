@@ -134,8 +134,35 @@ try {
 
 Do not use this package directly in the browser. as this will expose your API key. This would give anyone full API access to your Lemon Squeezy account and store(s).
 
+---
 
 ## Methods
+
+- [getUser()](#getuser)
+- [getStores()](#getstoresparameters)
+- [getStore()](#getstoreparameters)
+- [getProducts()](#getproductsparameters)
+- [getProduct()](#getproductparameters)
+- [getVariants()](#getvariantsparameters)
+- [getVariant()](#getvariantparameters)
+- [getCheckouts()](#getcheckoutsparameters)
+- [getCheckout()](#getcheckoutparameters)
+- [createCheckout()](#createcheckoutparameters)
+- [getCustomers()](#getcustomersparameters)
+- [getCustomer()](#getcustomerparameters)
+- [getOrders()](#getordersparameters)
+- [getOrder()](#getorderparameters)
+- [getFiles()](#getfilesparameters)
+- [getFile()](#getfileparameters)
+- [getOrderItems()](#getorderitemsparameters)
+- [getOrderItem()](#getorderitemparameters)
+- [getSubscriptions()](#getsubscriptionsparameters)
+- [getSubscription()](#getsubscriptionparameters)
+- [updateSubscription()](#updatesubscriptionparameters)
+- [cancelSubscription()](#cancelsubscriptionparameters)
+- [resumeSubscription()](#resumesubscriptionparameters)
+- [pauseSubscription()](#pausesubscriptionparameters)
+- [unpauseSubscription()](#unpausesubscriptionparameters)
 
 ---
 
@@ -171,8 +198,8 @@ Returns a list of [Store objects](https://docs.lemonsqueezy.com/api/stores).
 
 | Parameter | Type | Required | Default | Notes |
 | --- | --- | --- | --- | --- |
-| `perPage`| number | | 10 | |
-| `page` | number | | 1 | |
+| `perPage`| number | | `10` | |
+| `page` | number | | `1` | |
 | `include`| string | | | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
 
 #### Example
@@ -221,8 +248,8 @@ Returns a list of [Product objects](https://docs.lemonsqueezy.com/api/products).
 | Parameter | Type | Required | Default | Notes |
 | --- | --- | --- | --- | --- | 
 | `storeId` | number | - | - | Filter products by store. |
-| `perPage` | number | - | 10 | |
-| `page` | number | - | 1 | |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
 | `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
 
 #### Example
@@ -271,8 +298,8 @@ Returns a list of [Variant objects](https://docs.lemonsqueezy.com/api/variants).
 | Parameter | Type | Required | Default | Notes |
 | --- | --- | --- | --- | --- | 
 | `productId` | number | - | - | Filter variants by product. |
-| `perPage` | number | - | 10 | |
-| `page` | number | - | 1 | |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
 | `include`| string | - | - | Comma-separated list of object names: <ul><li>product</li><li>files</li></ul> |
 
 #### Example
@@ -322,8 +349,8 @@ Returns a list of [Checkout objects](https://docs.lemonsqueezy.com/api/checkouts
 | --- | --- | --- | --- | --- | 
 | `storeId` | number | - | - | Filter checkouts by store. |
 | `variantId` | number | - | - | Filter checkouts by variant. |
-| `perPage` | number | - | 10 | |
-| `page` | number | - | 1 | |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
 | `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variant</li></ul> |
 
 #### Example
@@ -416,8 +443,8 @@ Returns a list of [Customer objects](https://docs.lemonsqueezy.com/api/customers
 | --- | --- | --- | --- | --- | 
 | `storeId` | number | - | - | Filter customers by store. |
 | `email` | string | - | - | Filter customers by email address. |
-| `perPage` | number | - | 10 | |
-| `page` | number | - | 1 | |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
 | `include`| string | - | - | Comma-separated list of object names: <ul><li>license-keys</li><li>orders</li><li>store</li><li>subscriptions</li></ul> |
 
 #### Example
@@ -467,8 +494,8 @@ Returns a list of [Order objects](https://docs.lemonsqueezy.com/api/orders).
 | --- | --- | --- | --- | --- | 
 | `storeId` | number | - | - | Filter orders by store. |
 | `userEmail` | string | - | - | Filter orders by email address. |
-| `perPage` | number | - | 10 | |
-| `page` | number | - | 1 | |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
 | `include`| string | - | - | Comma-separated list of object names: <ul><li>customer</li><li>discount-redemptions</li><li>license-keys</li><li>order-items</li><li>store</li><li>subscriptions</li></ul> |
 
 #### Example
@@ -485,7 +512,7 @@ const orders = await ls.getOrders({ email: 'customer@gmail.com', include: 'order
 
 Get an order.
 
-Returns a [Order object](https://docs.lemonsqueezy.com/api/orders).
+Returns an [Order object](https://docs.lemonsqueezy.com/api/orders).
 
 [API reference](https://docs.lemonsqueezy.com/api/orders#retrieve-a-order).
 
@@ -517,8 +544,8 @@ Returns a list of [File objects](https://docs.lemonsqueezy.com/api/files).
 | Parameter | Type | Required | Default | Notes |
 | --- | --- | --- | --- | --- | 
 | `variantId` | number | - | - | Filter files by variant. |
-| `perPage` | number | - | 10 | |
-| `page` | number | - | 1 | |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
 | `include`| string | - | - | Comma-separated list of object names: <ul><li>variant</li></ul> |
 
 #### Example
@@ -550,6 +577,229 @@ Returns a [File object](https://docs.lemonsqueezy.com/api/files).
 
 ```
 const file = await ls.getFile({ id: 123 })
+```
+
+---
+
+### getOrderItems(parameters)
+
+Get a list of order items.
+
+Returns a list of [Order item objects](https://docs.lemonsqueezy.com/api/order-items).
+
+[API reference](https://docs.lemonsqueezy.com/api/order-items#list-all-order-items).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `orderId` | number | - | - | Filter order items by order. |
+| `productId` | number | - | - | Filter order items by product. |
+| `variantId` | number | - | - | Filter order items by variant. |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>order</li><li>product</li><li>variant</li></ul> |
+
+#### Example
+
+```
+const orderItems = await ls.getOrderItems()
+
+const orderItems = await ls.getOrderItems({ order: 123 })
+```
+
+---
+
+### getOrderItem(parameters)
+
+Get an order item.
+
+Returns an [Order item object](https://docs.lemonsqueezy.com/api/order-items).
+
+[API reference](https://docs.lemonsqueezy.com/api/order-items#retrieve-an-order-item).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>order</li><li>product</li><li>variant</li></ul> |
+
+#### Example
+
+```
+const orderItem = await ls.getOrderItem({ id: 123 })
+```
+
+---
+
+### getSubscriptions(parameters)
+
+Get a list of subscriptions.
+
+Returns a list of [Subscription objects](https://docs.lemonsqueezy.com/api/subscriptions).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscriptions#list-all-subscriptions).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `storeId` | number | - | - | Filter subscriptions by store. |
+| `orderId` | number | - | - | Filter subscriptions by order. |
+| `orderItemId` | number | - | - | Filter subscriptions by order item. |
+| `productId` | number | - | - | Filter subscriptions by product. |
+| `variantId` | number | - | - | Filter subscriptions by variant. |
+| `status` | string | - | - | Filter subscriptions by status. Options: <ul><li>on_trial</li><li>active</li><li>paused</li><li>past_due</li><li>unpaid</li><li>cancelled</li><li>expired</li></ul> |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>variant</li></ul> |
+
+#### Example
+
+```
+const subscription = await ls.getSubscriptions()
+
+const subscription = await ls.getSubscriptions({ storeId: 123, status: 'past_due' })
+```
+
+---
+
+### getSubscription(parameters)
+
+Get a subscription.
+
+Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscriptions#retrieve-a-subscription).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>variant</li></ul> |
+
+#### Example
+
+```
+const subscription = await ls.getSubscription({ id: 123 })
+```
+
+---
+
+### updateSubscription(parameters)
+
+Update a subscription: change plan or billing anchor.
+
+Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscriptions#update-a-subscription).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `productId` | number | If changing plans | - | ID of product when changing plans. |
+| `variantId` | number | If changing plans | - | ID of variant when changing plans. |
+| `proration` | string | - | - | Set the proration when changing plans. <ul><li>Use `immediate` to charge a prorated amount immediately</li><li>Use `disable` to charge a full amount immediately</li><li>If `proration` is not included, proration will occur at the next renewal date</li></ul> |
+| `billingAnchor` | number | - | - | Change the billing day used for renewal charges. Must be a number between `1` and `31`. |
+
+#### Example
+
+```
+const subscription = await ls.updateSubscription({ id: 123, productId: 123, variantId: 123 })
+```
+
+---
+
+### cancelSubscription(parameters)
+
+Cancel a subscription.
+
+Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscriptions#cancel-a-subscription).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+
+#### Example
+
+```
+const subscription = await ls.cancelSubscription({ id: 123 })
+```
+
+---
+
+### resumeSubscription(parameters)
+
+Resume a cancelled subscription.
+
+Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscriptions#update-a-subscription).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+
+#### Example
+
+```
+const subscription = await ls.resumeSubscription({ id: 123 })
+```
+
+---
+
+### pauseSubscription(parameters)
+
+Pause a subscription (halt payment renewals).
+
+Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscriptions#update-a-subscription).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `mode` | string | - | `void` | Type of pause: <ul><li>`void` - your product or service is unavailable to customers</li><li>`free` - the user should get free access</li></ul> |
+| `resumes_at` | datetime | - | - | Date to automatically resume the subscription (ISO-8601 format). |
+
+#### Example
+
+```
+const subscription = await ls.pauseSubscription({ id: 123 })
+```
+
+---
+
+### unpauseSubscription(parameters)
+
+Un-pause a paused subscription.
+
+Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscriptions#update-a-subscription).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+
+#### Example
+
+```
+const subscription = await ls.unpauseSubscription({ id: 123 })
 ```
 
 ---
