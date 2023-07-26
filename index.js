@@ -458,14 +458,14 @@ export default class LemonSqueezy {
    * @param {Object} params
    * @param {number} params.id
    * @param {"void"|"free"} [params.mode] Pause mode: "void" (default) or "free"
-   * @param {string} [params.resumes_at] Date to automatically resume the subscription (ISO-8601 format)
+   * @param {string} [params.resumesAt] Date to automatically resume the subscription (ISO 8601 format)
    * @returns {Object} JSON
    */
-  async pauseSubscription({ id, mode, resumes_at } = {}) {
+  async pauseSubscription({ id, mode, resumesAt } = {}) {
     if (!id) throw 'You must provide an ID in pauseSubscription().'
     let pause = { mode: 'void' }
     if (mode) pause.mode = mode
-    if (resumes_at) pause.resumes_at = resumes_at
+    if (resumesAt) pause.resumes_at = resumesAt
     let payload = {
       data: {
         type: 'subscriptions',
@@ -498,7 +498,7 @@ export default class LemonSqueezy {
    * Get subscription invoices
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter subscription invoices by store
-   * @param {number} [params.status] Filter subscription invoices by status
+   * @param {"paid"|"pending"|"void"|"refunded"} [params.status] Filter subscription invoices by status
    * @param {boolean} [params.refunded] Filter subscription invoices by refunded
    * @param {number} [params.subscriptionId] Filter subscription invoices by subscription
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
@@ -519,7 +519,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getSubscriptionInvoice({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in getSubscriptionInvoice().'
     params = this.buildParams(params)
     return this.queryApi({ path: 'v1/subscription-invoices/'+id, params });
   }
@@ -546,7 +546,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getDiscount({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in getDiscount().'
     params = this.buildParams(params)
     return this.queryApi({ path: 'v1/discounts/'+id, params });
   }
@@ -556,15 +556,15 @@ export default class LemonSqueezy {
    * @param {Object} params
    * @param {number} params.storeId Store to create a discount in
    * @param {string} params.name Name of discount
-   * @param {string} params.code Discount code
+   * @param {string} params.code Discount code (uppercase letters and numbers, between 3 and 256 characters)
    * @param {number} params.amount Amount discount code is for
    * @param {"percent"|"fixed"} [params.amountType] Type of discount
    * @param {"once"|"repeating"|"forever"} [params.duration] Duration of discount
    * @param {number} [params.durationInMonths] Number of months to repeat the discount for
-   * @param {number} [params.variantIds] Limit the discount to certain variants
+   * @param {number[]} [params.variantIds] Limit the discount to certain variants
    * @param {number} [params.maxRedemptions] Limit the total number of redemptions allowed
-   * @param {number} [params.startsAt] Date the discount code starts on (ISO-8601 format)
-   * @param {number} [params.expiresAt] Date the discount code expires on (ISO-8601 format)
+   * @param {number} [params.startsAt] Date the discount code starts on (ISO 8601 format)
+   * @param {number} [params.expiresAt] Date the discount code expires on (ISO 8601 format)
    * @returns {Object} JSON
    */
   async createDiscount({
@@ -580,10 +580,10 @@ export default class LemonSqueezy {
     startsAt,
     expiresAt
   }) {
-    if (!storeId) throw 'You must include a `storeId`.'
-    if (!name) throw 'You must include a `name`.'
-    if (!code) throw 'You must include a `code`.'
-    if (!amount) throw 'You must include an `amount`.'
+    if (!storeId) throw 'You must include a `storeId` in createDiscount().'
+    if (!name) throw 'You must include a `name` in createDiscount().'
+    if (!code) throw 'You must include a `code` in createDiscount().'
+    if (!amount) throw 'You must include an `amount` in createDiscount().'
     let attributes = {
       name,
       code,
@@ -633,6 +633,7 @@ export default class LemonSqueezy {
    * @param {number} params.id
    */
   async deleteDiscount({ id }) {
+    if (!id) throw 'You must provide an ID in deleteDiscount().'
     this.queryApi({ path: 'v1/discounts/'+id, method: 'DELETE' });
   }
 
@@ -659,7 +660,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getDiscountRedemption({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in getDiscountRedemption().'
     params = this.buildParams(params)
     return this.queryApi({ path: 'v1/discount-redemptions/'+id, params });
   }
@@ -689,7 +690,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getLicenseKey({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in getLicenseKey().'
     params = this.buildParams(params)
     return this.queryApi({ path: 'v1/license-keys/'+id, params });
   }
@@ -716,7 +717,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getLicenseKeyInstance({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in getLicenseKeyInstance().'
     params = this.buildParams(params)
     return this.queryApi({ path: 'v1/license-key-instances/'+id, params });
   }

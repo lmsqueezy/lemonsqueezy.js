@@ -163,6 +163,18 @@ Do not use this package directly in the browser. as this will expose your API ke
 - [resumeSubscription()](#resumesubscriptionparameters)
 - [pauseSubscription()](#pausesubscriptionparameters)
 - [unpauseSubscription()](#unpausesubscriptionparameters)
+- [getSubscriptionInvoices()](#getsubscriptioninvoicesparameters)
+- [getSubscriptionInvoice()](#getsubscriptioninvoiceparameters)
+- [getDiscounts()](#getdiscountsparameters)
+- [getDiscount()](#getdiscountparameters)
+- [createDiscount()](#creatediscountparameters)
+- [deleteDiscount()](#deletediscountparameters)
+- [getDiscountRedemptions()](#getdiscountredemptionsparameters)
+- [getDiscountRedemption()](#getdiscountredemptionparameters)
+- [getLicenseKeys()](#getlicensekeysparameters)
+- [getLicenseKey()](#getlicensekeyparameters)
+- [getLicenseKeyInstances()](#getlicensekeyinstancesparameters)
+- [getLicenseKeyInstance()](#getlicensekeyinstanceparameters)
 
 ---
 
@@ -650,7 +662,7 @@ Returns a list of [Subscription objects](https://docs.lemonsqueezy.com/api/subsc
 | `orderItemId` | number | - | - | Filter subscriptions by order item. |
 | `productId` | number | - | - | Filter subscriptions by product. |
 | `variantId` | number | - | - | Filter subscriptions by variant. |
-| `status` | string | - | - | Filter subscriptions by status. Options: <ul><li>on_trial</li><li>active</li><li>paused</li><li>past_due</li><li>unpaid</li><li>cancelled</li><li>expired</li></ul> |
+| `status` | string | - | - | Filter subscriptions by status. Options: <ul><li>`on_trial`</li><li>`active`</li><li>`paused`</li><li>`past_due`</li><li>`unpaid`</li><li>`cancelled`</li><li>`expired</li></ul> |
 | `perPage` | number | - | `10` | |
 | `page` | number | - | `1` | |
 | `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>variant</li></ul> |
@@ -658,9 +670,9 @@ Returns a list of [Subscription objects](https://docs.lemonsqueezy.com/api/subsc
 #### Example
 
 ```
-const subscription = await ls.getSubscriptions()
+const subscriptions = await ls.getSubscriptions()
 
-const subscription = await ls.getSubscriptions({ storeId: 123, status: 'past_due' })
+const subscriptions = await ls.getSubscriptions({ storeId: 123, status: 'past_due' })
 ```
 
 ---
@@ -772,7 +784,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 | --- | --- | --- | --- | --- |
 | `id` | number | Yes | - | |
 | `mode` | string | - | `void` | Type of pause: <ul><li>`void` - your product or service is unavailable to customers</li><li>`free` - the user should get free access</li></ul> |
-| `resumes_at` | datetime | - | - | Date to automatically resume the subscription (ISO-8601 format). |
+| `resumesAt` | string | - | - | Date to automatically resume the subscription ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format datetime). |
 
 #### Example
 
@@ -800,6 +812,327 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 ```
 const subscription = await ls.unpauseSubscription({ id: 123 })
+```
+
+---
+
+### getSubscriptionInvoices(parameters)
+
+Get a list of subscription invoices.
+
+Returns a list of [Subscription invoice objects](https://docs.lemonsqueezy.com/api/subscription-invoices).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscription-invoices#list-all-subscription-invoices).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `storeId` | number | - | - | Filter subscription invoices by store. |
+| `status` | string | - | - | Filter subscription invoices by status. Options: <ul><li>`paid`</li><li>`pending`</li><li>`void`</li><li>`refunded`</li></ul> |
+| `refunded` | boolean | - | - | Filter subscription invoices by refunded. |
+| `subscriptionId` | number | - | - | Filter subscription invoices by subscription. |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>subscription</li></ul> |
+
+#### Example
+
+```
+const subscriptionInvoices = await ls.getSubscriptionInvoices()
+
+const subscriptionInvoices = await ls.getSubscriptionInvoices({ storeId: 123, refunded: true })
+```
+
+---
+
+### getSubscriptionInvoice(parameters)
+
+Get a subscription invoice.
+
+Returns a [Subscription invoice object](https://docs.lemonsqueezy.com/api/subscription-invoices).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscription-invoices#retrieve-a-subscription-invoice).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>subscription</li></ul> |
+
+#### Example
+
+```
+const subscriptionInvoice = await ls.getSubscriptionInvoice({ id: 123 })
+```
+
+---
+
+### getDiscounts(parameters)
+
+Get a list of discounts.
+
+Returns a list of [Discount objects](https://docs.lemonsqueezy.com/api/discounts).
+
+[API reference](https://docs.lemonsqueezy.com/api/discounts#list-all-discounts).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `storeId` | number | - | - | Filter discounts by store. |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variants</li><li>discount-redemptions</li></ul> |
+
+#### Example
+
+```
+const discounts = await ls.getDiscounts()
+
+const discounts = await ls.getDiscounts({ storeId: 123, include: 'discount-redemptions' })
+```
+
+---
+
+### getDiscount(parameters)
+
+Get a discount.
+
+Returns a [Discount object](https://docs.lemonsqueezy.com/api/discounts).
+
+[API reference](https://docs.lemonsqueezy.com/api/discounts#retrieve-a-discount).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variants</li><li>discount-redemptions</li></ul> |
+
+#### Example
+
+```
+const discount = await ls.getDiscount({ id: 123 })
+```
+
+---
+
+### createDiscount(parameters)
+
+Create a discount.
+
+Returns a [Discount object](https://docs.lemonsqueezy.com/api/discounts).
+
+[API reference](https://docs.lemonsqueezy.com/api/discounts#create-a-discount).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `storeId` | number | Yes | - | |
+| `name` | string | Yes | - | The reference name of the discount. |
+| `code` | string | Yes | - | The discount code. Can contain uppercase letters and numbers, between 3 and 256 characters. |
+| `amount` | string | Yes | - | Either a fixed amount in cents or a percentage: <ul><li>`1000` means $10 when `amount_type` is `fixed`</li><li>`10` means 10% when `amount_type` is `percent`</li> |
+| `amountType` | string | - | `percent` | The type of discount. Options: <ul><li>`percent`</li><li>`fixed`</li></ul> |
+| `duration` | string | - | `once` | How many times the discount should apply (for subscriptions only). Options: <ul><li>`once` - only the first payment.</li><li>`repeating` - applies for months defined in `durationInMonths`.</li><li>`forever` - applies to every subscription .payment</li></ul> |
+| `durationInMonths` | number | - | `once` | How many months the discount should apply when `duration` is `repeating`. |
+| `variantIds` | number[] | - | - | Limit discount to certain variants.<br>List of variant IDs like `[1,2,3]`.  |
+| `maxRedemptions` | number | - | - | Limit the total amount of redemptions allowed. |
+| `startsAt` | string | - | - | Date the discount code starts on ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format datetime). |
+| `expiresAt` | string | - | - | Date the discount code expires on ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format datetime). |
+
+#### Example
+
+```
+const options = {
+  storeId: 123,
+  name: 'Summer sale',
+  code: 'SUMMERSALE',
+  amount: 30,
+  amountType: 'percent',
+  duration: 'repeating',
+  durationInMonths: 3,
+  startsAt: '2023-07-31T08:00:00.000000Z'
+}
+const discount = await ls.createDiscount(options)
+```
+
+---
+
+### deleteDiscount(parameters)
+
+Delete a discount.
+
+Returns a [Discount object](https://docs.lemonsqueezy.com/api/discounts).
+
+[API reference](https://docs.lemonsqueezy.com/api/discounts#delete-a-discount).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+
+#### Example
+
+```
+await ls.deleteDiscount({ id: 123 })
+```
+
+---
+
+### getDiscountRedemptions(parameters)
+
+Get a list of discount redemptions.
+
+Returns a list of [Discount redemption objects](https://docs.lemonsqueezy.com/api/discount-redemptions).
+
+[API reference](https://docs.lemonsqueezy.com/api/discount-redemptions#list-all-discount-redemptions).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `discountId` | number | - | - | Filter discount redemptions by discount. |
+| `orderId` | number | - | - | Filter discount redemptions by order. |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>discount</li><li>order</li></ul> |
+
+#### Example
+
+```
+const discountRedemptions = await ls.getDiscountRedemptions()
+
+const discountRedemptions = await ls.getDiscountRedemptions({ orderId: 123, include: 'discount,order' })
+```
+
+---
+
+### getDiscountRedemption(parameters)
+
+Get a discount redemption.
+
+Returns a [Discount redemption object](https://docs.lemonsqueezy.com/api/discount-redemptions).
+
+[API reference](https://docs.lemonsqueezy.com/api/discount-redemptions#retrieve-a-discount-redemption).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>discount</li><li>order</li></ul> |
+
+#### Example
+
+```
+const discountRedemption = await ls.getDiscountRedemption({ id: 123 })
+```
+
+---
+
+### getLicenseKeys(parameters)
+
+Get a list of license keys.
+
+Returns a list of [License key objects](https://docs.lemonsqueezy.com/api/license-keys).
+
+[API reference](https://docs.lemonsqueezy.com/api/license-keys#list-all-license-keys).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `storeId` | number | - | - | Filter license keys by store. |
+| `orderId` | number | - | - | Filter license keys by order. |
+| `orderItemId` | number | - | - | Filter license keys by order item. |
+| `productId` | number | - | - | Filter license keys by product. |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
+
+#### Example
+
+```
+const licenseKeys = await ls.getLicenseKeys()
+
+const licenseKeys = await ls.getLicenseKeys({ storeId: 123 })
+```
+
+---
+
+### getLicenseKey(parameters)
+
+Get a license key.
+
+Returns a [License key object](https://docs.lemonsqueezy.com/api/license-keys).
+
+[API reference](https://docs.lemonsqueezy.com/api/license-keys#retrieve-a-license-key).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
+
+#### Example
+
+```
+const licenseKey = await ls.getLicenseKey({ id: 123 })
+```
+
+---
+
+### getLicenseKeyInstances(parameters)
+
+Get a list of license key instances.
+
+Returns a list of [License key instance objects](https://docs.lemonsqueezy.com/api/license-key-instances).
+
+[API reference](https://docs.lemonsqueezy.com/api/license-key-instances#list-all-license-key-instances).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `licenseKeyId` | number | - | - | Filter license key instances by license key. |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
+
+#### Example
+
+```
+const licenseKeys = await ls.getLicenseKeys()
+
+const licenseKeys = await ls.getLicenseKeys({ licenseKeyId: 123 })
+```
+
+---
+
+### getLicenseKeyInstance(parameters)
+
+Get a license key instance.
+
+Returns a [License key instance object](https://docs.lemonsqueezy.com/api/license-key-instances).
+
+[API reference](https://docs.lemonsqueezy.com/api/license-key-instances#retrieve-a-license-key-instance).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
+
+#### Example
+
+```
+const licenseKey = await ls.getLicenseKey({ id: 123 })
 ```
 
 ---
