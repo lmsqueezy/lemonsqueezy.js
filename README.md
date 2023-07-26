@@ -175,6 +175,11 @@ Do not use this package directly in the browser. as this will expose your API ke
 - [getLicenseKey()](#getlicensekeyparameters)
 - [getLicenseKeyInstances()](#getlicensekeyinstancesparameters)
 - [getLicenseKeyInstance()](#getlicensekeyinstanceparameters)
+- [getWebhooks()](#getwebhooksparameters)
+- [getWebhook()](#getwebhookparameters)
+- [createWebhook()](#createwebhookparameters)
+- [updateWebhook()](#updatewebhookparameters)
+- [deleteWebhook()](#deletewebhookparameters)
 
 ---
 
@@ -965,8 +970,6 @@ const discount = await ls.createDiscount(options)
 
 Delete a discount.
 
-Returns a [Discount object](https://docs.lemonsqueezy.com/api/discounts).
-
 [API reference](https://docs.lemonsqueezy.com/api/discounts#delete-a-discount).
 
 #### Parameters
@@ -1137,4 +1140,133 @@ const licenseKey = await ls.getLicenseKey({ id: 123 })
 
 ---
 
-More methods to follow.
+### getWebhooks(parameters)
+
+Get a list of webhooks.
+
+Returns a list of [Webhook objects](https://docs.lemonsqueezy.com/api/webhooks).
+
+[API reference](https://docs.lemonsqueezy.com/api/webhooks#list-all-webhooks).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- | 
+| `storeId` | number | - | - | Filter webhooks by store. |
+| `perPage` | number | - | `10` | |
+| `page` | number | - | `1` | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li></ul> |
+
+#### Example
+
+```
+const webhooks = await ls.getWebhooks()
+
+const webhooks = await ls.getWebhooks({ storeId: 123 })
+```
+
+---
+
+### getWebhook(parameters)
+
+Get a webhook.
+
+Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
+
+[API reference](https://docs.lemonsqueezy.com/api/webhooks#retrieve-a-webhook).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li></ul> |
+
+#### Example
+
+```
+const webhook = await ls.getWebhook({ id: 123 })
+```
+
+---
+
+### createWebhook(parameters)
+
+Create a webhook.
+
+Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
+
+[API reference](https://docs.lemonsqueezy.com/api/webhooks#create-a-webhook).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `storeId` | number | Yes | - | |
+| `url` | string | Yes | - | The endpoint URL that the webhooks should be sent to. |
+| `events` | string[] | Yes | - | A list of webhook events to receive. [See all options](https://docs.lemonsqueezy.com/help/webhooks#event-types) |
+| `secret` | string | Yes | - | A signing secret used to [secure the webhook](https://docs.lemonsqueezy.com/help/webhooks#signing-requests). Must be between 6 and 40 characters. |
+
+#### Example
+
+```
+const options = {
+  storeId: 123,
+  url: 'https://myapp.com/webhook/',
+  events: [
+    'subscription_created',
+    'subscription_updated'
+  ],
+  secret: 'randomstring'
+}
+const webhook = await ls.createWebhook(options)
+```
+
+---
+
+### updateWebhook(parameters)
+
+Update a webhook.
+
+Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
+
+[API reference](https://docs.lemonsqueezy.com/api/webhooks#update-a-webhook).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+| `url` | string | Yes | - | The endpoint URL that the webhooks should be sent to. |
+| `events` | string[] | Yes | - | A list of webhook events to receive. [See all options](https://docs.lemonsqueezy.com/help/webhooks#event-types) |
+| `secret` | string | Yes | - | A signing secret used to [secure the webhook](https://docs.lemonsqueezy.com/help/webhooks#signing-requests). Must be between 6 and 40 characters. |
+
+#### Example
+
+```
+const options = {
+  id: 123,
+  url: 'https://myapp.com/webhook/',
+}
+const webhook = await ls.updateWebhook(options)
+```
+
+---
+
+### deleteWebhook(parameters)
+
+Delete a webhook.
+
+[API reference](https://docs.lemonsqueezy.com/api/webhooks#delete-a-webhook).
+
+#### Parameters
+
+| Parameter | Type | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| `id` | number | Yes | - | |
+
+#### Example
+
+```
+await ls.deleteWebhook({ id: 123 })
+```

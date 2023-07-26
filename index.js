@@ -13,7 +13,7 @@ export default class LemonSqueezy {
    * Builds a params object for the API query based on provided and allowed filters.
    * Also converts pagination parameters `page` to `page[number]` and `perPage` to `page[size]`
    * @params {Object} [args] Arguments to the API method
-   * @params {Array} [allowedFilters] List of filters the API query permits (camelCase)
+   * @params {string[]} [allowedFilters] List of filters the API query permits (camelCase)
    */
   buildParams(args, allowedFilters = []) {
     let params = {}
@@ -744,7 +744,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getWebhook({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in getWebhook().'
     params = this.buildParams(params)
     return this.queryApi({ path: 'v1/webhooks/'+id, params });
   }
@@ -752,16 +752,17 @@ export default class LemonSqueezy {
   /**
    * Create a webhook
    * @param {Object} params
+   * @param {string} params.storeId The ID of the store the webhook is for
    * @param {string} params.url Endpoint URL that the webhooks should be sent to
-   * @param {Array} params.events List of webhook events to receive
+   * @param {string[]} params.events List of webhook events to receive
    * @param {string} params.secret Signing secret (between 6 and 40 characters)
    * @returns {Object} JSON
    */
   async createWebhook({ storeId, url, events, secret } = {}) {
-    if (!storeId) throw 'You must provide a store ID.'
-    if (!url) throw 'You must provide a URL.'
-    if (!events || events?.length < 1) throw 'You must provide a list of events.'
-    if (!secret) throw 'You must provide a signing secret.'
+    if (!storeId) throw 'You must provide a store ID in createWebhook().'
+    if (!url) throw 'You must provide a URL in createWebhook().'
+    if (!events || events?.length < 1) throw 'You must provide a list of events in createWebhook().'
+    if (!secret) throw 'You must provide a signing secret in createWebhook().'
     let payload = {
       data: {
         type: 'webhooks',
@@ -788,12 +789,12 @@ export default class LemonSqueezy {
    * @param {Object} params
    * @param {number} params.id
    * @param {string} [params.url] Endpoint URL that the webhooks should be sent to
-   * @param {Array} [params.events] List of webhook events to receive
+   * @param {string[]} [params.events] List of webhook events to receive
    * @param {string} [params.secret] Signing secret (between 6 and 40 characters)
    * @returns {Object} JSON
    */
   async updateWebhook({ id, url, events, secret } = {}) {
-    if (!id) throw 'You must provide an ID.'
+    if (!id) throw 'You must provide an ID in updateWebhook().'
     let attributes = {}
     if (url) attributes.url = url
     if (events) attributes.events = events
@@ -814,6 +815,7 @@ export default class LemonSqueezy {
    * @param {number} params.id
    */
   async deleteWebhook({ id }) {
+    if (!id) throw 'You must provide an ID in deleteWebhook().'
     this.queryApi({ path: 'v1/webhooks/'+id, method: 'DELETE' });
   }
 }
