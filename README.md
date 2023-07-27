@@ -942,7 +942,7 @@ Returns a [Discount object](https://docs.lemonsqueezy.com/api/discounts).
 | `amount` | string | Yes | - | Either a fixed amount in cents or a percentage: <ul><li>`1000` means $10 when `amount_type` is `fixed`</li><li>`10` means 10% when `amount_type` is `percent`</li> |
 | `amountType` | string | - | `percent` | The type of discount. Options: <ul><li>`percent`</li><li>`fixed`</li></ul> |
 | `duration` | string | - | `once` | How many times the discount should apply (for subscriptions only). Options: <ul><li>`once` - only the first payment.</li><li>`repeating` - applies for months defined in `durationInMonths`.</li><li>`forever` - applies to every subscription .payment</li></ul> |
-| `durationInMonths` | number | - | `once` | How many months the discount should apply when `duration` is `repeating`. |
+| `durationInMonths` | number | - | - | How many months the discount should apply when `duration` is `repeating`. |
 | `variantIds` | number[] | - | - | Limit discount to certain variants.<br>List of variant IDs like `[1,2,3]`.  |
 | `maxRedemptions` | number | - | - | Limit the total amount of redemptions allowed. |
 | `startsAt` | string | - | - | Date the discount code starts on ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format datetime). |
@@ -1236,10 +1236,10 @@ Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
 
 | Parameter | Type | Required | Default | Notes |
 | --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `url` | string | Yes | - | The endpoint URL that the webhooks should be sent to. |
-| `events` | string[] | Yes | - | A list of webhook events to receive. [See all options](https://docs.lemonsqueezy.com/help/webhooks#event-types) |
-| `secret` | string | Yes | - | A signing secret used to [secure the webhook](https://docs.lemonsqueezy.com/help/webhooks#signing-requests). Must be between 6 and 40 characters. |
+| `id` | number | - | - | |
+| `url` | string | - | - | The endpoint URL that the webhooks should be sent to. |
+| `events` | string[] | - | - | A list of webhook events to receive. [See all options](https://docs.lemonsqueezy.com/help/webhooks#event-types) |
+| `secret` | string | - | - | A signing secret used to [secure the webhook](https://docs.lemonsqueezy.com/help/webhooks#signing-requests). Must be between 6 and 40 characters. |
 
 #### Example
 
