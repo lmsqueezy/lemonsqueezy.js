@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is the official JavsScript SDK for [Lemon Squeezy](https://lemonsqueezy.com), helping make it easy to incorporate billing into your JavaScript application.
+This is the official JavaScript SDK for [Lemon Squeezy](https://lemonsqueezy.com), helping make it easy to incorporate billing into your JavaScript application.
 
 Please read the [API introduction page](https://docs.lemonsqueezy.com/api) to understand how the API works.
 
@@ -54,7 +54,7 @@ If `perPage` is omitted, the API returns the default of 10 results per page.
 `perPage` should be a value between 1 and 100.
 
 ```javascript
-// Querying a list of orders for store #3, 50 records per page, page 2, including store and customer related resoueces
+// Querying a list of orders for store #3, 50 records per page, page 2, including store and customer related resources
 const order = await ls.getOrders({ storeId: 3, perPage: 50, page: 2, include: 'store,customer' })
 ````
 
