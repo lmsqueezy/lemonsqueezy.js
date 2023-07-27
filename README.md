@@ -1,5 +1,7 @@
 # The official Lemon Squeezy JavaScript SDK
 
+![](https://img.shields.io/npm/v/@lemonsqueezy/lemonsqueezy.js?style=plastic) ![](https://img.shields.io/npm/dw/@lemonsqueezy/lemonsqueezy.js?style=plastic)
+
 ## Introduction
 
 This is the official JavsScript SDK for [Lemon Squeezy](https://lemonsqueezy.com), helping make it easy to incorporate billing into your JavaScript application.
