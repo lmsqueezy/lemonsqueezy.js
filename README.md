@@ -23,20 +23,23 @@ Add this API key into your project, for example as `LEMONSQUEEZY_API_KEY` in you
 ### Basic usage
 
 ```javascript
-import LemonSqueezy from '@lemonsqueezy/lemonsqueezy.js'
+import LemonSqueezy from "@lemonsqueezy/lemonsqueezy.js";
 const ls = new LemonSqueezy(process.env.LEMONSQUEEZY_API_KEY);
 
-const products = await ls.getProducts()
+const products = await ls.getProducts();
 ```
 
 Parameters for requests should be passed in an object. For list methods, these parameters are used for filtering and for list pagination. For create and update methods, these parameters contain the values for the request.
 
 ```javascript
-const subscriptions = await ls.getSubscriptions({ storeId: 123, perPage: 50 })
+const subscriptions = await ls.getSubscriptions({ storeId: 123, perPage: 50 });
 
-const subscription = await ls.getSubscription({ id: 123, include: 'subscription-invoices' })
+const subscription = await ls.getSubscription({
+  id: 123,
+  include: "subscription-invoices",
+});
 
-const subscription = await ls.cancelSubscription({ id: 123 })
+const subscription = await ls.cancelSubscription({ id: 123 });
 ```
 
 ### Including related resources
@@ -44,8 +47,8 @@ const subscription = await ls.cancelSubscription({ id: 123 })
 You can use `include` in every "read" method to pull in [related resources](https://docs.lemonsqueezy.com/api#including-related-resources) (works for both individual and list methods).
 
 ```javascript
-const product = await ls.getProduct({ id: 123, include: 'variants' })
-````
+const product = await ls.getProduct({ id: 123, include: "variants" });
+```
 
 ### Pagination
 
@@ -55,8 +58,13 @@ If `perPage` is omitted, the API returns the default of 10 results per page.
 
 ```javascript
 // Querying a list of orders for store #3, 50 records per page, page 2, including store and customer related resoueces
-const order = await ls.getOrders({ storeId: 3, perPage: 50, page: 2, include: 'store,customer' })
-````
+const order = await ls.getOrders({
+  storeId: 3,
+  perPage: 50,
+  page: 2,
+  include: "store,customer",
+});
+```
 
 ### Looping lists
 
@@ -83,19 +91,19 @@ You can also use `page` and `perPage` to loop lists of results.
 In this example, you can use the `lastPage` value to check if you are on the last page of results.
 
 ```javascript
-let hasNextPage = true
-let perPage = 100
-let page = 1
-let variants = []
+let hasNextPage = true;
+let perPage = 100;
+let page = 1;
+let variants = [];
 while (hasNextPage) {
   const resp = await ls.getVariants({ perPage, page });
-  
-  variants = variants.concat(resp['data'])
+
+  variants = variants.concat(resp["data"]);
 
   if (resp.meta.page.lastPage > page) {
-    page += 1
+    page += 1;
   } else {
-    hasNextPage = false
+    hasNextPage = false;
   }
 }
 ```
@@ -109,7 +117,7 @@ Use `try { ... } catch { ... }` to access this object. Error messages will be av
 ```javascript
 // "something" is not a valid value for `include`
 try {
-  const subscriptions = await ls.getSubscriptions({ include: 'something' })
+  const subscriptions = await ls.getSubscriptions({ include: "something" });
 } catch (err) {
   // `err` is an object like this:
   //  {
@@ -213,11 +221,11 @@ Returns a list of [Store objects](https://docs.lemonsqueezy.com/api/stores).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `perPage`| number | | `10` | |
-| `page` | number | | `1` | |
-| `include`| string | | | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                                                                                          |
+| --------- | ------ | -------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `perPage` | number |          | `10`    |                                                                                                                                                |
+| `page`    | number |          | `1`     |                                                                                                                                                |
+| `include` | string |          |         | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
 
 #### Example
 
@@ -239,10 +247,10 @@ Returns a [Store object](https://docs.lemonsqueezy.com/api/stores).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                                                                                          |
+| --------- | ------ | -------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                                                                                                |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>products</li><li>discounts</li><li>license-keys</li><li>subscriptions</li><li>webhooks</li></ul> |
 
 #### Example
 
@@ -262,12 +270,12 @@ Returns a list of [Product objects](https://docs.lemonsqueezy.com/api/products).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `storeId` | number | - | - | Filter products by store. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                          |
+| --------- | ------ | -------- | ------- | ------------------------------------------------------------------------------ |
+| `storeId` | number | -        | -       | Filter products by store.                                                      |
+| `perPage` | number | -        | `10`    |                                                                                |
+| `page`    | number | -        | `1`     |                                                                                |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
 
 #### Example
 
@@ -289,10 +297,10 @@ Returns a [Product object](https://docs.lemonsqueezy.com/api/products).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                          |
+| --------- | ------ | -------- | ------- | ------------------------------------------------------------------------------ |
+| `id`      | number | Yes      | -       |                                                                                |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>variants</li></ul> |
 
 #### Example
 
@@ -312,12 +320,12 @@ Returns a list of [Variant objects](https://docs.lemonsqueezy.com/api/variants).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `productId` | number | - | - | Filter variants by product. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>product</li><li>files</li></ul> |
+| Parameter   | Type   | Required | Default | Notes                                                                         |
+| ----------- | ------ | -------- | ------- | ----------------------------------------------------------------------------- |
+| `productId` | number | -        | -       | Filter variants by product.                                                   |
+| `perPage`   | number | -        | `10`    |                                                                               |
+| `page`      | number | -        | `1`     |                                                                               |
+| `include`   | string | -        | -       | Comma-separated list of object names: <ul><li>product</li><li>files</li></ul> |
 
 #### Example
 
@@ -339,10 +347,10 @@ Returns a [Variant object](https://docs.lemonsqueezy.com/api/variants).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>product</li><li>files</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                         |
+| --------- | ------ | -------- | ------- | ----------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                               |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>product</li><li>files</li></ul> |
 
 #### Example
 
@@ -362,13 +370,13 @@ Returns a list of [Checkout objects](https://docs.lemonsqueezy.com/api/checkouts
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `storeId` | number | - | - | Filter checkouts by store. |
-| `variantId` | number | - | - | Filter checkouts by variant. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variant</li></ul> |
+| Parameter   | Type   | Required | Default | Notes                                                                         |
+| ----------- | ------ | -------- | ------- | ----------------------------------------------------------------------------- |
+| `storeId`   | number | -        | -       | Filter checkouts by store.                                                    |
+| `variantId` | number | -        | -       | Filter checkouts by variant.                                                  |
+| `perPage`   | number | -        | `10`    |                                                                               |
+| `page`      | number | -        | `1`     |                                                                               |
+| `include`   | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>variant</li></ul> |
 
 #### Example
 
@@ -390,10 +398,10 @@ Returns a [Checkout object](https://docs.lemonsqueezy.com/api/checkouts).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | string | Yes | - | Checkout IDs are UUIDs. |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variant</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                         |
+| --------- | ------ | -------- | ------- | ----------------------------------------------------------------------------- |
+| `id`      | string | Yes      | -       | Checkout IDs are UUIDs.                                                       |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>variant</li></ul> |
 
 #### Example
 
@@ -415,11 +423,11 @@ Returns a [Checkout object](https://docs.lemonsqueezy.com/api/checkouts).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `storeId` | number | Yes | - | |
-| `variantId` | number | Yes | - | |
-| `attributes` | Object | - | - | An [object of values](https://docs.lemonsqueezy.com/api/checkouts#create-a-checkout) used to configure the checkout. |
+| Parameter    | Type   | Required | Default | Notes                                                                                                                |
+| ------------ | ------ | -------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| `storeId`    | number | Yes      | -       |                                                                                                                      |
+| `variantId`  | number | Yes      | -       |                                                                                                                      |
+| `attributes` | Object | -        | -       | An [object of values](https://docs.lemonsqueezy.com/api/checkouts#create-a-checkout) used to configure the checkout. |
 
 #### Example
 
@@ -456,13 +464,13 @@ Returns a list of [Customer objects](https://docs.lemonsqueezy.com/api/customers
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `storeId` | number | - | - | Filter customers by store. |
-| `email` | string | - | - | Filter customers by email address. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>license-keys</li><li>orders</li><li>store</li><li>subscriptions</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                                                                   |
+| --------- | ------ | -------- | ------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `storeId` | number | -        | -       | Filter customers by store.                                                                                              |
+| `email`   | string | -        | -       | Filter customers by email address.                                                                                      |
+| `perPage` | number | -        | `10`    |                                                                                                                         |
+| `page`    | number | -        | `1`     |                                                                                                                         |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>license-keys</li><li>orders</li><li>store</li><li>subscriptions</li></ul> |
 
 #### Example
 
@@ -484,10 +492,10 @@ Returns a [Customer object](https://docs.lemonsqueezy.com/api/customers).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>license-keys</li><li>orders</li><li>store</li><li>subscriptions</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                                                                   |
+| --------- | ------ | -------- | ------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                                                                         |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>license-keys</li><li>orders</li><li>store</li><li>subscriptions</li></ul> |
 
 #### Example
 
@@ -507,13 +515,13 @@ Returns a list of [Order objects](https://docs.lemonsqueezy.com/api/orders).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `storeId` | number | - | - | Filter orders by store. |
-| `userEmail` | string | - | - | Filter orders by email address. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>customer</li><li>discount-redemptions</li><li>license-keys</li><li>order-items</li><li>store</li><li>subscriptions</li></ul> |
+| Parameter   | Type   | Required | Default | Notes                                                                                                                                                                      |
+| ----------- | ------ | -------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `storeId`   | number | -        | -       | Filter orders by store.                                                                                                                                                    |
+| `userEmail` | string | -        | -       | Filter orders by email address.                                                                                                                                            |
+| `perPage`   | number | -        | `10`    |                                                                                                                                                                            |
+| `page`      | number | -        | `1`     |                                                                                                                                                                            |
+| `include`   | string | -        | -       | Comma-separated list of object names: <ul><li>customer</li><li>discount-redemptions</li><li>license-keys</li><li>order-items</li><li>store</li><li>subscriptions</li></ul> |
 
 #### Example
 
@@ -535,10 +543,10 @@ Returns an [Order object](https://docs.lemonsqueezy.com/api/orders).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>customer</li><li>discount-redemptions</li><li>license-keys</li><li>order-items</li><li>store</li><li>subscriptions</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                                                                                                                      |
+| --------- | ------ | -------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                                                                                                                            |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>customer</li><li>discount-redemptions</li><li>license-keys</li><li>order-items</li><li>store</li><li>subscriptions</li></ul> |
 
 #### Example
 
@@ -558,12 +566,12 @@ Returns a list of [File objects](https://docs.lemonsqueezy.com/api/files).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `variantId` | number | - | - | Filter files by variant. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>variant</li></ul> |
+| Parameter   | Type   | Required | Default | Notes                                                           |
+| ----------- | ------ | -------- | ------- | --------------------------------------------------------------- |
+| `variantId` | number | -        | -       | Filter files by variant.                                        |
+| `perPage`   | number | -        | `10`    |                                                                 |
+| `page`      | number | -        | `1`     |                                                                 |
+| `include`   | string | -        | -       | Comma-separated list of object names: <ul><li>variant</li></ul> |
 
 #### Example
 
@@ -585,10 +593,10 @@ Returns a [File object](https://docs.lemonsqueezy.com/api/files).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>variant</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                           |
+| --------- | ------ | -------- | ------- | --------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                 |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>variant</li></ul> |
 
 #### Example
 
@@ -608,14 +616,14 @@ Returns a list of [Order item objects](https://docs.lemonsqueezy.com/api/order-i
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `orderId` | number | - | - | Filter order items by order. |
-| `productId` | number | - | - | Filter order items by product. |
-| `variantId` | number | - | - | Filter order items by variant. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>order</li><li>product</li><li>variant</li></ul> |
+| Parameter   | Type   | Required | Default | Notes                                                                                         |
+| ----------- | ------ | -------- | ------- | --------------------------------------------------------------------------------------------- |
+| `orderId`   | number | -        | -       | Filter order items by order.                                                                  |
+| `productId` | number | -        | -       | Filter order items by product.                                                                |
+| `variantId` | number | -        | -       | Filter order items by variant.                                                                |
+| `perPage`   | number | -        | `10`    |                                                                                               |
+| `page`      | number | -        | `1`     |                                                                                               |
+| `include`   | string | -        | -       | Comma-separated list of object names: <ul><li>order</li><li>product</li><li>variant</li></ul> |
 
 #### Example
 
@@ -637,10 +645,10 @@ Returns an [Order item object](https://docs.lemonsqueezy.com/api/order-items).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>order</li><li>product</li><li>variant</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                                         |
+| --------- | ------ | -------- | ------- | --------------------------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                                               |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>order</li><li>product</li><li>variant</li></ul> |
 
 #### Example
 
@@ -660,17 +668,17 @@ Returns a list of [Subscription objects](https://docs.lemonsqueezy.com/api/subsc
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `storeId` | number | - | - | Filter subscriptions by store. |
-| `orderId` | number | - | - | Filter subscriptions by order. |
-| `orderItemId` | number | - | - | Filter subscriptions by order item. |
-| `productId` | number | - | - | Filter subscriptions by product. |
-| `variantId` | number | - | - | Filter subscriptions by variant. |
-| `status` | string | - | - | Filter subscriptions by status. Options: <ul><li>`on_trial`</li><li>`active`</li><li>`paused`</li><li>`past_due`</li><li>`unpaid`</li><li>`cancelled`</li><li>`expired</li></ul> |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>variant</li></ul> |
+| Parameter     | Type   | Required | Default | Notes                                                                                                                                                                            |
+| ------------- | ------ | -------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `storeId`     | number | -        | -       | Filter subscriptions by store.                                                                                                                                                   |
+| `orderId`     | number | -        | -       | Filter subscriptions by order.                                                                                                                                                   |
+| `orderItemId` | number | -        | -       | Filter subscriptions by order item.                                                                                                                                              |
+| `productId`   | number | -        | -       | Filter subscriptions by product.                                                                                                                                                 |
+| `variantId`   | number | -        | -       | Filter subscriptions by variant.                                                                                                                                                 |
+| `status`      | string | -        | -       | Filter subscriptions by status. Options: <ul><li>`on_trial`</li><li>`active`</li><li>`paused`</li><li>`past_due`</li><li>`unpaid`</li><li>`cancelled`</li><li>`expired</li></ul> |
+| `perPage`     | number | -        | `10`    |                                                                                                                                                                                  |
+| `page`        | number | -        | `1`     |                                                                                                                                                                                  |
+| `include`     | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>variant</li></ul>                                  |
 
 #### Example
 
@@ -692,10 +700,10 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>variant</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                                                                                           |
+| --------- | ------ | -------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                                                                                                 |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>variant</li></ul> |
 
 #### Example
 
@@ -715,13 +723,13 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `productId` | number | If changing plans | - | ID of product when changing plans. |
-| `variantId` | number | If changing plans | - | ID of variant when changing plans. |
-| `proration` | string | - | - | Set the proration when changing plans. <ul><li>Use `immediate` to charge a prorated amount immediately</li><li>Use `disable` to charge a full amount immediately</li><li>If `proration` is not included, proration will occur at the next renewal date</li></ul> |
-| `billingAnchor` | number | - | - | Change the billing day used for renewal charges. Must be a number between `1` and `31`. |
+| Parameter       | Type   | Required          | Default | Notes                                                                                                                                                                                                                                                            |
+| --------------- | ------ | ----------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`            | number | Yes               | -       |                                                                                                                                                                                                                                                                  |
+| `productId`     | number | If changing plans | -       | ID of product when changing plans.                                                                                                                                                                                                                               |
+| `variantId`     | number | If changing plans | -       | ID of variant when changing plans.                                                                                                                                                                                                                               |
+| `proration`     | string | -                 | -       | Set the proration when changing plans. <ul><li>Use `immediate` to charge a prorated amount immediately</li><li>Use `disable` to charge a full amount immediately</li><li>If `proration` is not included, proration will occur at the next renewal date</li></ul> |
+| `billingAnchor` | number | -                 | -       | Change the billing day used for renewal charges. Must be a number between `1` and `31`.                                                                                                                                                                          |
 
 #### Example
 
@@ -741,9 +749,9 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
+| Parameter | Type   | Required | Default | Notes |
+| --------- | ------ | -------- | ------- | ----- |
+| `id`      | number | Yes      | -       |       |
 
 #### Example
 
@@ -763,9 +771,9 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
+| Parameter | Type   | Required | Default | Notes |
+| --------- | ------ | -------- | ------- | ----- |
+| `id`      | number | Yes      | -       |       |
 
 #### Example
 
@@ -785,11 +793,11 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `mode` | string | - | `void` | Type of pause: <ul><li>`void` - your product or service is unavailable to customers</li><li>`free` - the user should get free access</li></ul> |
-| `resumesAt` | string | - | - | Date to automatically resume the subscription ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format datetime). |
+| Parameter   | Type   | Required | Default | Notes                                                                                                                                          |
+| ----------- | ------ | -------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`        | number | Yes      | -       |                                                                                                                                                |
+| `mode`      | string | -        | `void`  | Type of pause: <ul><li>`void` - your product or service is unavailable to customers</li><li>`free` - the user should get free access</li></ul> |
+| `resumesAt` | string | -        | -       | Date to automatically resume the subscription ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format datetime).                            |
 
 #### Example
 
@@ -809,9 +817,9 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
+| Parameter | Type   | Required | Default | Notes |
+| --------- | ------ | -------- | ------- | ----- |
+| `id`      | number | Yes      | -       |       |
 
 #### Example
 
@@ -831,15 +839,15 @@ Returns a list of [Subscription invoice objects](https://docs.lemonsqueezy.com/a
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `storeId` | number | - | - | Filter subscription invoices by store. |
-| `status` | string | - | - | Filter subscription invoices by status. Options: <ul><li>`paid`</li><li>`pending`</li><li>`void`</li><li>`refunded`</li></ul> |
-| `refunded` | boolean | - | - | Filter subscription invoices by refunded. |
-| `subscriptionId` | number | - | - | Filter subscription invoices by subscription. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>subscription</li></ul> |
+| Parameter        | Type    | Required | Default | Notes                                                                                                                         |
+| ---------------- | ------- | -------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `storeId`        | number  | -        | -       | Filter subscription invoices by store.                                                                                        |
+| `status`         | string  | -        | -       | Filter subscription invoices by status. Options: <ul><li>`paid`</li><li>`pending`</li><li>`void`</li><li>`refunded`</li></ul> |
+| `refunded`       | boolean | -        | -       | Filter subscription invoices by refunded.                                                                                     |
+| `subscriptionId` | number  | -        | -       | Filter subscription invoices by subscription.                                                                                 |
+| `perPage`        | number  | -        | `10`    |                                                                                                                               |
+| `page`           | number  | -        | `1`     |                                                                                                                               |
+| `include`        | string  | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>subscription</li></ul>                                            |
 
 #### Example
 
@@ -861,10 +869,10 @@ Returns a [Subscription invoice object](https://docs.lemonsqueezy.com/api/subscr
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>subscription</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                              |
+| --------- | ------ | -------- | ------- | ---------------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                                    |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>subscription</li></ul> |
 
 #### Example
 
@@ -884,12 +892,12 @@ Returns a list of [Discount objects](https://docs.lemonsqueezy.com/api/discounts
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `storeId` | number | - | - | Filter discounts by store. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variants</li><li>discount-redemptions</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                                                       |
+| --------- | ------ | -------- | ------- | ----------------------------------------------------------------------------------------------------------- |
+| `storeId` | number | -        | -       | Filter discounts by store.                                                                                  |
+| `perPage` | number | -        | `10`    |                                                                                                             |
+| `page`    | number | -        | `1`     |                                                                                                             |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>variants</li><li>discount-redemptions</li></ul> |
 
 #### Example
 
@@ -911,10 +919,10 @@ Returns a [Discount object](https://docs.lemonsqueezy.com/api/discounts).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>variants</li><li>discount-redemptions</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                                                       |
+| --------- | ------ | -------- | ------- | ----------------------------------------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                                                             |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>variants</li><li>discount-redemptions</li></ul> |
 
 #### Example
 
@@ -934,19 +942,19 @@ Returns a [Discount object](https://docs.lemonsqueezy.com/api/discounts).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `storeId` | number | Yes | - | |
-| `name` | string | Yes | - | The reference name of the discount. |
-| `code` | string | Yes | - | The discount code. Can contain uppercase letters and numbers, between 3 and 256 characters. |
-| `amount` | string | Yes | - | Either a fixed amount in cents or a percentage: <ul><li>`1000` means $10 when `amount_type` is `fixed`</li><li>`10` means 10% when `amount_type` is `percent`</li> |
-| `amountType` | string | - | `percent` | The type of discount. Options: <ul><li>`percent`</li><li>`fixed`</li></ul> |
-| `duration` | string | - | `once` | How many times the discount should apply (for subscriptions only). Options: <ul><li>`once` - only the first payment.</li><li>`repeating` - applies for months defined in `durationInMonths`.</li><li>`forever` - applies to every subscription .payment</li></ul> |
-| `durationInMonths` | number | - | - | How many months the discount should apply when `duration` is `repeating`. |
-| `variantIds` | number[] | - | - | Limit discount to certain variants.<br>List of variant IDs like `[1,2,3]`.  |
-| `maxRedemptions` | number | - | - | Limit the total amount of redemptions allowed. |
-| `startsAt` | string | - | - | Date the discount code starts on ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format datetime). |
-| `expiresAt` | string | - | - | Date the discount code expires on ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format datetime). |
+| Parameter          | Type     | Required | Default   | Notes                                                                                                                                                                                                                                                             |
+| ------------------ | -------- | -------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `storeId`          | number   | Yes      | -         |                                                                                                                                                                                                                                                                   |
+| `name`             | string   | Yes      | -         | The reference name of the discount.                                                                                                                                                                                                                               |
+| `code`             | string   | Yes      | -         | The discount code. Can contain uppercase letters and numbers, between 3 and 256 characters.                                                                                                                                                                       |
+| `amount`           | string   | Yes      | -         | Either a fixed amount in cents or a percentage: <ul><li>`1000` means $10 when `amount_type` is `fixed`</li><li>`10` means 10% when `amount_type` is `percent`</li>                                                                                                |
+| `amountType`       | string   | -        | `percent` | The type of discount. Options: <ul><li>`percent`</li><li>`fixed`</li></ul>                                                                                                                                                                                        |
+| `duration`         | string   | -        | `once`    | How many times the discount should apply (for subscriptions only). Options: <ul><li>`once` - only the first payment.</li><li>`repeating` - applies for months defined in `durationInMonths`.</li><li>`forever` - applies to every subscription .payment</li></ul> |
+| `durationInMonths` | number   | -        | -         | How many months the discount should apply when `duration` is `repeating`.                                                                                                                                                                                         |
+| `variantIds`       | number[] | -        | -         | Limit discount to certain variants.<br>List of variant IDs like `[1,2,3]`.                                                                                                                                                                                        |
+| `maxRedemptions`   | number   | -        | -         | Limit the total amount of redemptions allowed.                                                                                                                                                                                                                    |
+| `startsAt`         | string   | -        | -         | Date the discount code starts on ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format datetime).                                                                                                                                                            |
+| `expiresAt`        | string   | -        | -         | Date the discount code expires on ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format datetime).                                                                                                                                                           |
 
 #### Example
 
@@ -974,9 +982,9 @@ Delete a discount.
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
+| Parameter | Type   | Required | Default | Notes |
+| --------- | ------ | -------- | ------- | ----- |
+| `id`      | number | Yes      | -       |       |
 
 #### Example
 
@@ -996,13 +1004,13 @@ Returns a list of [Discount redemption objects](https://docs.lemonsqueezy.com/ap
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `discountId` | number | - | - | Filter discount redemptions by discount. |
-| `orderId` | number | - | - | Filter discount redemptions by order. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>discount</li><li>order</li></ul> |
+| Parameter    | Type   | Required | Default | Notes                                                                          |
+| ------------ | ------ | -------- | ------- | ------------------------------------------------------------------------------ |
+| `discountId` | number | -        | -       | Filter discount redemptions by discount.                                       |
+| `orderId`    | number | -        | -       | Filter discount redemptions by order.                                          |
+| `perPage`    | number | -        | `10`    |                                                                                |
+| `page`       | number | -        | `1`     |                                                                                |
+| `include`    | string | -        | -       | Comma-separated list of object names: <ul><li>discount</li><li>order</li></ul> |
 
 #### Example
 
@@ -1024,10 +1032,10 @@ Returns a [Discount redemption object](https://docs.lemonsqueezy.com/api/discoun
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>discount</li><li>order</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                          |
+| --------- | ------ | -------- | ------- | ------------------------------------------------------------------------------ |
+| `id`      | number | Yes      | -       |                                                                                |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>discount</li><li>order</li></ul> |
 
 #### Example
 
@@ -1047,15 +1055,15 @@ Returns a list of [License key objects](https://docs.lemonsqueezy.com/api/licens
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `storeId` | number | - | - | Filter license keys by store. |
-| `orderId` | number | - | - | Filter license keys by order. |
-| `orderItemId` | number | - | - | Filter license keys by order item. |
-| `productId` | number | - | - | Filter license keys by product. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
+| Parameter     | Type   | Required | Default | Notes                                                                                                                                                         |
+| ------------- | ------ | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `storeId`     | number | -        | -       | Filter license keys by store.                                                                                                                                 |
+| `orderId`     | number | -        | -       | Filter license keys by order.                                                                                                                                 |
+| `orderItemId` | number | -        | -       | Filter license keys by order item.                                                                                                                            |
+| `productId`   | number | -        | -       | Filter license keys by product.                                                                                                                               |
+| `perPage`     | number | -        | `10`    |                                                                                                                                                               |
+| `page`        | number | -        | `1`     |                                                                                                                                                               |
+| `include`     | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
 
 #### Example
 
@@ -1077,10 +1085,10 @@ Returns a [License key object](https://docs.lemonsqueezy.com/api/license-keys).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                                                                                                         |
+| --------- | ------ | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                                                                                                               |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
 
 #### Example
 
@@ -1100,12 +1108,12 @@ Returns a list of [License key instance objects](https://docs.lemonsqueezy.com/a
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `licenseKeyId` | number | - | - | Filter license key instances by license key. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
+| Parameter      | Type   | Required | Default | Notes                                                                                                                                                         |
+| -------------- | ------ | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `licenseKeyId` | number | -        | -       | Filter license key instances by license key.                                                                                                                  |
+| `perPage`      | number | -        | `10`    |                                                                                                                                                               |
+| `page`         | number | -        | `1`     |                                                                                                                                                               |
+| `include`      | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
 
 #### Example
 
@@ -1127,10 +1135,10 @@ Returns a [License key instance object](https://docs.lemonsqueezy.com/api/licens
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                                                                                                                         |
+| --------- | ------ | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                                                                                                               |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>store</li><li>customer</li><li>order</li><li>order-item</li><li>product</li><li>license-key-instances</li></ul> |
 
 #### Example
 
@@ -1150,12 +1158,12 @@ Returns a list of [Webhook objects](https://docs.lemonsqueezy.com/api/webhooks).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- | 
-| `storeId` | number | - | - | Filter webhooks by store. |
-| `perPage` | number | - | `10` | |
-| `page` | number | - | `1` | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                         |
+| --------- | ------ | -------- | ------- | ------------------------------------------------------------- |
+| `storeId` | number | -        | -       | Filter webhooks by store.                                     |
+| `perPage` | number | -        | `10`    |                                                               |
+| `page`    | number | -        | `1`     |                                                               |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>store</li></ul> |
 
 #### Example
 
@@ -1177,10 +1185,10 @@ Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
-| `include`| string | - | - | Comma-separated list of object names: <ul><li>store</li></ul> |
+| Parameter | Type   | Required | Default | Notes                                                         |
+| --------- | ------ | -------- | ------- | ------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                               |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>store</li></ul> |
 
 #### Example
 
@@ -1200,12 +1208,12 @@ Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `storeId` | number | Yes | - | |
-| `url` | string | Yes | - | The endpoint URL that the webhooks should be sent to. |
-| `events` | string[] | Yes | - | A list of webhook events to receive. [See all options](https://docs.lemonsqueezy.com/help/webhooks#event-types) |
-| `secret` | string | Yes | - | A signing secret used to [secure the webhook](https://docs.lemonsqueezy.com/help/webhooks#signing-requests). Must be between 6 and 40 characters. |
+| Parameter | Type     | Required | Default | Notes                                                                                                                                             |
+| --------- | -------- | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `storeId` | number   | Yes      | -       |                                                                                                                                                   |
+| `url`     | string   | Yes      | -       | The endpoint URL that the webhooks should be sent to.                                                                                             |
+| `events`  | string[] | Yes      | -       | A list of webhook events to receive. [See all options](https://docs.lemonsqueezy.com/help/webhooks#event-types)                                   |
+| `secret`  | string   | Yes      | -       | A signing secret used to [secure the webhook](https://docs.lemonsqueezy.com/help/webhooks#signing-requests). Must be between 6 and 40 characters. |
 
 #### Example
 
@@ -1234,12 +1242,12 @@ Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | - | - | |
-| `url` | string | - | - | The endpoint URL that the webhooks should be sent to. |
-| `events` | string[] | - | - | A list of webhook events to receive. [See all options](https://docs.lemonsqueezy.com/help/webhooks#event-types) |
-| `secret` | string | - | - | A signing secret used to [secure the webhook](https://docs.lemonsqueezy.com/help/webhooks#signing-requests). Must be between 6 and 40 characters. |
+| Parameter | Type     | Required | Default | Notes                                                                                                                                             |
+| --------- | -------- | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`      | number   | -        | -       |                                                                                                                                                   |
+| `url`     | string   | -        | -       | The endpoint URL that the webhooks should be sent to.                                                                                             |
+| `events`  | string[] | -        | -       | A list of webhook events to receive. [See all options](https://docs.lemonsqueezy.com/help/webhooks#event-types)                                   |
+| `secret`  | string   | -        | -       | A signing secret used to [secure the webhook](https://docs.lemonsqueezy.com/help/webhooks#signing-requests). Must be between 6 and 40 characters. |
 
 #### Example
 
@@ -1261,9 +1269,9 @@ Delete a webhook.
 
 #### Parameters
 
-| Parameter | Type | Required | Default | Notes |
-| --- | --- | --- | --- | --- |
-| `id` | number | Yes | - | |
+| Parameter | Type   | Required | Default | Notes |
+| --------- | ------ | -------- | ------- | ----- |
+| `id`      | number | Yes      | -       |       |
 
 #### Example
 
