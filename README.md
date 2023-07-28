@@ -1270,3 +1270,25 @@ Delete a webhook.
 ```
 await ls.deleteWebhook({ id: 123 })
 ```
+
+## Development
+
+To get started developing this project locally, clone the repository & install the dependencies:
+
+```
+git clone https://github.com/lmsqueezy/lemonsqueezy.js.git
+cd lemonsqueezy-js
+npm install
+```
+
+To create a new build:
+
+```bash
+npm run build
+```
+
+To start the local development server:
+
+```bash
+npm run dev
+```
