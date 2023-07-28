@@ -19,7 +19,8 @@
     "javascript"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup",
+    "dev": "tsup --watch"
   },
   "devDependencies": {
     "@types/node": "^20.4.5",
