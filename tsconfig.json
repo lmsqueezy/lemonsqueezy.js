@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
@@ -10,5 +11,5 @@
     "strict": true,
     "target": "ESNext"
   },
-  "include": ["src/**/*.ts"]
+  "include": ["./src/**/*.js"]
 }
