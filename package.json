@@ -4,7 +4,9 @@
   "version": "1.0.3",
   "author": "Lemon Squeezy",
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "homepage": "https://github.com/lmsqueezy/lemonsqueezy.js",
   "repository": {
     "type": "git",
