@@ -18,6 +18,10 @@
     "lemonsqueezy",
     "javascript"
   ],
+  "files": [
+    "./dist/*",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
