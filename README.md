@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This is the official JavsScript SDK for [Lemon Squeezy](https://lemonsqueezy.com), helping make it easy to incorporate billing into your JavaScript application.
+This is the official JavaScript SDK for [Lemon Squeezy](https://lemonsqueezy.com), helping make it easy to incorporate billing into your JavaScript application.
 
 Please read the [API introduction page](https://docs.lemonsqueezy.com/api) to understand how the API works.
 
