@@ -1,6 +1,6 @@
 # The official Lemon Squeezy JavaScript SDK
 
-![](https://img.shields.io/npm/v/@lemonsqueezy/lemonsqueezy.js?style=plastic) ![](https://img.shields.io/npm/dw/@lemonsqueezy/lemonsqueezy.js?style=plastic)
+[![](https://img.shields.io/npm/v/@lemonsqueezy/lemonsqueezy.js?style=plastic)](https://www.npmjs.com/package/@lemonsqueezy/lemonsqueezy.js) [![](https://img.shields.io/npm/dw/@lemonsqueezy/lemonsqueezy.js?style=plastic)](https://www.npmjs.com/package/@lemonsqueezy/lemonsqueezy.js)
 
 ## Introduction
 
