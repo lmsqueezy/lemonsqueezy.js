@@ -184,6 +184,33 @@ export default class LemonSqueezy {
   }
 
   /**
+   * Get prices
+   * @param {Object} [params]
+   * @param {number} [params.variantId] Filter prices by variant
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"variant"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getPrices(params = {}) {
+    params = this.buildParams(params, ['variantId'])
+    return this.queryApi({ path: 'v1/prices', params });
+  }
+
+  /**
+   * Get a price
+   * @param {Object} params
+   * @param {number} params.id
+   * @param {"variant"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getPrice({ id, ...params } = {}) {
+    if (!id) throw 'You must provide an ID in getPrice().'
+    params = this.buildParams(params)
+    return this.queryApi({ path: 'v1/prices/'+id, params });
+  }
+
+  /**
    * Get checkouts
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter variants by store
@@ -522,6 +549,34 @@ export default class LemonSqueezy {
     if (!id) throw 'You must provide an ID in getSubscriptionInvoice().'
     params = this.buildParams(params)
     return this.queryApi({ path: 'v1/subscription-invoices/'+id, params });
+  }
+
+  /**
+   * Get subscription items
+   * @param {Object} [params]
+   * @param {number} [params.subscriptionId] Filter subscription items by subscription
+   * @param {number} [params.priceId] Filter subscription items by price
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"subscription,price,usage-records"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getSubscriptionItems(params = {}) {
+    params = this.buildParams(params, ['subscriptionId', 'priceId'])
+    return this.queryApi({ path: 'v1/subscription-items', params });
+  }
+
+  /**
+   * Get a subscription item
+   * @param {Object} params
+   * @param {number} params.id
+   * @param {"subscription,price,usage-records"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getSubscriptionItem({ id, ...params } = {}) {
+    if (!id) throw 'You must provide an ID in getSubscriptionItem().'
+    params = this.buildParams(params)
+    return this.queryApi({ path: 'v1/subscription-items/'+id, params });
   }
 
   /**

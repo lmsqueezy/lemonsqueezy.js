@@ -155,6 +155,8 @@ Do not use this package directly in the browser. as this will expose your API ke
 - [getProduct()](#getproductparameters)
 - [getVariants()](#getvariantsparameters)
 - [getVariant()](#getvariantparameters)
+- [getPrices()](#getpricesparameters)
+- [getPrice()](#getpriceparameters)
 - [getCheckouts()](#getcheckoutsparameters)
 - [getCheckout()](#getcheckoutparameters)
 - [createCheckout()](#createcheckoutparameters)
@@ -175,6 +177,8 @@ Do not use this package directly in the browser. as this will expose your API ke
 - [unpauseSubscription()](#unpausesubscriptionparameters)
 - [getSubscriptionInvoices()](#getsubscriptioninvoicesparameters)
 - [getSubscriptionInvoice()](#getsubscriptioninvoiceparameters)
+- [getSubscriptionItems()](#getsubscriptionitemsparameters)
+- [getSubscriptionItem()](#getsubscriptionitemparameters)
 - [getDiscounts()](#getdiscountsparameters)
 - [getDiscount()](#getdiscountparameters)
 - [createDiscount()](#creatediscountparameters)
@@ -358,6 +362,56 @@ Returns a [Variant object](https://docs.lemonsqueezy.com/api/variants).
 
 ```javascript
 const variant = await ls.getVariant({ id: 123 })
+```
+
+---
+
+### getPrices(parameters)
+
+Get a list of prices.
+
+Returns a list of [Price objects](https://docs.lemonsqueezy.com/api/prices).
+
+[API reference](https://docs.lemonsqueezy.com/api/prices#list-all-prices).
+
+#### Parameters
+
+| Parameter   | Type   | Required | Default | Notes                                                           |
+| ----------- | ------ | -------- | ------- | --------------------------------------------------------------- |
+| `variantId` | number | -        | -       | Filter prices by variant.                                       |
+| `perPage`   | number | -        | `10`    |                                                                 |
+| `page`      | number | -        | `1`     |                                                                 |
+| `include`   | string | -        | -       | Comma-separated list of object names: <ul><li>variant</li></ul> |
+
+#### Example
+
+```javascript
+const prices = await ls.getPrices()
+
+const prices = await ls.getPrices({ variantId: 123, include: 'variant' })
+```
+
+---
+
+### getPrice(parameters)
+
+Get a price.
+
+Returns a [Price object](https://docs.lemonsqueezy.com/api/prices).
+
+[API reference](https://docs.lemonsqueezy.com/api/prices#retrieve-a-price).
+
+#### Parameters
+
+| Parameter | Type   | Required | Default | Notes                                                           |
+| --------- | ------ | -------- | ------- | --------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                 |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>variant</li></ul> |
+
+#### Example
+
+```javascript
+const price = await ls.getPrice({ id: 123 })
 ```
 
 ---
@@ -880,6 +934,56 @@ Returns a [Subscription invoice object](https://docs.lemonsqueezy.com/api/subscr
 
 ```javascript
 const subscriptionInvoice = await ls.getSubscriptionInvoice({ id: 123 })
+```
+
+---
+
+### getSubscriptionItems(parameters)
+
+Get a list of subscription items.
+
+Returns a list of [Subscription item objects](https://docs.lemonsqueezy.com/api/subscription-items).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscription-items#list-all-subscription-items).
+
+#### Parameters
+
+| Parameter        | Type   | Required | Default | Notes                                                         |
+| ---------------- | ------ | -------- | ------- | ------------------------------------------------------------- |
+| `subscriptionId` | number | -        | -       | Filter webhooks by subscription.                              |
+| `perPage`        | number | -        | `10`    |                                                               |
+| `page`           | number | -        | `1`     |                                                               |
+| `include`        | string | -        | -       | Comma-separated list of object names: <ul><li>subscription</li><li>price</li><li>usage-records</li></ul> |
+
+#### Example
+
+```javascript
+const subscriptionItems = await ls.getSubscriptionItems()
+
+const subscriptionItems = await ls.getSubscriptionItems({ storeId: 123 })
+```
+
+---
+
+### getSubscriptionItem(parameters)
+
+Get a subscription item.
+
+Returns a [Subscription item object](https://docs.lemonsqueezy.com/api/subscription-items).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscription-items#retrieve-a-subscription-item).
+
+#### Parameters
+
+| Parameter | Type   | Required | Default | Notes                                                         |
+| --------- | ------ | -------- | ------- | ------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                               |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>subscription</li><li>price</li><li>usage-records</li></ul> |
+
+#### Example
+
+```javascript
+const subscriptionItem = await ls.getSubscriptionItem({ id: 123, include: 'price' })
 ```
 
 ---
