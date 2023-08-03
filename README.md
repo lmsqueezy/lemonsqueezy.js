@@ -990,7 +990,7 @@ Delete a discount.
 
 #### Example
 
-```
+```javascript
 await ls.deleteDiscount({ id: 123 })
 ```
 
@@ -1277,7 +1277,7 @@ Delete a webhook.
 
 #### Example
 
-```
+```javascript
 await ls.deleteWebhook({ id: 123 })
 ```
 
