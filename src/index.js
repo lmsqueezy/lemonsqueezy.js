@@ -580,6 +580,64 @@ export default class LemonSqueezy {
   }
 
   /**
+   * Get usage records
+   * @param {Object} [params]
+   * @param {number} [params.subscriptionItemId] Filter usage records by subscription item
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {"subscription-item"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getUsageRecords(params = {}) {
+    params = this.buildParams(params, ['subscriptionItemId'])
+    return this.queryApi({ path: 'v1/usage-records', params });
+  }
+
+  /**
+   * Get a usage record
+   * @param {Object} params
+   * @param {number} params.id
+   * @param {"subscription-item"} [params.include] Comma-separated list of record types to include
+   * @returns {Object} JSON
+   */
+  async getUsageRecord({ id, ...params } = {}) {
+    if (!id) throw 'You must provide an ID in getUsageRecord().'
+    params = this.buildParams(params)
+    return this.queryApi({ path: 'v1/usage-records/'+id, params });
+  }
+
+  /**
+   * Create a usage record
+   * @param {Object} params
+   * @param {number} params.subscriptionItemId The ID of the subscription item to report usage for
+   * @param {number} params.quantity The number of units to report
+   * @param {"increment"|"set"} [params.action] Type of record
+   * @returns {Object} JSON
+   */
+  async createUsageRecord({ subscriptionItemId, quantity, action='increment' }) {
+    if (!subscriptionItemId) throw 'You must provide a subscription item ID in createUsageRecord().'
+    if (!quantity) throw 'You must provide a quantity in createUsageRecord().'
+    let payload = {
+      data: {
+        type: 'usage-records',
+        attributes: {
+          quantity,
+          action
+        },
+        relationships: {
+          subscription-item: {
+            data: {
+              type: 'subscription-items',
+              id: '' + subscriptionItemId // convert to string
+            }
+          }
+        }
+      }
+    }
+    return this.queryApi({ path: 'v1/usage-records', method: 'POST', payload });
+  }
+
+  /**
    * Get discounts
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter discounts by store
