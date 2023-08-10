@@ -6,7 +6,7 @@ import type {
   QueryApiOptions,
 } from "./types";
 
-export default class LemonSqueezy {
+export class LemonSqueezy {
   public apiKey: string;
 
   public apiUrl = "https://api.lemonsqueezy.com/";
@@ -885,3 +885,5 @@ export default class LemonSqueezy {
     this._query({ path: "v1/webhooks/" + id, method: "DELETE" });
   }
 }
+
+export default LemonSqueezy;
