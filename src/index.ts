@@ -2,6 +2,8 @@ import type {
   CreateCheckoutOptions,
   GetCheckoutOptions,
   GetCheckoutsOptions,
+  GetCustomerOptions,
+  GetCustomersOptions,
   GetProductOptions,
   GetProductsOptions,
   GetStoreOptions,
@@ -301,30 +303,37 @@ export class LemonSqueezy {
 
   /**
    * Get customers
+   *
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter customers by store
    * @param {number} [params.email] Filter customers by email address
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"license-keys,orders,store,subscriptions"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getCustomers(params = {}) {
-    params = this._buildParams(params, ["storeId", "email"]);
-    return this._query({ path: "v1/customers", params });
+  async getCustomers(params: GetCustomersOptions = {}) {
+    return this._query({
+      path: "v1/customers",
+      params: this._buildParams(params, ["storeId", "email"]),
+    });
   }
 
   /**
    * Get a customer
+   *
    * @param {Object} params
    * @param {number} params.id
    * @param {"license-keys,orders,store,subscriptions"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getCustomer({ id, ...params } = {}) {
-    if (!id) throw "You must provide an ID in getCustomer().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/customers/" + id, params });
+  async getCustomer({ id, ...params }: GetCustomerOptions) {
+    return this._query({
+      path: `v1/customers/${id}`,
+      params: this._buildParams(params),
+    });
   }
 
   /**

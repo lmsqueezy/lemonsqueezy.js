@@ -137,3 +137,29 @@ export interface CreateCheckoutOptions {
   storeId: number;
   variantId: number;
 }
+
+export interface GetCustomersOptions extends PaginatedOptions {
+  /**
+   * Filter customers by email address
+   */
+  email?: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"license-keys" | "orders" | "store" | "subscriptions">;
+  /**
+   * Filter customers by store
+   */
+  storeId?: number;
+}
+
+export interface GetCustomerOptions {
+  /**
+   * The ID of the customer to retrieve
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"license-keys" | "orders" | "store" | "subscriptions">;
+}
