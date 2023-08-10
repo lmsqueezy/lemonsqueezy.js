@@ -43,9 +43,9 @@ export class LemonSqueezy {
 
         params["filter[" + queryFilter + "]"] = args[filter];
       } else {
-        if (filter == "include") params["include"] = args[filter];
-        if (filter == "page") params["page[number]"] = args[filter];
-        if (filter == "perPage") params["page[size]"] = args[filter];
+        if (filter === "include") params["include"] = args[filter];
+        if (filter === "page") params["page[number]"] = args[filter];
+        if (filter === "perPage") params["page[size]"] = args[filter];
       }
     }
 
