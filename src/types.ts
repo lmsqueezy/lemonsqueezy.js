@@ -61,7 +61,7 @@ export interface GetProductsOptions extends PaginatedOptions {
   /**
    * List of record types to include
    */
-  include?: "store" | "variants";
+  include?: Array<"store" | "variants">;
   /**
    * Filter products by store ID.
    */
@@ -76,5 +76,5 @@ export interface GetProductOptions {
   /**
    * List of record types to include
    */
-  include?: "store" | "variants";
+  include?: Array<"store" | "variants">;
 }
