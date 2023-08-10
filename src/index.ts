@@ -26,7 +26,7 @@ export default class LemonSqueezy {
    * @params {Object} [args] Arguments to the API method
    * @params {string[]} [allowedFilters] List of filters the API query permits (camelCase)
    */
-  buildParams<TArgs extends Record<string, any>>(
+  private _buildParams<TArgs extends Record<string, any>>(
     args: TArgs,
     allowedFilters: Array<string> = []
   ): Record<string, unknown> {
@@ -121,7 +121,7 @@ export default class LemonSqueezy {
   async getStores(params: GetStoresOptions = {}) {
     return this._query({
       path: "v1/stores",
-      params: this.buildParams(params),
+      params: this._buildParams(params),
     });
   }
 
@@ -139,7 +139,7 @@ export default class LemonSqueezy {
 
     return this._query({
       path: `v1/stores/${id}`,
-      params: this.buildParams(params),
+      params: this._buildParams(params),
     });
   }
 
@@ -155,7 +155,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getProducts(params = {}) {
-    params = this.buildParams(params, ["storeId"]);
+    params = this._buildParams(params, ["storeId"]);
     return this._query({ path: "v1/products", params });
   }
 
@@ -168,7 +168,7 @@ export default class LemonSqueezy {
    */
   async getProduct({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getProduct().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/products/" + id, params });
   }
 
@@ -182,7 +182,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getVariants(params = {}) {
-    params = this.buildParams(params, ["productId"]);
+    params = this._buildParams(params, ["productId"]);
     return this._query({ path: "v1/variants", params });
   }
 
@@ -195,7 +195,7 @@ export default class LemonSqueezy {
    */
   async getVariant({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getVariant().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/variants/" + id, params });
   }
 
@@ -210,7 +210,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getCheckouts(params = {}) {
-    params = this.buildParams(params, ["storeId", "variantId"]);
+    params = this._buildParams(params, ["storeId", "variantId"]);
     return this._query({ path: "v1/checkouts", params });
   }
 
@@ -223,7 +223,7 @@ export default class LemonSqueezy {
    */
   async getCheckout({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getCheckout().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/checkouts/" + id, params });
   }
 
@@ -273,7 +273,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getCustomers(params = {}) {
-    params = this.buildParams(params, ["storeId", "email"]);
+    params = this._buildParams(params, ["storeId", "email"]);
     return this._query({ path: "v1/customers", params });
   }
 
@@ -286,7 +286,7 @@ export default class LemonSqueezy {
    */
   async getCustomer({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getCustomer().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/customers/" + id, params });
   }
 
@@ -301,7 +301,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getOrders(params = {}) {
-    params = this.buildParams(params, ["storeId", "userEmail"]);
+    params = this._buildParams(params, ["storeId", "userEmail"]);
     return this._query({ path: "v1/orders", params });
   }
 
@@ -314,7 +314,7 @@ export default class LemonSqueezy {
    */
   async getOrder({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getOrder().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/orders/" + id, params });
   }
 
@@ -328,7 +328,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getFiles(params = {}) {
-    params = this.buildParams(params, ["variantId"]);
+    params = this._buildParams(params, ["variantId"]);
     return this._query({ path: "v1/files", params });
   }
 
@@ -341,7 +341,7 @@ export default class LemonSqueezy {
    */
   async getFile({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getFile().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/files/" + id, params });
   }
 
@@ -357,7 +357,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getOrderItems(params = {}) {
-    params = this.buildParams(params, ["orderId", "productId", "variantId"]);
+    params = this._buildParams(params, ["orderId", "productId", "variantId"]);
     return this._query({ path: "v1/order-items", params });
   }
 
@@ -370,7 +370,7 @@ export default class LemonSqueezy {
    */
   async getOrderItem({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getOrderItem().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/order-items/" + id, params });
   }
 
@@ -389,7 +389,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getSubscriptions(params = {}) {
-    params = this.buildParams(params, [
+    params = this._buildParams(params, [
       "storeId",
       "orderId",
       "orderItemId",
@@ -409,7 +409,7 @@ export default class LemonSqueezy {
    */
   async getSubscription({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getSubscription().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/subscriptions/" + id, params });
   }
 
@@ -551,7 +551,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getSubscriptionInvoices(params = {}) {
-    params = this.buildParams(params, [
+    params = this._buildParams(params, [
       "storeId",
       "status",
       "refunded",
@@ -569,7 +569,7 @@ export default class LemonSqueezy {
    */
   async getSubscriptionInvoice({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getSubscriptionInvoice().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/subscription-invoices/" + id, params });
   }
 
@@ -583,7 +583,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getDiscounts(params = {}) {
-    params = this.buildParams(params, ["storeId"]);
+    params = this._buildParams(params, ["storeId"]);
     return this._query({ path: "v1/discounts", params });
   }
 
@@ -596,7 +596,7 @@ export default class LemonSqueezy {
    */
   async getDiscount({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getDiscount().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/discounts/" + id, params });
   }
 
@@ -697,7 +697,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getDiscountRedemptions(params = {}) {
-    params = this.buildParams(params, ["discountId", "orderId"]);
+    params = this._buildParams(params, ["discountId", "orderId"]);
     return this._query({ path: "v1/discount-redemptions", params });
   }
 
@@ -710,7 +710,7 @@ export default class LemonSqueezy {
    */
   async getDiscountRedemption({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getDiscountRedemption().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/discount-redemptions/" + id, params });
   }
 
@@ -727,7 +727,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getLicenseKeys(params = {}) {
-    params = this.buildParams(params, [
+    params = this._buildParams(params, [
       "storeId",
       "orderId",
       "orderItemId",
@@ -745,7 +745,7 @@ export default class LemonSqueezy {
    */
   async getLicenseKey({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getLicenseKey().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/license-keys/" + id, params });
   }
 
@@ -759,7 +759,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getLicenseKeyInstances(params = {}) {
-    params = this.buildParams(params, ["licenseKeyId"]);
+    params = this._buildParams(params, ["licenseKeyId"]);
     return this._query({ path: "v1/license-key-instances", params });
   }
 
@@ -772,7 +772,7 @@ export default class LemonSqueezy {
    */
   async getLicenseKeyInstance({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getLicenseKeyInstance().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/license-key-instances/" + id, params });
   }
 
@@ -786,7 +786,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getWebhooks(params = {}) {
-    params = this.buildParams(params, ["storeId"]);
+    params = this._buildParams(params, ["storeId"]);
     return this._query({ path: "v1/webhooks", params });
   }
 
@@ -799,7 +799,7 @@ export default class LemonSqueezy {
    */
   async getWebhook({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getWebhook().";
-    params = this.buildParams(params);
+    params = this._buildParams(params);
     return this._query({ path: "v1/webhooks/" + id, params });
   }
 
