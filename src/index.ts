@@ -1,84 +1,83 @@
+import type {
+  GetStoreOptions,
+  GetStoresOptions,
+  QueryApiOptions,
+} from "./types";
 
 export default class LemonSqueezy {
+  public apiKey: string;
 
-  apiKey;
-  apiUrl = 'https://api.lemonsqueezy.com/';
+  public apiUrl = "https://api.lemonsqueezy.com/";
 
-  constructor(apiKey) {
+  /**
+   * LemonSqueezy API client
+   *
+   * @param {String} apiKey - Your LemonSqueezy API key
+   */
+  constructor(apiKey: string) {
     this.apiKey = apiKey;
   }
 
-
   /**
    * Builds a params object for the API query based on provided and allowed filters.
+   *
    * Also converts pagination parameters `page` to `page[number]` and `perPage` to `page[size]`
+   *
    * @params {Object} [args] Arguments to the API method
    * @params {string[]} [allowedFilters] List of filters the API query permits (camelCase)
    */
-  buildParams(args, allowedFilters = []) {
-    let params = {}
+  buildParams(args: object, allowedFilters: Array<string> = []) {
+    let params: Record<string, unknown>;
+
     for (let filter in args) {
       if (allowedFilters.includes(filter)) {
-        let queryFilter = filter.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
-        params['filter['+queryFilter+']'] = args[filter]
+        const queryFilter = filter.replace(
+          /[A-Z]/g,
+          (letter) => `_${letter.toLowerCase()}`
+        );
+
+        params["filter[" + queryFilter + "]"] = args[filter];
       } else {
-        if (filter == 'include') {
-          params['include'] = args[filter]
-        }
-        if (filter == 'page') {
-          params['page[number]'] = args[filter]
-        }
-        if (filter == 'perPage') {
-          params['page[size]'] = args[filter]
-        }
+        if (filter == "include") params["include"] = args[filter];
+        if (filter == "page") params["page[number]"] = args[filter];
+        if (filter == "perPage") params["page[size]"] = args[filter];
       }
     }
-    return params
+
+    return params;
   }
 
   /**
    * Base API query
+   *
    * @param {string} path
    * @param {string} [method] POST, GET, PATCH, DELETE
    * @param {Object} [params] URL query parameters
    * @param {Object} [payload] Object/JSON payload
    * @returns {Object} JSON
    */
-  async queryApi({
-    path,
-    method = 'GET',
-    params,
-    payload
-  }) {
-
+  async queryApi({ path, method = "GET", params, payload }: QueryApiOptions) {
     try {
-
       // Prepare URL
       const url = new URL(path, this.apiUrl);
-      if (params && method === "GET") {
+      if (params && method === "GET")
         Object.entries(params).forEach(([key, value]) =>
           url.searchParams.append(key, value)
         );
-      }
 
-      // fetch options
-      const options = {
-        headers: {
-          Accept: "application/vnd.api+json",
-          Authorization: `Bearer ${this.apiKey}`,
-          "Content-Type": "application/vnd.api+json"
-        },
-        method
-      }
+      const headers = new Headers();
+      headers.set("Accept", "application/vnd.api+json");
+      headers.set("Authorization", `Bearer ${this.apiKey}`);
+      headers.set("Content-Type", "application/vnd.api+json");
 
-      if (payload) {
-        options['body'] = JSON.stringify(payload)
-      }
-
-      const response = await fetch(url.href, options);
+      const response = await fetch(url.href, {
+        headers,
+        method,
+        body: payload ? JSON.stringify(payload) : undefined,
+      });
 
       if (!response.ok) {
-        let errorsJson = await response.json()
+        let errorsJson = await response.json();
         throw {
           status: response.status,
           message: response.statusText,
@@ -86,10 +85,7 @@ export default class LemonSqueezy {
         };
       }
 
-      if (method !== 'DELETE') {
-        return await response.json();
-      }
-
+      if (method !== "DELETE") return await response.json();
     } catch (error) {
       throw error;
     }
@@ -97,36 +93,46 @@ export default class LemonSqueezy {
 
   /**
    * Get current user
+   *
    * @returns {Object} JSON
    */
   async getUser() {
-    return this.queryApi({ path: 'v1/users/me' });
+    return this.queryApi({ path: "v1/users/me" });
   }
 
   /**
    * Get stores
+   *
    * @param {Object} [params]
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"products,discounts,license-keys,subscriptions,webhooks"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getStores(params = {}) {
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/stores', params });
+  async getStores(params: GetStoresOptions = {}) {
+    return this.queryApi({
+      path: "v1/stores",
+      params: this.buildParams(params),
+    });
   }
 
   /**
    * Get a store
+   *
    * @param {Object} params
    * @param {number} params.id
    * @param {"products,discounts,license-keys,subscriptions,webhooks"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getStore({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getStore().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/stores/'+id, params });
+  async getStore({ id, ...params }: GetStoreOptions = {}) {
+    if (!id) throw "No `id` provided when attempting to fetch a store.";
+
+    return this.queryApi({
+      path: `v1/stores/${id}`,
+      params: this.buildParams(params),
+    });
   }
 
   /**
@@ -139,8 +145,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getProducts(params = {}) {
-    params = this.buildParams(params, ['storeId'])
-    return this.queryApi({ path: 'v1/products', params });
+    params = this.buildParams(params, ["storeId"]);
+    return this.queryApi({ path: "v1/products", params });
   }
 
   /**
@@ -151,9 +157,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getProduct({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getProduct().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/products/'+id, params });
+    if (!id) throw "You must provide an ID in getProduct().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/products/" + id, params });
   }
 
   /**
@@ -166,8 +172,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getVariants(params = {}) {
-    params = this.buildParams(params, ['productId'])
-    return this.queryApi({ path: 'v1/variants', params });
+    params = this.buildParams(params, ["productId"]);
+    return this.queryApi({ path: "v1/variants", params });
   }
 
   /**
@@ -178,9 +184,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getVariant({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getVariant().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/variants/'+id, params });
+    if (!id) throw "You must provide an ID in getVariant().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/variants/" + id, params });
   }
 
   /**
@@ -194,8 +200,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getCheckouts(params = {}) {
-    params = this.buildParams(params, ['storeId', 'variantId'])
-    return this.queryApi({ path: 'v1/checkouts', params });
+    params = this.buildParams(params, ["storeId", "variantId"]);
+    return this.queryApi({ path: "v1/checkouts", params });
   }
 
   /**
@@ -206,9 +212,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getCheckout({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getCheckout().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/checkouts/'+id, params });
+    if (!id) throw "You must provide an ID in getCheckout().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/checkouts/" + id, params });
   }
 
   /**
@@ -221,29 +227,29 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async createCheckout({ storeId, variantId, attributes = {} } = {}) {
-    if (!storeId) throw 'You must provide a store ID in createCheckout().'
-    if (!variantId) throw 'You must provide a variant ID in createCheckout().'
+    if (!storeId) throw "You must provide a store ID in createCheckout().";
+    if (!variantId) throw "You must provide a variant ID in createCheckout().";
     let payload = {
-      'data': {
-        'type': 'checkouts',
-        'attributes': attributes,
-        'relationships': {
-          'store': {
-            'data': {
-              'type': 'stores',
-              'id': '' + storeId // convert to string
-            }
+      data: {
+        type: "checkouts",
+        attributes: attributes,
+        relationships: {
+          store: {
+            data: {
+              type: "stores",
+              id: "" + storeId, // convert to string
+            },
           },
-          'variant': {
-            'data': {
-              'type': 'variants',
-              'id': '' + variantId // convert to string
-            }
-          }
-        }
-      }
-    }
-    return this.queryApi({ path: 'v1/checkouts', method: 'POST', payload });
+          variant: {
+            data: {
+              type: "variants",
+              id: "" + variantId, // convert to string
+            },
+          },
+        },
+      },
+    };
+    return this.queryApi({ path: "v1/checkouts", method: "POST", payload });
   }
 
   /**
@@ -257,8 +263,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getCustomers(params = {}) {
-    params = this.buildParams(params, ['storeId', 'email'])
-    return this.queryApi({ path: 'v1/customers', params });
+    params = this.buildParams(params, ["storeId", "email"]);
+    return this.queryApi({ path: "v1/customers", params });
   }
 
   /**
@@ -269,9 +275,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getCustomer({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getCustomer().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/customers/'+id, params });
+    if (!id) throw "You must provide an ID in getCustomer().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/customers/" + id, params });
   }
 
   /**
@@ -285,8 +291,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getOrders(params = {}) {
-    params = this.buildParams(params, ['storeId', 'userEmail'])
-    return this.queryApi({ path: 'v1/orders', params });
+    params = this.buildParams(params, ["storeId", "userEmail"]);
+    return this.queryApi({ path: "v1/orders", params });
   }
 
   /**
@@ -297,9 +303,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getOrder({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getOrder().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/orders/'+id, params });
+    if (!id) throw "You must provide an ID in getOrder().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/orders/" + id, params });
   }
 
   /**
@@ -312,8 +318,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getFiles(params = {}) {
-    params = this.buildParams(params, ['variantId'])
-    return this.queryApi({ path: 'v1/files', params });
+    params = this.buildParams(params, ["variantId"]);
+    return this.queryApi({ path: "v1/files", params });
   }
 
   /**
@@ -324,9 +330,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getFile({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getFile().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/files/'+id, params });
+    if (!id) throw "You must provide an ID in getFile().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/files/" + id, params });
   }
 
   /**
@@ -341,8 +347,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getOrderItems(params = {}) {
-    params = this.buildParams(params, ['orderId', 'productId', 'variantId'])
-    return this.queryApi({ path: 'v1/order-items', params });
+    params = this.buildParams(params, ["orderId", "productId", "variantId"]);
+    return this.queryApi({ path: "v1/order-items", params });
   }
 
   /**
@@ -353,9 +359,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getOrderItem({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getOrderItem().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/order-items/'+id, params });
+    if (!id) throw "You must provide an ID in getOrderItem().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/order-items/" + id, params });
   }
 
   /**
@@ -373,10 +379,16 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getSubscriptions(params = {}) {
-    params = this.buildParams(params, ['storeId', 'orderId', 'orderItemId', 'productId', 'variantId', 'status'])
-    return this.queryApi({ path: 'v1/subscriptions', params });
+    params = this.buildParams(params, [
+      "storeId",
+      "orderId",
+      "orderItemId",
+      "productId",
+      "variantId",
+      "status",
+    ]);
+    return this.queryApi({ path: "v1/subscriptions", params });
   }
-
 
   /**
    * Get a subscription
@@ -386,9 +398,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getSubscription({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getSubscription().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/subscriptions/'+id, params });
+    if (!id) throw "You must provide an ID in getSubscription().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/subscriptions/" + id, params });
   }
 
   /**
@@ -403,23 +415,33 @@ export default class LemonSqueezy {
    *                                   Use 'disable' to charge a full ammount immediately.
    * @returns {Object} JSON
    */
-  async updateSubscription({ id, variantId, productId, billingAnchor, proration } = {}) {
-    if (!id) throw 'You must provide an ID in updateSubscription().'
+  async updateSubscription({
+    id,
+    variantId,
+    productId,
+    billingAnchor,
+    proration,
+  } = {}) {
+    if (!id) throw "You must provide an ID in updateSubscription().";
     let attributes = {
       variant_id: variantId,
       product_id: productId,
-      billing_anchor: billingAnchor
-    }
-    if (proration == 'disable') attributes.disable_prorations = true
-    if (proration == 'immediate') attributes.invoice_immediately = true
+      billing_anchor: billingAnchor,
+    };
+    if (proration == "disable") attributes.disable_prorations = true;
+    if (proration == "immediate") attributes.invoice_immediately = true;
     let payload = {
       data: {
-        type: 'subscriptions',
-        id: '' + id,
-        attributes
-      }
-    }
-    return this.queryApi({ path: 'v1/subscriptions/'+id, method: 'PATCH', payload });
+        type: "subscriptions",
+        id: "" + id,
+        attributes,
+      },
+    };
+    return this.queryApi({
+      path: "v1/subscriptions/" + id,
+      method: "PATCH",
+      payload,
+    });
   }
 
   /**
@@ -429,8 +451,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async cancelSubscription({ id }) {
-    if (!id) throw 'You must provide an ID in cancelSubscription().'
-    return this.queryApi({ path: 'v1/subscriptions/'+id, method: 'DELETE' });
+    if (!id) throw "You must provide an ID in cancelSubscription().";
+    return this.queryApi({ path: "v1/subscriptions/" + id, method: "DELETE" });
   }
 
   /**
@@ -440,17 +462,21 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async resumeSubscription({ id }) {
-    if (!id) throw 'You must provide an ID in resumeSubscription().'
+    if (!id) throw "You must provide an ID in resumeSubscription().";
     let payload = {
       data: {
-        type: 'subscriptions',
-        id: '' + id,
+        type: "subscriptions",
+        id: "" + id,
         attributes: {
           cancelled: false,
-        }
-      }
-    }
-    return this.queryApi({ path: 'v1/subscriptions/'+id, method: 'PATCH', payload });
+        },
+      },
+    };
+    return this.queryApi({
+      path: "v1/subscriptions/" + id,
+      method: "PATCH",
+      payload,
+    });
   }
 
   /**
@@ -462,18 +488,22 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async pauseSubscription({ id, mode, resumesAt } = {}) {
-    if (!id) throw 'You must provide an ID in pauseSubscription().'
-    let pause = { mode: 'void' }
-    if (mode) pause.mode = mode
-    if (resumesAt) pause.resumes_at = resumesAt
+    if (!id) throw "You must provide an ID in pauseSubscription().";
+    let pause = { mode: "void" };
+    if (mode) pause.mode = mode;
+    if (resumesAt) pause.resumes_at = resumesAt;
     let payload = {
       data: {
-        type: 'subscriptions',
-        id: '' + id,
-        attributes: { pause }
-      }
-    }
-    return this.queryApi({ path: 'v1/subscriptions/'+id, method: 'PATCH', payload });
+        type: "subscriptions",
+        id: "" + id,
+        attributes: { pause },
+      },
+    };
+    return this.queryApi({
+      path: "v1/subscriptions/" + id,
+      method: "PATCH",
+      payload,
+    });
   }
 
   /**
@@ -483,15 +513,19 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async unpauseSubscription({ id }) {
-    if (!id) throw 'You must provide an ID in unpauseSubscription().'
+    if (!id) throw "You must provide an ID in unpauseSubscription().";
     let payload = {
       data: {
-        type: 'subscriptions',
-        id: '' + id,
-        attributes: { pause: null }
-      }
-    }
-    return this.queryApi({ path: 'v1/subscriptions/'+id, method: 'PATCH', payload });
+        type: "subscriptions",
+        id: "" + id,
+        attributes: { pause: null },
+      },
+    };
+    return this.queryApi({
+      path: "v1/subscriptions/" + id,
+      method: "PATCH",
+      payload,
+    });
   }
 
   /**
@@ -507,8 +541,13 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getSubscriptionInvoices(params = {}) {
-    params = this.buildParams(params, ['storeId', 'status', 'refunded', 'subscriptionId'])
-    return this.queryApi({ path: 'v1/subscription-invoices', params });
+    params = this.buildParams(params, [
+      "storeId",
+      "status",
+      "refunded",
+      "subscriptionId",
+    ]);
+    return this.queryApi({ path: "v1/subscription-invoices", params });
   }
 
   /**
@@ -519,9 +558,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getSubscriptionInvoice({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getSubscriptionInvoice().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/subscription-invoices/'+id, params });
+    if (!id) throw "You must provide an ID in getSubscriptionInvoice().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/subscription-invoices/" + id, params });
   }
 
   /**
@@ -534,8 +573,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getDiscounts(params = {}) {
-    params = this.buildParams(params, ['storeId'])
-    return this.queryApi({ path: 'v1/discounts', params });
+    params = this.buildParams(params, ["storeId"]);
+    return this.queryApi({ path: "v1/discounts", params });
   }
 
   /**
@@ -546,9 +585,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getDiscount({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getDiscount().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/discounts/'+id, params });
+    if (!id) throw "You must provide an ID in getDiscount().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/discounts/" + id, params });
   }
 
   /**
@@ -572,18 +611,18 @@ export default class LemonSqueezy {
     name,
     code,
     amount,
-    amountType='percent',
-    duration='once',
+    amountType = "percent",
+    duration = "once",
     durationInMonths,
     variantIds,
     maxRedemptions,
     startsAt,
-    expiresAt
+    expiresAt,
   }) {
-    if (!storeId) throw 'You must include a `storeId` in createDiscount().'
-    if (!name) throw 'You must include a `name` in createDiscount().'
-    if (!code) throw 'You must include a `code` in createDiscount().'
-    if (!amount) throw 'You must include an `amount` in createDiscount().'
+    if (!storeId) throw "You must include a `storeId` in createDiscount().";
+    if (!name) throw "You must include a `name` in createDiscount().";
+    if (!code) throw "You must include a `code` in createDiscount().";
+    if (!amount) throw "You must include an `amount` in createDiscount().";
     let attributes = {
       name,
       code,
@@ -591,40 +630,40 @@ export default class LemonSqueezy {
       amount_type: amountType,
       duration,
       starts_at: startsAt,
-      expires_at: expiresAt
-    }
-    if (durationInMonths && duration != 'once') {
-      attributes.duration_in_months = durationInMonths
+      expires_at: expiresAt,
+    };
+    if (durationInMonths && duration != "once") {
+      attributes.duration_in_months = durationInMonths;
     }
     if (maxRedemptions) {
-      attributes.is_limited_redemptions = true
-      attributes.max_redemptions = maxRedemptions
+      attributes.is_limited_redemptions = true;
+      attributes.max_redemptions = maxRedemptions;
     }
     let payload = {
       data: {
-        type: 'discounts',
+        type: "discounts",
         attributes,
         relationships: {
           store: {
             data: {
-              type: 'stores',
-              id: '' + storeId
-            }
-          }
-        }
-      }
-    }
+              type: "stores",
+              id: "" + storeId,
+            },
+          },
+        },
+      },
+    };
     if (variantIds) {
-      let variantData = []
+      let variantData = [];
       for (var i = 0; i < variantIds.length; i++) {
-        variantData.push({ type: 'variants', id: '' + variantIds[i] })
+        variantData.push({ type: "variants", id: "" + variantIds[i] });
       }
-      payload.data.attributes.is_limited_to_products = true
+      payload.data.attributes.is_limited_to_products = true;
       payload.data.relationships.variants = {
-        data: variantData
-      }
+        data: variantData,
+      };
     }
-    return this.queryApi({ path: 'v1/discounts', method: 'POST', payload });
+    return this.queryApi({ path: "v1/discounts", method: "POST", payload });
   }
 
   /**
@@ -633,8 +672,8 @@ export default class LemonSqueezy {
    * @param {number} params.id
    */
   async deleteDiscount({ id }) {
-    if (!id) throw 'You must provide an ID in deleteDiscount().'
-    this.queryApi({ path: 'v1/discounts/'+id, method: 'DELETE' });
+    if (!id) throw "You must provide an ID in deleteDiscount().";
+    this.queryApi({ path: "v1/discounts/" + id, method: "DELETE" });
   }
 
   /**
@@ -648,8 +687,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getDiscountRedemptions(params = {}) {
-    params = this.buildParams(params, ['discountId', 'orderId'])
-    return this.queryApi({ path: 'v1/discount-redemptions', params });
+    params = this.buildParams(params, ["discountId", "orderId"]);
+    return this.queryApi({ path: "v1/discount-redemptions", params });
   }
 
   /**
@@ -660,9 +699,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getDiscountRedemption({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getDiscountRedemption().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/discount-redemptions/'+id, params });
+    if (!id) throw "You must provide an ID in getDiscountRedemption().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/discount-redemptions/" + id, params });
   }
 
   /**
@@ -678,8 +717,13 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getLicenseKeys(params = {}) {
-    params = this.buildParams(params, ['storeId', 'orderId', 'orderItemId', 'productId'])
-    return this.queryApi({ path: 'v1/license-keys', params });
+    params = this.buildParams(params, [
+      "storeId",
+      "orderId",
+      "orderItemId",
+      "productId",
+    ]);
+    return this.queryApi({ path: "v1/license-keys", params });
   }
 
   /**
@@ -690,9 +734,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getLicenseKey({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getLicenseKey().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/license-keys/'+id, params });
+    if (!id) throw "You must provide an ID in getLicenseKey().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/license-keys/" + id, params });
   }
 
   /**
@@ -705,8 +749,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getLicenseKeyInstances(params = {}) {
-    params = this.buildParams(params, ['licenseKeyId'])
-    return this.queryApi({ path: 'v1/license-key-instances', params });
+    params = this.buildParams(params, ["licenseKeyId"]);
+    return this.queryApi({ path: "v1/license-key-instances", params });
   }
 
   /**
@@ -717,9 +761,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getLicenseKeyInstance({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getLicenseKeyInstance().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/license-key-instances/'+id, params });
+    if (!id) throw "You must provide an ID in getLicenseKeyInstance().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/license-key-instances/" + id, params });
   }
 
   /**
@@ -732,8 +776,8 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getWebhooks(params = {}) {
-    params = this.buildParams(params, ['storeId'])
-    return this.queryApi({ path: 'v1/webhooks', params });
+    params = this.buildParams(params, ["storeId"]);
+    return this.queryApi({ path: "v1/webhooks", params });
   }
 
   /**
@@ -744,9 +788,9 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getWebhook({ id, ...params } = {}) {
-    if (!id) throw 'You must provide an ID in getWebhook().'
-    params = this.buildParams(params)
-    return this.queryApi({ path: 'v1/webhooks/'+id, params });
+    if (!id) throw "You must provide an ID in getWebhook().";
+    params = this.buildParams(params);
+    return this.queryApi({ path: "v1/webhooks/" + id, params });
   }
 
   /**
@@ -759,29 +803,30 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async createWebhook({ storeId, url, events, secret } = {}) {
-    if (!storeId) throw 'You must provide a store ID in createWebhook().'
-    if (!url) throw 'You must provide a URL in createWebhook().'
-    if (!events || events?.length < 1) throw 'You must provide a list of events in createWebhook().'
-    if (!secret) throw 'You must provide a signing secret in createWebhook().'
+    if (!storeId) throw "You must provide a store ID in createWebhook().";
+    if (!url) throw "You must provide a URL in createWebhook().";
+    if (!events || events?.length < 1)
+      throw "You must provide a list of events in createWebhook().";
+    if (!secret) throw "You must provide a signing secret in createWebhook().";
     let payload = {
       data: {
-        type: 'webhooks',
+        type: "webhooks",
         attributes: {
           url,
           events,
-          secret
+          secret,
         },
         relationships: {
           store: {
             data: {
-              type: 'stores',
-              id: '' + storeId
-            }
-          }
-        }
-      }
-    }
-    return this.queryApi({ path: 'v1/webhooks', method: 'POST', payload });
+              type: "stores",
+              id: "" + storeId,
+            },
+          },
+        },
+      },
+    };
+    return this.queryApi({ path: "v1/webhooks", method: "POST", payload });
   }
 
   /**
@@ -794,19 +839,23 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async updateWebhook({ id, url, events, secret } = {}) {
-    if (!id) throw 'You must provide an ID in updateWebhook().'
-    let attributes = {}
-    if (url) attributes.url = url
-    if (events) attributes.events = events
-    if (secret) attributes.secret = secret
+    if (!id) throw "You must provide an ID in updateWebhook().";
+    let attributes = {};
+    if (url) attributes.url = url;
+    if (events) attributes.events = events;
+    if (secret) attributes.secret = secret;
     let payload = {
       data: {
-        type: 'webhooks',
-        id: '' + id,
-        attributes
-      }
-    }
-    return this.queryApi({ path: 'v1/webhooks/'+id, method: 'PATCH', payload });
+        type: "webhooks",
+        id: "" + id,
+        attributes,
+      },
+    };
+    return this.queryApi({
+      path: "v1/webhooks/" + id,
+      method: "PATCH",
+      payload,
+    });
   }
 
   /**
@@ -815,7 +864,7 @@ export default class LemonSqueezy {
    * @param {number} params.id
    */
   async deleteWebhook({ id }) {
-    if (!id) throw 'You must provide an ID in deleteWebhook().'
-    this.queryApi({ path: 'v1/webhooks/'+id, method: 'DELETE' });
+    if (!id) throw "You must provide an ID in deleteWebhook().";
+    this.queryApi({ path: "v1/webhooks/" + id, method: "DELETE" });
   }
 }
