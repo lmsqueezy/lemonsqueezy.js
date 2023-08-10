@@ -100,3 +100,40 @@ export interface GetVariantOptions {
    */
   include?: Array<"product" | "files">;
 }
+
+export interface GetCheckoutsOptions extends PaginatedOptions {
+  /**
+   * List of record types to include
+   */
+  include?: Array<"store" | "variant">;
+  /**
+   * Filter variants by store
+   */
+  storeId?: number;
+  /**
+   * Filter checkouts by variant
+   */
+  variantId?: number;
+}
+
+export interface GetCheckoutOptions {
+  /**
+   * The ID of the checkout to retrieve.
+   */
+  id: string;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"store" | "variant">;
+}
+
+export interface CreateCheckoutOptions {
+  /**
+   * An object of values used to configure the checkout.
+   *
+   * @see https://docs.lemonsqueezy.com/api/checkouts#create-a-checkout
+   */
+  attributes?: object;
+  storeId: number;
+  variantId: number;
+}

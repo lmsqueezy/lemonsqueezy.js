@@ -1,4 +1,7 @@
 import type {
+  CreateCheckoutOptions,
+  GetCheckoutOptions,
+  GetCheckoutsOptions,
   GetProductOptions,
   GetProductsOptions,
   GetStoreOptions,
@@ -208,9 +211,11 @@ export class LemonSqueezy {
 
   /**
    * Get a variant
+   *
    * @param {Object} params
    * @param {number} params.id
    * @param {product,files} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
   async getVariant({ id, ...params }: GetVariantOptions) {
@@ -222,65 +227,76 @@ export class LemonSqueezy {
 
   /**
    * Get checkouts
+   *
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter variants by store
    * @param {number} [params.variantId] Filter checkouts by variant
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"store,variant"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getCheckouts(params = {}) {
+  async getCheckouts(params: GetCheckoutsOptions = {}) {
     params = this._buildParams(params, ["storeId", "variantId"]);
     return this._query({ path: "v1/checkouts", params });
   }
 
   /**
    * Get a checkout
+   *
    * @param {Object} params
    * @param {string} params.id
    * @param {"store,variant"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getCheckout({ id, ...params } = {}) {
-    if (!id) throw "You must provide an ID in getCheckout().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/checkouts/" + id, params });
+  async getCheckout({ id, ...params }: GetCheckoutOptions) {
+    return this._query({
+      path: `v1/checkouts/${id}`,
+      params: this._buildParams(params),
+    });
   }
 
   /**
    * Create a checkout
+   *
    * @param {Object} params
    * @param {number} params.storeId
    * @param {number} params.variantId
-   * @param {Object} [params.attributes] An object of values used to configure the checkout
-   *                              https://docs.lemonsqueezy.com/api/checkouts#create-a-checkout
+   * @param {Object} [params.attributes] An object of values used to configure the checkout https://docs.lemonsqueezy.com/api/checkouts#create-a-checkout
+   *
    * @returns {Object} JSON
    */
-  async createCheckout({ storeId, variantId, attributes = {} } = {}) {
-    if (!storeId) throw "You must provide a store ID in createCheckout().";
-    if (!variantId) throw "You must provide a variant ID in createCheckout().";
-    let payload = {
-      data: {
-        type: "checkouts",
-        attributes: attributes,
-        relationships: {
-          store: {
-            data: {
-              type: "stores",
-              id: "" + storeId, // convert to string
+  async createCheckout({
+    storeId,
+    variantId,
+    attributes = {},
+  }: CreateCheckoutOptions) {
+    return this._query({
+      path: "v1/checkouts",
+      method: "POST",
+      payload: {
+        data: {
+          type: "checkouts",
+          attributes: attributes,
+          relationships: {
+            store: {
+              data: {
+                type: "stores",
+                id: "" + storeId, // convert to string
+              },
             },
-          },
-          variant: {
-            data: {
-              type: "variants",
-              id: "" + variantId, // convert to string
+            variant: {
+              data: {
+                type: "variants",
+                id: "" + variantId, // convert to string
+              },
             },
           },
         },
       },
-    };
-    return this._query({ path: "v1/checkouts", method: "POST", payload });
+    });
   }
 
   /**
