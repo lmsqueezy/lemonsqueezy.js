@@ -43,7 +43,14 @@ export class LemonSqueezy {
 
         params["filter[" + queryFilter + "]"] = args[filter];
       } else {
-        if (filter === "include") params["include"] = args[filter];
+        // Originally we supported passing in a string of comma separated values
+        // for the `include` filter. This is now deprecated in favour of an array.
+        if (filter === "include") {
+          params["include"] = Array.isArray(args[filter])
+            ? args[filter].join(",")
+            : args[filter];
+        }
+
         if (filter === "page") params["page[number]"] = args[filter];
         if (filter === "perPage") params["page[size]"] = args[filter];
       }
