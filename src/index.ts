@@ -6,6 +6,8 @@ import type {
   GetCustomersOptions,
   GetFileOptions,
   GetFilesOptions,
+  GetOrderItemOptions,
+  GetOrderItemsOptions,
   GetOrderOptions,
   GetOrdersOptions,
   GetProductOptions,
@@ -411,6 +413,7 @@ export class LemonSqueezy {
 
   /**
    * Get order items
+   *
    * @param {Object} [params]
    * @param {number} [params.orderId] Filter order items by order
    * @param {number} [params.productId] Filter order items by product
@@ -418,24 +421,30 @@ export class LemonSqueezy {
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"order,product,variant"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getOrderItems(params = {}) {
-    params = this._buildParams(params, ["orderId", "productId", "variantId"]);
-    return this._query({ path: "v1/order-items", params });
+  async getOrderItems(params: GetOrderItemsOptions = {}) {
+    return this._query({
+      path: "v1/order-items",
+      params: this._buildParams(params, ["orderId", "productId", "variantId"]),
+    });
   }
 
   /**
    * Get an order item
+   *
    * @param {Object} params
    * @param {number} params.id
    * @param {"order,product,variant"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getOrderItem({ id, ...params } = {}) {
-    if (!id) throw "You must provide an ID in getOrderItem().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/order-items/" + id, params });
+  async getOrderItem({ id, ...params }: GetOrderItemOptions) {
+    return this._query({
+      path: `v1/order-items/${id}`,
+      params: this._buildParams(params),
+    });
   }
 
   /**

@@ -225,3 +225,33 @@ export interface GetFileOptions {
    */
   include?: Array<"variant">;
 }
+
+export interface GetOrderItemsOptions extends PaginatedOptions {
+  /**
+   * List of record types to include
+   */
+  include?: Array<"order" | "product" | "variant">;
+  /**
+   * Filter order items by order
+   */
+  orderId?: number;
+  /**
+   * Filter order items by product
+   */
+  productId?: number;
+  /**
+   * Filter order items by variant
+   */
+  variantId?: number;
+}
+
+export interface GetOrderItemOptions {
+  /**
+   * The ID of the order item to retrieve
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"order" | "product" | "variant">;
+}
