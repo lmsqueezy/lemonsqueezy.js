@@ -48,17 +48,22 @@ export default class LemonSqueezy {
   }
 
   /**
-   * Base API query
+   * Send an API query to the LemonSqueezy API
    *
    * @param {string} path
    * @param {string} [method] POST, GET, PATCH, DELETE
    * @param {Object} [params] URL query parameters
    * @param {Object} [payload] Object/JSON payload
+   *
    * @returns {Object} JSON
    */
-  async queryApi({ path, method = "GET", params, payload }: QueryApiOptions) {
+  private async _query({
+    path,
+    method = "GET",
+    params,
+    payload,
+  }: QueryApiOptions) {
     try {
-      // Prepare URL
       const url = new URL(path, this.apiUrl);
       if (params && method === "GET")
         Object.entries(params).forEach(([key, value]) =>
@@ -97,7 +102,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getUser() {
-    return this.queryApi({ path: "v1/users/me" });
+    return this._query({ path: "v1/users/me" });
   }
 
   /**
@@ -111,7 +116,7 @@ export default class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getStores(params: GetStoresOptions = {}) {
-    return this.queryApi({
+    return this._query({
       path: "v1/stores",
       params: this.buildParams(params),
     });
@@ -126,10 +131,10 @@ export default class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getStore({ id, ...params }: GetStoreOptions = {}) {
+  async getStore({ id, ...params }: GetStoreOptions) {
     if (!id) throw "No `id` provided when attempting to fetch a store.";
 
-    return this.queryApi({
+    return this._query({
       path: `v1/stores/${id}`,
       params: this.buildParams(params),
     });
@@ -146,7 +151,7 @@ export default class LemonSqueezy {
    */
   async getProducts(params = {}) {
     params = this.buildParams(params, ["storeId"]);
-    return this.queryApi({ path: "v1/products", params });
+    return this._query({ path: "v1/products", params });
   }
 
   /**
@@ -159,7 +164,7 @@ export default class LemonSqueezy {
   async getProduct({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getProduct().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/products/" + id, params });
+    return this._query({ path: "v1/products/" + id, params });
   }
 
   /**
@@ -173,7 +178,7 @@ export default class LemonSqueezy {
    */
   async getVariants(params = {}) {
     params = this.buildParams(params, ["productId"]);
-    return this.queryApi({ path: "v1/variants", params });
+    return this._query({ path: "v1/variants", params });
   }
 
   /**
@@ -186,7 +191,7 @@ export default class LemonSqueezy {
   async getVariant({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getVariant().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/variants/" + id, params });
+    return this._query({ path: "v1/variants/" + id, params });
   }
 
   /**
@@ -201,7 +206,7 @@ export default class LemonSqueezy {
    */
   async getCheckouts(params = {}) {
     params = this.buildParams(params, ["storeId", "variantId"]);
-    return this.queryApi({ path: "v1/checkouts", params });
+    return this._query({ path: "v1/checkouts", params });
   }
 
   /**
@@ -214,7 +219,7 @@ export default class LemonSqueezy {
   async getCheckout({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getCheckout().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/checkouts/" + id, params });
+    return this._query({ path: "v1/checkouts/" + id, params });
   }
 
   /**
@@ -249,7 +254,7 @@ export default class LemonSqueezy {
         },
       },
     };
-    return this.queryApi({ path: "v1/checkouts", method: "POST", payload });
+    return this._query({ path: "v1/checkouts", method: "POST", payload });
   }
 
   /**
@@ -264,7 +269,7 @@ export default class LemonSqueezy {
    */
   async getCustomers(params = {}) {
     params = this.buildParams(params, ["storeId", "email"]);
-    return this.queryApi({ path: "v1/customers", params });
+    return this._query({ path: "v1/customers", params });
   }
 
   /**
@@ -277,7 +282,7 @@ export default class LemonSqueezy {
   async getCustomer({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getCustomer().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/customers/" + id, params });
+    return this._query({ path: "v1/customers/" + id, params });
   }
 
   /**
@@ -292,7 +297,7 @@ export default class LemonSqueezy {
    */
   async getOrders(params = {}) {
     params = this.buildParams(params, ["storeId", "userEmail"]);
-    return this.queryApi({ path: "v1/orders", params });
+    return this._query({ path: "v1/orders", params });
   }
 
   /**
@@ -305,7 +310,7 @@ export default class LemonSqueezy {
   async getOrder({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getOrder().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/orders/" + id, params });
+    return this._query({ path: "v1/orders/" + id, params });
   }
 
   /**
@@ -319,7 +324,7 @@ export default class LemonSqueezy {
    */
   async getFiles(params = {}) {
     params = this.buildParams(params, ["variantId"]);
-    return this.queryApi({ path: "v1/files", params });
+    return this._query({ path: "v1/files", params });
   }
 
   /**
@@ -332,7 +337,7 @@ export default class LemonSqueezy {
   async getFile({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getFile().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/files/" + id, params });
+    return this._query({ path: "v1/files/" + id, params });
   }
 
   /**
@@ -348,7 +353,7 @@ export default class LemonSqueezy {
    */
   async getOrderItems(params = {}) {
     params = this.buildParams(params, ["orderId", "productId", "variantId"]);
-    return this.queryApi({ path: "v1/order-items", params });
+    return this._query({ path: "v1/order-items", params });
   }
 
   /**
@@ -361,7 +366,7 @@ export default class LemonSqueezy {
   async getOrderItem({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getOrderItem().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/order-items/" + id, params });
+    return this._query({ path: "v1/order-items/" + id, params });
   }
 
   /**
@@ -387,7 +392,7 @@ export default class LemonSqueezy {
       "variantId",
       "status",
     ]);
-    return this.queryApi({ path: "v1/subscriptions", params });
+    return this._query({ path: "v1/subscriptions", params });
   }
 
   /**
@@ -400,7 +405,7 @@ export default class LemonSqueezy {
   async getSubscription({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getSubscription().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/subscriptions/" + id, params });
+    return this._query({ path: "v1/subscriptions/" + id, params });
   }
 
   /**
@@ -437,7 +442,7 @@ export default class LemonSqueezy {
         attributes,
       },
     };
-    return this.queryApi({
+    return this._query({
       path: "v1/subscriptions/" + id,
       method: "PATCH",
       payload,
@@ -452,7 +457,7 @@ export default class LemonSqueezy {
    */
   async cancelSubscription({ id }) {
     if (!id) throw "You must provide an ID in cancelSubscription().";
-    return this.queryApi({ path: "v1/subscriptions/" + id, method: "DELETE" });
+    return this._query({ path: "v1/subscriptions/" + id, method: "DELETE" });
   }
 
   /**
@@ -472,7 +477,7 @@ export default class LemonSqueezy {
         },
       },
     };
-    return this.queryApi({
+    return this._query({
       path: "v1/subscriptions/" + id,
       method: "PATCH",
       payload,
@@ -499,7 +504,7 @@ export default class LemonSqueezy {
         attributes: { pause },
       },
     };
-    return this.queryApi({
+    return this._query({
       path: "v1/subscriptions/" + id,
       method: "PATCH",
       payload,
@@ -521,7 +526,7 @@ export default class LemonSqueezy {
         attributes: { pause: null },
       },
     };
-    return this.queryApi({
+    return this._query({
       path: "v1/subscriptions/" + id,
       method: "PATCH",
       payload,
@@ -547,7 +552,7 @@ export default class LemonSqueezy {
       "refunded",
       "subscriptionId",
     ]);
-    return this.queryApi({ path: "v1/subscription-invoices", params });
+    return this._query({ path: "v1/subscription-invoices", params });
   }
 
   /**
@@ -560,7 +565,7 @@ export default class LemonSqueezy {
   async getSubscriptionInvoice({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getSubscriptionInvoice().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/subscription-invoices/" + id, params });
+    return this._query({ path: "v1/subscription-invoices/" + id, params });
   }
 
   /**
@@ -574,7 +579,7 @@ export default class LemonSqueezy {
    */
   async getDiscounts(params = {}) {
     params = this.buildParams(params, ["storeId"]);
-    return this.queryApi({ path: "v1/discounts", params });
+    return this._query({ path: "v1/discounts", params });
   }
 
   /**
@@ -587,7 +592,7 @@ export default class LemonSqueezy {
   async getDiscount({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getDiscount().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/discounts/" + id, params });
+    return this._query({ path: "v1/discounts/" + id, params });
   }
 
   /**
@@ -663,7 +668,7 @@ export default class LemonSqueezy {
         data: variantData,
       };
     }
-    return this.queryApi({ path: "v1/discounts", method: "POST", payload });
+    return this._query({ path: "v1/discounts", method: "POST", payload });
   }
 
   /**
@@ -673,7 +678,7 @@ export default class LemonSqueezy {
    */
   async deleteDiscount({ id }) {
     if (!id) throw "You must provide an ID in deleteDiscount().";
-    this.queryApi({ path: "v1/discounts/" + id, method: "DELETE" });
+    this._query({ path: "v1/discounts/" + id, method: "DELETE" });
   }
 
   /**
@@ -688,7 +693,7 @@ export default class LemonSqueezy {
    */
   async getDiscountRedemptions(params = {}) {
     params = this.buildParams(params, ["discountId", "orderId"]);
-    return this.queryApi({ path: "v1/discount-redemptions", params });
+    return this._query({ path: "v1/discount-redemptions", params });
   }
 
   /**
@@ -701,7 +706,7 @@ export default class LemonSqueezy {
   async getDiscountRedemption({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getDiscountRedemption().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/discount-redemptions/" + id, params });
+    return this._query({ path: "v1/discount-redemptions/" + id, params });
   }
 
   /**
@@ -723,7 +728,7 @@ export default class LemonSqueezy {
       "orderItemId",
       "productId",
     ]);
-    return this.queryApi({ path: "v1/license-keys", params });
+    return this._query({ path: "v1/license-keys", params });
   }
 
   /**
@@ -736,7 +741,7 @@ export default class LemonSqueezy {
   async getLicenseKey({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getLicenseKey().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/license-keys/" + id, params });
+    return this._query({ path: "v1/license-keys/" + id, params });
   }
 
   /**
@@ -750,7 +755,7 @@ export default class LemonSqueezy {
    */
   async getLicenseKeyInstances(params = {}) {
     params = this.buildParams(params, ["licenseKeyId"]);
-    return this.queryApi({ path: "v1/license-key-instances", params });
+    return this._query({ path: "v1/license-key-instances", params });
   }
 
   /**
@@ -763,7 +768,7 @@ export default class LemonSqueezy {
   async getLicenseKeyInstance({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getLicenseKeyInstance().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/license-key-instances/" + id, params });
+    return this._query({ path: "v1/license-key-instances/" + id, params });
   }
 
   /**
@@ -777,7 +782,7 @@ export default class LemonSqueezy {
    */
   async getWebhooks(params = {}) {
     params = this.buildParams(params, ["storeId"]);
-    return this.queryApi({ path: "v1/webhooks", params });
+    return this._query({ path: "v1/webhooks", params });
   }
 
   /**
@@ -790,7 +795,7 @@ export default class LemonSqueezy {
   async getWebhook({ id, ...params } = {}) {
     if (!id) throw "You must provide an ID in getWebhook().";
     params = this.buildParams(params);
-    return this.queryApi({ path: "v1/webhooks/" + id, params });
+    return this._query({ path: "v1/webhooks/" + id, params });
   }
 
   /**
@@ -826,7 +831,7 @@ export default class LemonSqueezy {
         },
       },
     };
-    return this.queryApi({ path: "v1/webhooks", method: "POST", payload });
+    return this._query({ path: "v1/webhooks", method: "POST", payload });
   }
 
   /**
@@ -851,7 +856,7 @@ export default class LemonSqueezy {
         attributes,
       },
     };
-    return this.queryApi({
+    return this._query({
       path: "v1/webhooks/" + id,
       method: "PATCH",
       payload,
@@ -865,6 +870,6 @@ export default class LemonSqueezy {
    */
   async deleteWebhook({ id }) {
     if (!id) throw "You must provide an ID in deleteWebhook().";
-    this.queryApi({ path: "v1/webhooks/" + id, method: "DELETE" });
+    this._query({ path: "v1/webhooks/" + id, method: "DELETE" });
   }
 }
