@@ -3,6 +3,8 @@ import type {
   GetProductsOptions,
   GetStoreOptions,
   GetStoresOptions,
+  GetVariantOptions,
+  GetVariantsOptions,
   QueryApiOptions,
 } from "./types";
 
@@ -188,16 +190,20 @@ export class LemonSqueezy {
 
   /**
    * Get variants
+   *
    * @param {Object} [params]
    * @param {number} [params.productId] Filter variants by product
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"product,files"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getVariants(params = {}) {
-    params = this._buildParams(params, ["productId"]);
-    return this._query({ path: "v1/variants", params });
+  async getVariants(params: GetVariantsOptions = {}) {
+    return this._query({
+      path: "v1/variants",
+      params: this._buildParams(params, ["productId"]),
+    });
   }
 
   /**
@@ -207,10 +213,11 @@ export class LemonSqueezy {
    * @param {product,files} [params.include] Comma-separated list of record types to include
    * @returns {Object} JSON
    */
-  async getVariant({ id, ...params } = {}) {
-    if (!id) throw "You must provide an ID in getVariant().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/variants/" + id, params });
+  async getVariant({ id, ...params }: GetVariantOptions) {
+    return this._query({
+      path: `v1/variants/${id}`,
+      params: this._buildParams(params),
+    });
   }
 
   /**

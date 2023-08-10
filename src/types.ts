@@ -78,3 +78,25 @@ export interface GetProductOptions {
    */
   include?: Array<"store" | "variants">;
 }
+
+export interface GetVariantsOptions extends PaginatedOptions {
+  /**
+   * List of record types to include
+   */
+  include?: Array<"product" | "files">;
+  /**
+   * Filter variants by product
+   */
+  productId?: number;
+}
+
+export interface GetVariantOptions {
+  /**
+   * The ID of the variant to retrieve.
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"product" | "files">;
+}
