@@ -46,7 +46,7 @@ export interface GetStoresOptions extends PaginatedOptions {
 
 export interface GetStoreOptions {
   /**
-   * The ID of the store to retrieve.§
+   * The ID of the store to retrieve
    */
   id: string;
   /**
@@ -63,14 +63,14 @@ export interface GetProductsOptions extends PaginatedOptions {
    */
   include?: Array<"store" | "variants">;
   /**
-   * Filter products by store ID.
+   * Filter products by store
    */
   storeId?: number;
 }
 
 export interface GetProductOptions {
   /**
-   * The ID of the store to retrieve.§
+   * The ID of the store to retrieve
    */
   id: string;
   /**
@@ -92,7 +92,7 @@ export interface GetVariantsOptions extends PaginatedOptions {
 
 export interface GetVariantOptions {
   /**
-   * The ID of the variant to retrieve.
+   * The ID of the variant to retrieve
    */
   id: number;
   /**
@@ -118,7 +118,7 @@ export interface GetCheckoutsOptions extends PaginatedOptions {
 
 export interface GetCheckoutOptions {
   /**
-   * The ID of the checkout to retrieve.
+   * The ID of the checkout to retrieve
    */
   id: string;
   /**
@@ -129,7 +129,7 @@ export interface GetCheckoutOptions {
 
 export interface CreateCheckoutOptions {
   /**
-   * An object of values used to configure the checkout.
+   * An object of values used to configure the checkout
    *
    * @see https://docs.lemonsqueezy.com/api/checkouts#create-a-checkout
    */
