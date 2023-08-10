@@ -1,4 +1,6 @@
 import type {
+  GetProductOptions,
+  GetProductsOptions,
   GetStoreOptions,
   GetStoresOptions,
   QueryApiOptions,
@@ -154,22 +156,27 @@ export default class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getProducts(params = {}) {
-    params = this._buildParams(params, ["storeId"]);
-    return this._query({ path: "v1/products", params });
+  async getProducts(params: GetProductsOptions = {}) {
+    return this._query({
+      path: "v1/products",
+      params: this._buildParams(params, ["storeId"]),
+    });
   }
 
   /**
    * Get a product
+   *
    * @param {Object} params
    * @param {number} params.id
    * @param {"store,variants"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getProduct({ id, ...params } = {}) {
-    if (!id) throw "You must provide an ID in getProduct().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/products/" + id, params });
+  async getProduct({ id, ...params }: GetProductOptions) {
+    return this._query({
+      path: `v1/products/${id}`,
+      params: this._buildParams(params),
+    });
   }
 
   /**

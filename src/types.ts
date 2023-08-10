@@ -56,3 +56,25 @@ export interface GetStoreOptions {
     "products" | "discounts" | "license-keys" | "subscriptions" | "webhooks"
   >;
 }
+
+export interface GetProductsOptions extends PaginatedOptions {
+  /**
+   * List of record types to include
+   */
+  include?: "store" | "variants";
+  /**
+   * Filter products by store ID.
+   */
+  storeId?: number;
+}
+
+export interface GetProductOptions {
+  /**
+   * The ID of the store to retrieve.§
+   */
+  id: string;
+  /**
+   * List of record types to include
+   */
+  include?: "store" | "variants";
+}
