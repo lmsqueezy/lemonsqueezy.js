@@ -1,6 +1,6 @@
 # The official Lemon Squeezy JavaScript SDK
 
-![](https://img.shields.io/npm/v/@lemonsqueezy/lemonsqueezy.js?style=plastic) ![](https://img.shields.io/npm/dw/@lemonsqueezy/lemonsqueezy.js?style=plastic)
+[![](https://img.shields.io/npm/v/@lemonsqueezy/lemonsqueezy.js?style=plastic)](https://www.npmjs.com/package/@lemonsqueezy/lemonsqueezy.js) [![](https://img.shields.io/npm/dw/@lemonsqueezy/lemonsqueezy.js?style=plastic)](https://www.npmjs.com/package/@lemonsqueezy/lemonsqueezy.js)
 
 ## Introduction
 
@@ -207,7 +207,7 @@ None.
 
 #### Example
 
-```
+```javascript
 const user = await ls.getUser()
 ```
 
@@ -231,7 +231,7 @@ Returns a list of [Store objects](https://docs.lemonsqueezy.com/api/stores).
 
 #### Example
 
-```
+```javascript
 const stores = await ls.getStores()
 
 const stores = await ls.getStores({ include: 'products' })
@@ -256,7 +256,7 @@ Returns a [Store object](https://docs.lemonsqueezy.com/api/stores).
 
 #### Example
 
-```
+```javascript
 const store = await ls.getStore({ id: 123 })
 ```
 
@@ -281,7 +281,7 @@ Returns a list of [Product objects](https://docs.lemonsqueezy.com/api/products).
 
 #### Example
 
-```
+```javascript
 const products = await ls.getProducts()
 
 const products = await ls.getProducts({ storeId: 123, perPage: 50, include: 'variants' })
@@ -306,7 +306,7 @@ Returns a [Product object](https://docs.lemonsqueezy.com/api/products).
 
 #### Example
 
-```
+```javascript
 const product = await ls.getProduct({ id: 123 })
 ```
 
@@ -331,7 +331,7 @@ Returns a list of [Variant objects](https://docs.lemonsqueezy.com/api/variants).
 
 #### Example
 
-```
+```javascript
 const variants = await ls.getVariants()
 
 const variants = await ls.getVariants({ productId: 123, perPage: 50, include: 'product' })
@@ -356,7 +356,7 @@ Returns a [Variant object](https://docs.lemonsqueezy.com/api/variants).
 
 #### Example
 
-```
+```javascript
 const variant = await ls.getVariant({ id: 123 })
 ```
 
@@ -382,7 +382,7 @@ Returns a list of [Checkout objects](https://docs.lemonsqueezy.com/api/checkouts
 
 #### Example
 
-```
+```javascript
 const checkouts = await ls.getCheckouts()
 
 const checkouts = await ls.getCheckouts({ storeId: 123, perPage: 50 })
@@ -407,7 +407,7 @@ Returns a [Checkout object](https://docs.lemonsqueezy.com/api/checkouts).
 
 #### Example
 
-```
+```javascript
 const checkout = await ls.getCheckout({ id: 'edc0158c-794a-445d-bfad-24ab66baeb01' })
 ```
 
@@ -476,7 +476,7 @@ Returns a list of [Customer objects](https://docs.lemonsqueezy.com/api/customers
 
 #### Example
 
-```
+```javascript
 const customers = await ls.getCustomers()
 
 const customers = await ls.getCustomers({ email: 'customer@gmail.com', include: 'orders,license-keys,subscriptions' })
@@ -501,7 +501,7 @@ Returns a [Customer object](https://docs.lemonsqueezy.com/api/customers).
 
 #### Example
 
-```
+```javascript
 const customer = await ls.getCustomer({ id: 123 })
 ```
 
@@ -527,7 +527,7 @@ Returns a list of [Order objects](https://docs.lemonsqueezy.com/api/orders).
 
 #### Example
 
-```
+```javascript
 const orders = await ls.getOrders()
 
 const orders = await ls.getOrders({ email: 'customer@gmail.com', include: 'orders,license-keys,subscriptions' })
@@ -552,7 +552,7 @@ Returns an [Order object](https://docs.lemonsqueezy.com/api/orders).
 
 #### Example
 
-```
+```javascript
 const order = await ls.getOrder({ id: 123 })
 ```
 
@@ -577,7 +577,7 @@ Returns a list of [File objects](https://docs.lemonsqueezy.com/api/files).
 
 #### Example
 
-```
+```javascript
 const files = await ls.getFiles()
 
 const files = await ls.getFiles({ variantId: 123 })
@@ -602,7 +602,7 @@ Returns a [File object](https://docs.lemonsqueezy.com/api/files).
 
 #### Example
 
-```
+```javascript
 const file = await ls.getFile({ id: 123 })
 ```
 
@@ -629,7 +629,7 @@ Returns a list of [Order item objects](https://docs.lemonsqueezy.com/api/order-i
 
 #### Example
 
-```
+```javascript
 const orderItems = await ls.getOrderItems()
 
 const orderItems = await ls.getOrderItems({ order: 123 })
@@ -654,7 +654,7 @@ Returns an [Order item object](https://docs.lemonsqueezy.com/api/order-items).
 
 #### Example
 
-```
+```javascript
 const orderItem = await ls.getOrderItem({ id: 123 })
 ```
 
@@ -684,7 +684,7 @@ Returns a list of [Subscription objects](https://docs.lemonsqueezy.com/api/subsc
 
 #### Example
 
-```
+```javascript
 const subscriptions = await ls.getSubscriptions()
 
 const subscriptions = await ls.getSubscriptions({ storeId: 123, status: 'past_due' })
@@ -709,7 +709,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Example
 
-```
+```javascript
 const subscription = await ls.getSubscription({ id: 123 })
 ```
 
@@ -735,7 +735,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Example
 
-```
+```javascript
 const subscription = await ls.updateSubscription({ id: 123, productId: 123, variantId: 123 })
 ```
 
@@ -757,7 +757,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Example
 
-```
+```javascript
 const subscription = await ls.cancelSubscription({ id: 123 })
 ```
 
@@ -779,7 +779,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Example
 
-```
+```javascript
 const subscription = await ls.resumeSubscription({ id: 123 })
 ```
 
@@ -803,7 +803,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Example
 
-```
+```javascript
 const subscription = await ls.pauseSubscription({ id: 123 })
 ```
 
@@ -825,7 +825,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 
 #### Example
 
-```
+```javascript
 const subscription = await ls.unpauseSubscription({ id: 123 })
 ```
 
@@ -853,7 +853,7 @@ Returns a list of [Subscription invoice objects](https://docs.lemonsqueezy.com/a
 
 #### Example
 
-```
+```javascript
 const subscriptionInvoices = await ls.getSubscriptionInvoices()
 
 const subscriptionInvoices = await ls.getSubscriptionInvoices({ storeId: 123, refunded: true })
@@ -878,7 +878,7 @@ Returns a [Subscription invoice object](https://docs.lemonsqueezy.com/api/subscr
 
 #### Example
 
-```
+```javascript
 const subscriptionInvoice = await ls.getSubscriptionInvoice({ id: 123 })
 ```
 
@@ -903,7 +903,7 @@ Returns a list of [Discount objects](https://docs.lemonsqueezy.com/api/discounts
 
 #### Example
 
-```
+```javascript
 const discounts = await ls.getDiscounts()
 
 const discounts = await ls.getDiscounts({ storeId: 123, include: 'discount-redemptions' })
@@ -928,7 +928,7 @@ Returns a [Discount object](https://docs.lemonsqueezy.com/api/discounts).
 
 #### Example
 
-```
+```javascript
 const discount = await ls.getDiscount({ id: 123 })
 ```
 
@@ -960,7 +960,7 @@ Returns a [Discount object](https://docs.lemonsqueezy.com/api/discounts).
 
 #### Example
 
-```
+```javascript
 const options = {
   storeId: 123,
   name: 'Summer sale',
@@ -990,7 +990,7 @@ Delete a discount.
 
 #### Example
 
-```
+```javascript
 await ls.deleteDiscount({ id: 123 })
 ```
 
@@ -1016,7 +1016,7 @@ Returns a list of [Discount redemption objects](https://docs.lemonsqueezy.com/ap
 
 #### Example
 
-```
+```javascript
 const discountRedemptions = await ls.getDiscountRedemptions()
 
 const discountRedemptions = await ls.getDiscountRedemptions({ orderId: 123, include: 'discount,order' })
@@ -1041,7 +1041,7 @@ Returns a [Discount redemption object](https://docs.lemonsqueezy.com/api/discoun
 
 #### Example
 
-```
+```javascript
 const discountRedemption = await ls.getDiscountRedemption({ id: 123 })
 ```
 
@@ -1069,7 +1069,7 @@ Returns a list of [License key objects](https://docs.lemonsqueezy.com/api/licens
 
 #### Example
 
-```
+```javascript
 const licenseKeys = await ls.getLicenseKeys()
 
 const licenseKeys = await ls.getLicenseKeys({ storeId: 123 })
@@ -1094,7 +1094,7 @@ Returns a [License key object](https://docs.lemonsqueezy.com/api/license-keys).
 
 #### Example
 
-```
+```javascript
 const licenseKey = await ls.getLicenseKey({ id: 123 })
 ```
 
@@ -1119,7 +1119,7 @@ Returns a list of [License key instance objects](https://docs.lemonsqueezy.com/a
 
 #### Example
 
-```
+```javascript
 const licenseKeys = await ls.getLicenseKeys()
 
 const licenseKeys = await ls.getLicenseKeys({ licenseKeyId: 123 })
@@ -1144,7 +1144,7 @@ Returns a [License key instance object](https://docs.lemonsqueezy.com/api/licens
 
 #### Example
 
-```
+```javascript
 const licenseKey = await ls.getLicenseKey({ id: 123 })
 ```
 
@@ -1169,7 +1169,7 @@ Returns a list of [Webhook objects](https://docs.lemonsqueezy.com/api/webhooks).
 
 #### Example
 
-```
+```javascript
 const webhooks = await ls.getWebhooks()
 
 const webhooks = await ls.getWebhooks({ storeId: 123 })
@@ -1194,7 +1194,7 @@ Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
 
 #### Example
 
-```
+```javascript
 const webhook = await ls.getWebhook({ id: 123 })
 ```
 
@@ -1219,7 +1219,7 @@ Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
 
 #### Example
 
-```
+```javascript
 const options = {
   storeId: 123,
   url: 'https://myapp.com/webhook/',
@@ -1253,7 +1253,7 @@ Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
 
 #### Example
 
-```
+```javascript
 const options = {
   id: 123,
   url: 'https://myapp.com/webhook/',
@@ -1277,7 +1277,7 @@ Delete a webhook.
 
 #### Example
 
-```
+```javascript
 await ls.deleteWebhook({ id: 123 })
 ```
 
