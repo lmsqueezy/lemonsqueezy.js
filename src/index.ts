@@ -26,8 +26,11 @@ export default class LemonSqueezy {
    * @params {Object} [args] Arguments to the API method
    * @params {string[]} [allowedFilters] List of filters the API query permits (camelCase)
    */
-  buildParams(args: object, allowedFilters: Array<string> = []) {
-    let params: Record<string, unknown>;
+  buildParams<TArgs extends Record<string, any>>(
+    args: TArgs,
+    allowedFilters: Array<string> = []
+  ): Record<string, unknown> {
+    let params: Record<string, unknown> = {};
 
     for (let filter in args) {
       if (allowedFilters.includes(filter)) {
@@ -142,11 +145,13 @@ export default class LemonSqueezy {
 
   /**
    * Get products
+   *
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter products by store
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"store,variants"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
   async getProducts(params = {}) {
