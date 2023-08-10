@@ -163,3 +163,65 @@ export interface GetCustomerOptions {
    */
   include?: Array<"license-keys" | "orders" | "store" | "subscriptions">;
 }
+
+export interface GetOrdersOptions extends PaginatedOptions {
+  /**
+   * List of record types to include
+   */
+  include?: Array<
+    | "customer"
+    | "discount-redemptions"
+    | "license-keys"
+    | "order-items"
+    | "store"
+    | "subscriptions"
+  >;
+  /**
+   * Filter orders by store
+   */
+  storeId?: number;
+  /**
+   * Filter orders by email address
+   */
+  userEmail?: number;
+}
+
+export interface GetOrderOptions {
+  /**
+   * The ID of the order to retrieve
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<
+    | "customer"
+    | "discount-redemptions"
+    | "license-keys"
+    | "order-items"
+    | "store"
+    | "subscriptions"
+  >;
+}
+
+export interface GetFilesOptions extends PaginatedOptions {
+  /**
+   * List of record types to include
+   */
+  include?: Array<"variant">;
+  /**
+   * Filter files by variant
+   */
+  variantId?: number;
+}
+
+export interface GetFileOptions {
+  /**
+   * The ID of the file to retrieve
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"variant">;
+}

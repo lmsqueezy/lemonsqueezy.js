@@ -4,6 +4,10 @@ import type {
   GetCheckoutsOptions,
   GetCustomerOptions,
   GetCustomersOptions,
+  GetFileOptions,
+  GetFilesOptions,
+  GetOrderOptions,
+  GetOrdersOptions,
   GetProductOptions,
   GetProductsOptions,
   GetStoreOptions,
@@ -338,57 +342,71 @@ export class LemonSqueezy {
 
   /**
    * Get orders
+   *
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter orders by store
    * @param {number} [params.userEmail] Filter orders by email address
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"customer,discount-redemptions,license-keys,order-items,store,subscriptions"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getOrders(params = {}) {
-    params = this._buildParams(params, ["storeId", "userEmail"]);
-    return this._query({ path: "v1/orders", params });
+  async getOrders(params: GetOrdersOptions = {}) {
+    return this._query({
+      path: "v1/orders",
+      params: this._buildParams(params, ["storeId", "userEmail"]),
+    });
   }
 
   /**
    * Get an order
+   *
    * @param {Object} params
    * @param {number} params.id
    * @param {"customer,discount-redemptions,license-keys,order-items,store,subscriptions"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getOrder({ id, ...params } = {}) {
-    if (!id) throw "You must provide an ID in getOrder().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/orders/" + id, params });
+  async getOrder({ id, ...params }: GetOrderOptions) {
+    return this._query({
+      path: `v1/orders/${id}`,
+      params: this._buildParams(params),
+    });
   }
 
   /**
    * Get files
+   *
    * @param {Object} [params]
    * @param {number} [params.variantId] Filter orders by variant
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"variant"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getFiles(params = {}) {
-    params = this._buildParams(params, ["variantId"]);
-    return this._query({ path: "v1/files", params });
+  async getFiles(params: GetFilesOptions = {}) {
+    return this._query({
+      path: "v1/files",
+      params: this._buildParams(params, ["variantId"]),
+    });
   }
 
   /**
    * Get a file
+   *
    * @param {Object} params
    * @param {number} params.id
    * @param {"variant"} [params.include] Comma-separated list of record types to include
+   *
    * @returns {Object} JSON
    */
-  async getFile({ id, ...params } = {}) {
-    if (!id) throw "You must provide an ID in getFile().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/files/" + id, params });
+  async getFile({ id, ...params }: GetFileOptions) {
+    return this._query({
+      path: `v1/files/${id}`,
+      params: this._buildParams(params),
+    });
   }
 
   /**
