@@ -6,7 +6,7 @@ export default defineConfig(({ watch = false }) => ({
   clean: true,
   dts: true,
   entry: {
-    index: "./src/index.js",
+    index: "./src/index.ts",
   },
   format: ["cjs", "esm"],
   minify: isProduction,
