@@ -255,3 +255,98 @@ export interface GetOrderItemOptions {
    */
   include?: Array<"order" | "product" | "variant">;
 }
+
+export interface GetSubscriptionsOptions extends PaginatedOptions {
+  /**
+   * List of record types to include
+   */
+  include?: Array<"store" | "customer" | "order" | "order-item" | "product" | "variant">;
+  /**
+   * Filter subscriptions by store
+   */
+  storeId?: number;
+  /**
+   * Filter subscriptions by order
+   */
+  orderId?: number;
+  /**
+   * Filter subscriptions by order item
+   */
+  orderItemId?: number;
+  /**
+   * Filter subscriptions by product
+   */
+  productId?: number;
+  /**
+   * Filter subscriptions by variant
+   */
+  variantId?: number;
+  /**
+   * Filter subscriptions by status
+   */
+  status?: "on_trial" | "active" | "paused" | "past_due" | "unpaid" | "cancelled" | "expired";
+}
+
+export interface GetSubscriptionOptions {
+  /**
+   * The ID of the subscription to retrieve
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"store" | "customer" | "order" | "order-item" | "product" | "variant">;
+}
+
+
+export interface BaseUpdateSubscriptionOptions {
+  /**
+   * The ID of the subscription to update
+   */
+  id: number;
+}
+
+export interface UpdateSubscriptionOptions extends BaseUpdateSubscriptionOptions {
+  /**
+   * The ID of the product (required when changing plans)
+   */
+  productId?: number;
+  /**
+   * The ID of the variant (required when changing plans)
+   */
+  variantId?: number;
+  /**
+   * Set the proration when changing plans. If ommitted, proration will occur at the next renewal date.
+   */
+  proration?: "immediate" | "disable";
+  /**
+   * Change the billing day used for renewal charges. Must be a number between 1 and 31
+   */
+  billingAnchor?: number;
+}
+
+export interface UpdateSubscriptionAttributes {
+  variant_id?: number;
+  product_id?: number;
+  billing_anchor?: number;
+  disable_prorations?: boolean;
+  invoice_immediately?: boolean;
+}
+
+export interface PauseSubscriptionOptions extends BaseUpdateSubscriptionOptions {
+  /**
+   * Type of pause
+   * 
+   * @default "void"
+   */
+  mode?: "void" | "free"
+  /**
+   * Date to automatically resume the subscription (ISO 8601 format datetime)
+   */
+  resumesAt?: string
+}
+
+export interface PauseSubscriptionAttributes {
+  mode?: "void" | "free";
+  resumesAt?: string;
+}

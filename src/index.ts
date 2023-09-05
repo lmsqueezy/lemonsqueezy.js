@@ -1,4 +1,5 @@
 import type {
+  BaseUpdateSubscriptionOptions,
   CreateCheckoutOptions,
   GetCheckoutOptions,
   GetCheckoutsOptions,
@@ -14,9 +15,14 @@ import type {
   GetProductsOptions,
   GetStoreOptions,
   GetStoresOptions,
+  GetSubscriptionOptions,
+  GetSubscriptionsOptions,
   GetVariantOptions,
   GetVariantsOptions,
+  PauseSubscriptionOptions,
   QueryApiOptions,
+  UpdateSubscriptionAttributes,
+  UpdateSubscriptionOptions,
 } from "./types";
 
 export class LemonSqueezy {
@@ -461,16 +467,18 @@ export class LemonSqueezy {
    * @param {"store,customer,order,order-item,product,variant"} [params.include] Comma-separated list of record types to include
    * @returns {Object} JSON
    */
-  async getSubscriptions(params = {}) {
-    params = this._buildParams(params, [
-      "storeId",
-      "orderId",
-      "orderItemId",
-      "productId",
-      "variantId",
-      "status",
-    ]);
-    return this._query({ path: "v1/subscriptions", params });
+  async getSubscriptions(params: GetSubscriptionsOptions = {}) {
+    return this._query({
+      path: "v1/subscriptions",
+      params: this._buildParams(params, [
+        "storeId",
+        "orderId",
+        "orderItemId",
+        "productId",
+        "variantId",
+        "status",
+      ])
+    })
   }
 
   /**
@@ -480,10 +488,11 @@ export class LemonSqueezy {
    * @param {"store,customer,order,order-item,product,variant"} [params.include] Comma-separated list of record types to include
    * @returns {Object} JSON
    */
-  async getSubscription({ id, ...params } = {}) {
-    if (!id) throw "You must provide an ID in getSubscription().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/subscriptions/" + id, params });
+  async getSubscription({ id, ...params }: GetSubscriptionOptions) {
+    return this._query({
+      path: `v1/subscriptions/${id}`,
+      params: this._buildParams(params),
+    });
   }
 
   /**
@@ -504,9 +513,8 @@ export class LemonSqueezy {
     productId,
     billingAnchor,
     proration,
-  } = {}) {
-    if (!id) throw "You must provide an ID in updateSubscription().";
-    let attributes = {
+  }: UpdateSubscriptionOptions) {
+    let attributes: UpdateSubscriptionAttributes = {
       variant_id: variantId,
       product_id: productId,
       billing_anchor: billingAnchor,
@@ -521,7 +529,7 @@ export class LemonSqueezy {
       },
     };
     return this._query({
-      path: "v1/subscriptions/" + id,
+      path: `v1/subscriptions/${id}`,
       method: "PATCH",
       payload,
     });
@@ -533,9 +541,8 @@ export class LemonSqueezy {
    * @param {number} params.id
    * @returns {Object} JSON
    */
-  async cancelSubscription({ id }) {
-    if (!id) throw "You must provide an ID in cancelSubscription().";
-    return this._query({ path: "v1/subscriptions/" + id, method: "DELETE" });
+  async cancelSubscription({ id }: BaseUpdateSubscriptionOptions) {
+    return this._query({ path: `v1/subscriptions/${id}`, method: "DELETE" });
   }
 
   /**
@@ -544,21 +551,19 @@ export class LemonSqueezy {
    * @param {number} params.id
    * @returns {Object} JSON
    */
-  async resumeSubscription({ id }) {
-    if (!id) throw "You must provide an ID in resumeSubscription().";
-    let payload = {
-      data: {
-        type: "subscriptions",
-        id: "" + id,
-        attributes: {
-          cancelled: false,
-        },
-      },
-    };
+  async resumeSubscription({ id }: BaseUpdateSubscriptionOptions) {
     return this._query({
-      path: "v1/subscriptions/" + id,
+      path: `v1/subscriptions/${id}`,
       method: "PATCH",
-      payload,
+      payload: {
+        data: {
+          type: "subscriptions",
+          id: "" + id,
+          attributes: {
+            cancelled: false,
+          },
+        },
+      }
     });
   }
 
@@ -570,22 +575,20 @@ export class LemonSqueezy {
    * @param {string} [params.resumesAt] Date to automatically resume the subscription (ISO 8601 format)
    * @returns {Object} JSON
    */
-  async pauseSubscription({ id, mode, resumesAt } = {}) {
-    if (!id) throw "You must provide an ID in pauseSubscription().";
-    let pause = { mode: "void" };
+  async pauseSubscription({ id, mode, resumesAt }: PauseSubscriptionOptions) {
+    let pause: PauseSubscriptionAttributes = { mode: "void" };
     if (mode) pause.mode = mode;
     if (resumesAt) pause.resumes_at = resumesAt;
-    let payload = {
-      data: {
-        type: "subscriptions",
-        id: "" + id,
-        attributes: { pause },
-      },
-    };
     return this._query({
-      path: "v1/subscriptions/" + id,
+      path: `v1/subscriptions/${id}`,
       method: "PATCH",
-      payload,
+      payload: {
+        data: {
+          type: "subscriptions",
+          id: "" + id,
+          attributes: { pause },
+        },
+      }
     });
   }
 
@@ -595,19 +598,19 @@ export class LemonSqueezy {
    * @param {number} params.id
    * @returns {Object} JSON
    */
-  async unpauseSubscription({ id }) {
-    if (!id) throw "You must provide an ID in unpauseSubscription().";
-    let payload = {
-      data: {
-        type: "subscriptions",
-        id: "" + id,
-        attributes: { pause: null },
-      },
-    };
+  async unpauseSubscription({ id }: BaseUpdateSubscriptionOptions) {
     return this._query({
-      path: "v1/subscriptions/" + id,
+      path: `v1/subscriptions/${id}`,
       method: "PATCH",
-      payload,
+      payload: {
+        data: {
+          type: "subscriptions",
+          id: "" + id,
+          attributes: {
+            pause: null
+          },
+        },
+      }
     });
   }
 
