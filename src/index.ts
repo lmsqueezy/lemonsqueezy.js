@@ -1,10 +1,17 @@
-import type {
+import {
   BaseUpdateSubscriptionOptions,
   CreateCheckoutOptions,
+  CreateDiscountAttributes,
+  CreateDiscountOptions,
+  DeleteDiscountOptions,
   GetCheckoutOptions,
   GetCheckoutsOptions,
   GetCustomerOptions,
   GetCustomersOptions,
+  GetDiscountOptions,
+  GetDiscountsOptions,
+  GetDiscountRedemptionOptions,
+  GetDiscountRedemptionsOptions,
   GetFileOptions,
   GetFilesOptions,
   GetOrderItemOptions,
@@ -17,8 +24,11 @@ import type {
   GetStoresOptions,
   GetSubscriptionOptions,
   GetSubscriptionsOptions,
+  GetSubscriptionInvoiceOptions,
+  GetSubscriptionInvoicesOptions,
   GetVariantOptions,
   GetVariantsOptions,
+  PauseSubscriptionAttributes,
   PauseSubscriptionOptions,
   QueryApiOptions,
   UpdateSubscriptionAttributes,
@@ -163,8 +173,6 @@ export class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getStore({ id, ...params }: GetStoreOptions) {
-    if (!id) throw "No `id` provided when attempting to fetch a store.";
-
     return this._query({
       path: `v1/stores/${id}`,
       params: this._buildParams(params),
@@ -252,8 +260,10 @@ export class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getCheckouts(params: GetCheckoutsOptions = {}) {
-    params = this._buildParams(params, ["storeId", "variantId"]);
-    return this._query({ path: "v1/checkouts", params });
+    return this._query({
+      path: "v1/checkouts",
+      params: this._buildParams(params, ["storeId", "variantId"])
+    });
   }
 
   /**
@@ -626,14 +636,16 @@ export class LemonSqueezy {
    * @param {"store,subscription"} [params.include] Comma-separated list of record types to include
    * @returns {Object} JSON
    */
-  async getSubscriptionInvoices(params = {}) {
-    params = this._buildParams(params, [
-      "storeId",
-      "status",
-      "refunded",
-      "subscriptionId",
-    ]);
-    return this._query({ path: "v1/subscription-invoices", params });
+  async getSubscriptionInvoices(params: GetSubscriptionInvoicesOptions = {}) {
+    return this._query({
+      path: "v1/subscription-invoices",
+      params: this._buildParams(params, [
+        "storeId",
+        "status",
+        "refunded",
+        "subscriptionId",
+      ])
+    });
   }
 
   /**
@@ -643,10 +655,11 @@ export class LemonSqueezy {
    * @param {"store,subscription"} [params.include] Comma-separated list of record types to include
    * @returns {Object} JSON
    */
-  async getSubscriptionInvoice({ id, ...params } = {}) {
-    if (!id) throw "You must provide an ID in getSubscriptionInvoice().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/subscription-invoices/" + id, params });
+  async getSubscriptionInvoice({ id, ...params }: GetSubscriptionInvoiceOptions) {
+    return this._query({
+      path: `v1/subscription-invoices/${id}`,
+      params: this._buildParams(params)
+    });
   }
 
   /**
@@ -658,9 +671,11 @@ export class LemonSqueezy {
    * @param {"store,variants,discount-redemptions"} [params.include] Comma-separated list of record types to include
    * @returns {Object} JSON
    */
-  async getDiscounts(params = {}) {
-    params = this._buildParams(params, ["storeId"]);
-    return this._query({ path: "v1/discounts", params });
+  async getDiscounts(params: GetDiscountsOptions = {}) {
+    return this._query({
+      path: "v1/discounts",
+      params: this._buildParams(params, ["storeId"])
+    });
   }
 
   /**
@@ -670,10 +685,11 @@ export class LemonSqueezy {
    * @param {"store,variants,discount-redemptions"} [params.include] Comma-separated list of record types to include
    * @returns {Object} JSON
    */
-  async getDiscount({ id, ...params } = {}) {
-    if (!id) throw "You must provide an ID in getDiscount().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/discounts/" + id, params });
+  async getDiscount({ id, ...params }: GetDiscountOptions = {}) {
+    return this._query({
+      path: `v1/discounts/${id}`,
+      params: this._buildParams(params)
+    });
   }
 
   /**
@@ -682,12 +698,12 @@ export class LemonSqueezy {
    * @param {number} params.storeId Store to create a discount in
    * @param {string} params.name Name of discount
    * @param {string} params.code Discount code (uppercase letters and numbers, between 3 and 256 characters)
-   * @param {number} params.amount Amount discount code is for
+   * @param {number} params.amount Amount the discount is for
    * @param {"percent"|"fixed"} [params.amountType] Type of discount
    * @param {"once"|"repeating"|"forever"} [params.duration] Duration of discount
    * @param {number} [params.durationInMonths] Number of months to repeat the discount for
    * @param {number[]} [params.variantIds] Limit the discount to certain variants
-   * @param {number} [params.maxRedemptions] Limit the total number of redemptions allowed
+   * @param {number} [params.maxRedemptions] The total number of redemptions allowed
    * @param {number} [params.startsAt] Date the discount code starts on (ISO 8601 format)
    * @param {number} [params.expiresAt] Date the discount code expires on (ISO 8601 format)
    * @returns {Object} JSON
@@ -704,12 +720,8 @@ export class LemonSqueezy {
     maxRedemptions,
     startsAt,
     expiresAt,
-  }) {
-    if (!storeId) throw "You must include a `storeId` in createDiscount().";
-    if (!name) throw "You must include a `name` in createDiscount().";
-    if (!code) throw "You must include a `code` in createDiscount().";
-    if (!amount) throw "You must include an `amount` in createDiscount().";
-    let attributes = {
+  }: CreateDiscountOptions) {
+    let attributes: CreateDiscountAttributes = {
       name,
       code,
       amount,
@@ -725,31 +737,38 @@ export class LemonSqueezy {
       attributes.is_limited_redemptions = true;
       attributes.max_redemptions = maxRedemptions;
     }
-    let payload = {
-      data: {
-        type: "discounts",
-        attributes,
-        relationships: {
-          store: {
-            data: {
-              type: "stores",
-              id: "" + storeId,
-            },
-          },
-        },
-      },
-    };
+    
+    let relationships: {store: Object; variants?: Object} = {
+      store: {
+        data: {
+          type: "stores",
+          id: "" + storeId,
+        }
+      }
+    }
+
     if (variantIds) {
-      let variantData = [];
+      let variantData: Array<{ type: string; id: string }> = [];
       for (var i = 0; i < variantIds.length; i++) {
         variantData.push({ type: "variants", id: "" + variantIds[i] });
       }
-      payload.data.attributes.is_limited_to_products = true;
-      payload.data.relationships.variants = {
+      attributes.is_limited_to_products = true;
+      relationships.variants = {
         data: variantData,
       };
     }
-    return this._query({ path: "v1/discounts", method: "POST", payload });
+    
+    return this._query({
+      path: "v1/discounts",
+      method: "POST",
+      payload: {
+        data: {
+          type: "discounts",
+          attributes,
+          relationships
+        }
+      }
+    });
   }
 
   /**
@@ -757,9 +776,8 @@ export class LemonSqueezy {
    * @param {Object} params
    * @param {number} params.id
    */
-  async deleteDiscount({ id }) {
-    if (!id) throw "You must provide an ID in deleteDiscount().";
-    this._query({ path: "v1/discounts/" + id, method: "DELETE" });
+  async deleteDiscount({ id }: DeleteDiscountOptions) {
+    this._query({ path: `v1/discounts/${id}`, method: "DELETE" });
   }
 
   /**
@@ -769,13 +787,16 @@ export class LemonSqueezy {
    * @param {number} [params.orderId] Filter discount redemptions by order
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {"discount,order"} [params.include] Comma-separated list of record types to include
+   * @param {Array<"discount" | "order">} [params.include] Comma-separated list of record types to include
    * @returns {Object} JSON
    */
-  async getDiscountRedemptions(params = {}) {
-    params = this._buildParams(params, ["discountId", "orderId"]);
-    return this._query({ path: "v1/discount-redemptions", params });
+  async getDiscountRedemptions(params: GetDiscountRedemptionsOptions = {}) {
+    return this._query({
+      path: "v1/discount-redemptions",
+      params: this._buildParams(params, ["discountId", "orderId"])
+    });
   }
+
 
   /**
    * Get a discount redemption
@@ -784,10 +805,11 @@ export class LemonSqueezy {
    * @param {"discount,order"} [params.include] Comma-separated list of record types to include
    * @returns {Object} JSON
    */
-  async getDiscountRedemption({ id, ...params } = {}) {
-    if (!id) throw "You must provide an ID in getDiscountRedemption().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/discount-redemptions/" + id, params });
+  async getDiscountRedemption({ id, ...params }: GetDiscountRedemptionOptions) {
+    return this._query({
+      path: `v1/discount-redemptions/${id}`,
+      params: this._buildParams(params)
+    });
   }
 
   /**

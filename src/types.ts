@@ -326,10 +326,25 @@ export interface UpdateSubscriptionOptions extends BaseUpdateSubscriptionOptions
 }
 
 export interface UpdateSubscriptionAttributes {
+  /**
+   * The ID of the variant (required when changing plans)
+   */
   variant_id?: number;
+  /**
+   * The ID of the product (required when changing plans)
+   */
   product_id?: number;
+  /**
+   * Change the billing day used for renewal charges. Must be a number between 1 and 31
+   */
   billing_anchor?: number;
+  /**
+   * Disable proration; charge customer the full amount immediately
+   */
   disable_prorations?: boolean;
+  /**
+   * Invoice the customer now for a prorated amount
+   */
   invoice_immediately?: boolean;
 }
 
@@ -339,14 +354,205 @@ export interface PauseSubscriptionOptions extends BaseUpdateSubscriptionOptions 
    * 
    * @default "void"
    */
-  mode?: "void" | "free"
+  mode?: "void" | "free";
   /**
    * Date to automatically resume the subscription (ISO 8601 format datetime)
    */
-  resumesAt?: string
+  resumesAt?: string;
 }
 
 export interface PauseSubscriptionAttributes {
+  /**
+   * Type of pause
+   * 
+   * @default "void"
+   */
   mode?: "void" | "free";
-  resumesAt?: string;
+  /**
+   * Date to automatically resume the subscription (ISO 8601 format datetime)
+   */
+  resumes_at?: string;
+}
+
+export interface GetSubscriptionInvoicesOptions extends PaginatedOptions {
+  /**
+   * List of record types to include
+   */
+  include?: Array<"store" | "subscription">;
+  /**
+   * Filter subscription invoices by store
+   */
+  storeId?: number;
+  /**
+   * Filter subscription invoices by status
+   */
+  status?: "paid" | "pending" | "void" | "refunded";
+  /**
+   * Filter subscription invoices by refunded
+   */
+  refunded?: boolean;
+  /**
+   * Filter subscription invoices by subscription
+   */
+  subscriptionId?: number;
+}
+
+export interface GetSubscriptionInvoiceOptions {
+  /**
+   * The ID of the subscription invoice to retrieve
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"store" | "subscription">;
+}
+
+export interface GetDiscountsOptions extends PaginatedOptions {
+  /**
+   * Filter discounts by store
+   */
+  storeId?: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"store" | "variants" | "discount-redemptions">;
+}
+
+export interface GetDiscountOptions {
+  /**
+   * The ID of the discount to retrieve
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"store" | "variants" | "discount-redemptions">;
+}
+
+export interface CreateDiscountOptions {
+  /**
+   * Store to create a discount in
+   */
+  storeId: number;
+  /**
+   * Name of discount
+   */
+  name: string;
+  /**
+   * Discount code (uppercase letters and numbers, between 3 and 256 characters)
+   */
+  code: string;
+  /**
+   * Amount the discount is for
+   */
+  amount: number;
+  /**
+   * Type of discount
+   */
+  amountType?: "percent" | "fixed";
+  /**
+   * Duration of discount
+   */
+  duration?: "once" | "repeating" | "forever";
+  /**
+   * Number of months to repeat the discount for
+   */
+  durationInMonths?: number;
+  /**
+   * Limit the discount to certain variants
+   */
+  variantIds?: number[];
+  /**
+   * The total number of redemptions allowed
+   */
+  maxRedemptions?: number;
+  /**
+   * Date the discount code starts on (ISO 8601 format)
+   */
+  startsAt?: number;
+  /**
+   * Date the discount code expires on (ISO 8601 format)
+   */
+  expiresAt?: number;
+}
+
+export interface CreateDiscountAttributes {
+  /**
+   * Name of discount
+   */
+  name: string;
+  /**
+   * Discount code (uppercase letters and numbers, between 3 and 256 characters)
+   */
+  code: string;
+  /**
+   * Amount the discount is for
+   */
+  amount: number;
+  /**
+   * Type of discount
+   */
+  amount_type: "percent" | "fixed";
+  /**
+   * Duration of discount
+   */
+  duration: "once" | "repeating" | "forever";
+  /**
+   * Date the discount code starts on (ISO 8601 format)
+   */
+  starts_at: string;
+  /**
+   * Date the discount code expires on (ISO 8601 format)
+   */
+  expires_at: string;
+  /**
+   * Number of months to repeat the discount for
+   */
+  duration_in_months?: number;
+  /**
+   * Is discount limited to a certain number of redemptions
+   */
+  is_limited_redemptions?: boolean;
+  /**
+   * The total number of redemptions allowed
+   */
+  max_redemptions?: number;
+  /**
+   * Is discount applied only to certain variants
+   */
+  is_limited_to_products?: boolean;
+}
+
+export interface DeleteDiscountOptions {
+  /**
+   * The ID of the discount to delete
+   */
+  id: number;
+}
+
+export interface GetDiscountRedemptionsOptions extends PaginatedOptions {
+  /**
+   * Filter discount redemptions by discount
+   */
+  discountId?: number;
+  /**
+   * Filter discount redemptions by order
+   */
+  orderId?: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"discount" | "order">
+}
+
+export interface GetDiscountRedemptionOptions {
+  /**
+   * ID of the discount to retrieve
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"discount" | "order">
 }
