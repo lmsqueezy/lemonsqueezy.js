@@ -770,7 +770,6 @@ export class LemonSqueezy {
     variantIds,
     maxRedemptions,
     startsAt,
-    expiresAt,
   }: CreateDiscountOptions) {
     if (!storeId) throw "You must provide a `storeId` in createDiscount().";
     if (!name) throw "You must provide a `name` in createDiscount().";
@@ -979,7 +978,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getWebhook({ id, ...params }: GetWebhookOptions = {}) {
+  async getWebhook({ id, ...params }: GetWebhookOptions) {
     if (!id) throw "You must provide an `id` in getWebhook().";
     return this._query({
       path: `v1/webhooks/${id}`,
@@ -998,7 +997,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async createWebhook({ storeId, url, events, secret }: CreateWebhookOptions = {}) {
+  async createWebhook({ storeId, url, events, secret }: CreateWebhookOptions) {
     if (!storeId) throw "You must provide a `storeId` in createWebhook().";
     if (!url) throw "You must provide a `url` in createWebhook().";
     if (!events || events?.length < 1)
@@ -1066,7 +1065,7 @@ export class LemonSqueezy {
    */
   async deleteWebhook({ id }: DeleteWebhookOptions) {
     if (!id) throw "You must provide an `id` in deleteWebhook().";
-    this._query({ path: "v1/webhooks/" + id, method: "DELETE" });
+    this._query({ path: `v1/webhooks/${id}`, method: "DELETE" });
   }
 }
 

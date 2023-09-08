@@ -476,11 +476,11 @@ export interface CreateDiscountOptions {
   /**
    * Date the discount code starts on (ISO 8601 format)
    */
-  startsAt?: number;
+  startsAt?: string;
   /**
    * Date the discount code expires on (ISO 8601 format)
    */
-  expiresAt?: number;
+  expiresAt?: string;
 }
 
 export interface CreateDiscountAttributes {
@@ -507,11 +507,11 @@ export interface CreateDiscountAttributes {
   /**
    * Date the discount code starts on (ISO 8601 format)
    */
-  starts_at: string;
+  starts_at?: string;
   /**
    * Date the discount code expires on (ISO 8601 format)
    */
-  expires_at: string;
+  expires_at?: string;
   /**
    * Number of months to repeat the discount for
    */
