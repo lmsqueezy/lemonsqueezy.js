@@ -3,7 +3,9 @@ import {
   CreateCheckoutOptions,
   CreateDiscountAttributes,
   CreateDiscountOptions,
+  CreateWebhookOptions,
   DeleteDiscountOptions,
+  DeleteWebhookOptions,
   GetCheckoutOptions,
   GetCheckoutsOptions,
   GetCustomerOptions,
@@ -14,6 +16,10 @@ import {
   GetDiscountRedemptionsOptions,
   GetFileOptions,
   GetFilesOptions,
+  GetLicenseKeyOptions,
+  GetLicenseKeysOptions,
+  GetLicenseKeyInstanceOptions,
+  GetLicenseKeyInstancesOptions,
   GetOrderItemOptions,
   GetOrderItemsOptions,
   GetOrderOptions,
@@ -28,11 +34,14 @@ import {
   GetSubscriptionInvoicesOptions,
   GetVariantOptions,
   GetVariantsOptions,
+  GetWebhookOptions,
+  GetWebhooksOptions,
   PauseSubscriptionAttributes,
   PauseSubscriptionOptions,
   QueryApiOptions,
   UpdateSubscriptionAttributes,
   UpdateSubscriptionOptions,
+  UpdateWebhookOptions
 } from "./types";
 
 export class LemonSqueezy {
@@ -478,6 +487,7 @@ export class LemonSqueezy {
 
   /**
    * Get subscriptions
+   * 
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter subscriptions by store
    * @param {number} [params.orderId] Filter subscriptions by order
@@ -488,6 +498,7 @@ export class LemonSqueezy {
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"store,customer,order,order-item,product,variant"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
   async getSubscriptions(params: GetSubscriptionsOptions = {}) {
@@ -506,9 +517,11 @@ export class LemonSqueezy {
 
   /**
    * Get a subscription
+   * 
    * @param {Object} params
    * @param {number} params.id
    * @param {"store,customer,order,order-item,product,variant"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
   async getSubscription({ id, ...params }: GetSubscriptionOptions) {
@@ -521,6 +534,7 @@ export class LemonSqueezy {
 
   /**
    * Update a subscription's plan
+   * 
    * @param {Object} params
    * @param {number} params.id
    * @param {number} [params.variantId] ID of variant (required if changing plans)
@@ -529,6 +543,7 @@ export class LemonSqueezy {
    * @param {"immediate"|"disable"} [params.proration] If not included, proration will occur at the next renewal date.
    *                                   Use 'immediate' to charge a prorated amount immediately.
    *                                   Use 'disable' to charge a full ammount immediately.
+   * 
    * @returns {Object} JSON
    */
   async updateSubscription({
@@ -562,19 +577,21 @@ export class LemonSqueezy {
 
   /**
    * Cancel a subscription
+   * 
    * @param {Object} params
    * @param {number} params.id
-   * @returns {Object} JSON
    */
   async cancelSubscription({ id }: BaseUpdateSubscriptionOptions) {
     if (!id) throw "You must provide an `id` in cancelSubscription().";
-    return this._query({ path: `v1/subscriptions/${id}`, method: "DELETE" });
+    this._query({ path: `v1/subscriptions/${id}`, method: "DELETE" });
   }
 
   /**
    * Resume (un-cancel) a subscription
+   * 
    * @param {Object} params
    * @param {number} params.id
+   * 
    * @returns {Object} JSON
    */
   async resumeSubscription({ id }: BaseUpdateSubscriptionOptions) {
@@ -596,10 +613,12 @@ export class LemonSqueezy {
 
   /**
    * Pause a subscription
+   * 
    * @param {Object} params
    * @param {number} params.id
    * @param {"void"|"free"} [params.mode] Pause mode: "void" (default) or "free"
    * @param {string} [params.resumesAt] Date to automatically resume the subscription (ISO 8601 format)
+   * 
    * @returns {Object} JSON
    */
   async pauseSubscription({ id, mode, resumesAt }: PauseSubscriptionOptions) {
@@ -622,8 +641,10 @@ export class LemonSqueezy {
 
   /**
    * Unpause a subscription
+   * 
    * @param {Object} params
    * @param {number} params.id
+   * 
    * @returns {Object} JSON
    */
   async unpauseSubscription({ id }: BaseUpdateSubscriptionOptions) {
@@ -645,6 +666,7 @@ export class LemonSqueezy {
 
   /**
    * Get subscription invoices
+   * 
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter subscription invoices by store
    * @param {"paid"|"pending"|"void"|"refunded"} [params.status] Filter subscription invoices by status
@@ -653,6 +675,7 @@ export class LemonSqueezy {
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"store,subscription"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
   async getSubscriptionInvoices(params: GetSubscriptionInvoicesOptions = {}) {
@@ -669,9 +692,11 @@ export class LemonSqueezy {
 
   /**
    * Get a subscription invoice
+   * 
    * @param {Object} params
    * @param {number} params.id
    * @param {"store,subscription"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
   async getSubscriptionInvoice({ id, ...params }: GetSubscriptionInvoiceOptions) {
@@ -684,11 +709,13 @@ export class LemonSqueezy {
 
   /**
    * Get discounts
+   * 
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter discounts by store
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"store,variants,discount-redemptions"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
   async getDiscounts(params: GetDiscountsOptions = {}) {
@@ -700,12 +727,14 @@ export class LemonSqueezy {
 
   /**
    * Get a discount
+   * 
    * @param {Object} params
    * @param {number} params.id
-   * @param {"store,variants,discount-redemptions"} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "variants" | "discount-redemptions">} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
-  async getDiscount({ id, ...params }: GetDiscountOptions = {}) {
+  async getDiscount({ id, ...params }: GetDiscountOptions) {
     if (!id) throw "You must provide an `id` in getDiscount().";
     return this._query({
       path: `v1/discounts/${id}`,
@@ -715,6 +744,7 @@ export class LemonSqueezy {
 
   /**
    * Create a discount
+   * 
    * @param {Object} params
    * @param {number} params.storeId Store to create a discount in
    * @param {string} params.name Name of discount
@@ -727,6 +757,7 @@ export class LemonSqueezy {
    * @param {number} [params.maxRedemptions] The total number of redemptions allowed
    * @param {number} [params.startsAt] Date the discount code starts on (ISO 8601 format)
    * @param {number} [params.expiresAt] Date the discount code expires on (ISO 8601 format)
+   * 
    * @returns {Object} JSON
    */
   async createDiscount({
@@ -798,22 +829,25 @@ export class LemonSqueezy {
 
   /**
    * Delete a discount
+   * 
    * @param {Object} params
    * @param {number} params.id
    */
   async deleteDiscount({ id }: DeleteDiscountOptions) {
-    if (!storeId) throw "You must provide a `id` in deleteDiscount().";
+    if (!id) throw "You must provide a `id` in deleteDiscount().";
     this._query({ path: `v1/discounts/${id}`, method: "DELETE" });
   }
 
   /**
    * Get discount redemptions
+   * 
    * @param {Object} [params]
    * @param {number} [params.discountId] Filter discount redemptions by discount
    * @param {number} [params.orderId] Filter discount redemptions by order
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {Array<"discount" | "order">} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
   async getDiscountRedemptions(params: GetDiscountRedemptionsOptions = {}) {
@@ -826,13 +860,15 @@ export class LemonSqueezy {
 
   /**
    * Get a discount redemption
+   * 
    * @param {Object} params
    * @param {number} params.id
    * @param {"discount,order"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
   async getDiscountRedemption({ id, ...params }: GetDiscountRedemptionOptions) {
-    if (!storeId) throw "You must provide a `id` in getDiscountRedemption().";
+    if (!id) throw "You must provide a `id` in getDiscountRedemption().";
     return this._query({
       path: `v1/discount-redemptions/${id}`,
       params: this._buildParams(params)
@@ -841,6 +877,7 @@ export class LemonSqueezy {
 
   /**
    * Get license keys
+   * 
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter license keys by store
    * @param {number} [params.orderId] Filter license keys by order
@@ -849,156 +886,186 @@ export class LemonSqueezy {
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"store,customer,order,order-item,product,license-key-instances"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
-  async getLicenseKeys(params = {}) {
-    params = this._buildParams(params, [
-      "storeId",
-      "orderId",
-      "orderItemId",
-      "productId",
-    ]);
-    return this._query({ path: "v1/license-keys", params });
+  async getLicenseKeys(params: GetLicenseKeysOptions = {}) {
+    return this._query({
+      path: "v1/license-keys",
+      params: this._buildParams(params, [
+        "storeId",
+        "orderId",
+        "orderItemId",
+        "productId",
+      ])
+    });
   }
 
   /**
    * Get a license key
+   * 
    * @param {Object} params
    * @param {number} params.id
    * @param {"store,customer,order,order-item,product,license-key-instances"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
-  async getLicenseKey({ id, ...params } = {}) {
+  async getLicenseKey({ id, ...params }: GetLicenseKeyOptions) {
     if (!id) throw "You must provide an `id` in getLicenseKey().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/license-keys/" + id, params });
+    return this._query({
+      path: `v1/license-keys/${id}`,
+      params: this._buildParams(params)
+    });
   }
 
   /**
    * Get license key instances
+   * 
    * @param {Object} [params]
    * @param {number} [params.licenseKeyId] Filter license keys instances by license key
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"license-key"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
-  async getLicenseKeyInstances(params = {}) {
-    params = this._buildParams(params, ["licenseKeyId"]);
-    return this._query({ path: "v1/license-key-instances", params });
+  async getLicenseKeyInstances(params: GetLicenseKeyInstancesOptions = {}) {
+    return this._query({
+      path: "v1/license-key-instances",
+      params: this._buildParams(params, ["licenseKeyId"])
+    });
   }
 
   /**
    * Get a license key instance
+   * 
    * @param {Object} params
    * @param {number} params.id
    * @param {"license-key"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
-  async getLicenseKeyInstance({ id, ...params } = {}) {
+  async getLicenseKeyInstance({ id, ...params }: GetLicenseKeyInstanceOptions) {
     if (!id) throw "You must provide an `id` in getLicenseKeyInstance().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/license-key-instances/" + id, params });
+    return this._query({
+      path: `v1/license-key-instances/${id}}`,
+      params: this._buildParams(params)
+    });
   }
 
   /**
    * Get webhooks
+   * 
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter webhooks by store
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
    * @param {"store"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
-  async getWebhooks(params = {}) {
-    params = this._buildParams(params, ["storeId"]);
-    return this._query({ path: "v1/webhooks", params });
+  async getWebhooks(params: GetWebhooksOptions = {}) {
+    return this._query({
+      path: "v1/webhooks",
+      params: this._buildParams(params, ["storeId"])
+    });
   }
 
   /**
    * Get a webhook
+   * 
    * @param {Object} params
    * @param {number} params.id
    * @param {"store"} [params.include] Comma-separated list of record types to include
+   * 
    * @returns {Object} JSON
    */
-  async getWebhook({ id, ...params } = {}) {
+  async getWebhook({ id, ...params }: GetWebhookOptions = {}) {
     if (!id) throw "You must provide an `id` in getWebhook().";
-    params = this._buildParams(params);
-    return this._query({ path: "v1/webhooks/" + id, params });
+    return this._query({
+      path: `v1/webhooks/${id}`,
+      params: this._buildParams(params)
+    });
   }
 
   /**
    * Create a webhook
+   * 
    * @param {Object} params
-   * @param {string} params.storeId The ID of the store the webhook is for
+   * @param {string} params.storeId ID of the store the webhook is for
    * @param {string} params.url Endpoint URL that the webhooks should be sent to
    * @param {string[]} params.events List of webhook events to receive
    * @param {string} params.secret Signing secret (between 6 and 40 characters)
+   * 
    * @returns {Object} JSON
    */
-  async createWebhook({ storeId, url, events, secret } = {}) {
+  async createWebhook({ storeId, url, events, secret }: CreateWebhookOptions = {}) {
     if (!storeId) throw "You must provide a `storeId` in createWebhook().";
     if (!url) throw "You must provide a `url` in createWebhook().";
     if (!events || events?.length < 1)
       throw "You must provide a list of events in createWebhook().";
     if (!secret) throw "You must provide a `secret` in createWebhook().";
-    let payload = {
-      data: {
-        type: "webhooks",
-        attributes: {
-          url,
-          events,
-          secret,
-        },
-        relationships: {
-          store: {
-            data: {
-              type: "stores",
-              id: "" + storeId,
+    return this._query({
+      path: "v1/webhooks",
+      method: "POST",
+      payload: {
+        data: {
+          type: "webhooks",
+          attributes: {
+            url,
+            events,
+            secret,
+          },
+          relationships: {
+            store: {
+              data: {
+                type: "stores",
+                id: "" + storeId,
+              },
             },
           },
         },
-      },
-    };
-    return this._query({ path: "v1/webhooks", method: "POST", payload });
+      }
+    });
   }
 
   /**
    * Update a webhook
+   * 
    * @param {Object} params
    * @param {number} params.id
    * @param {string} [params.url] Endpoint URL that the webhooks should be sent to
    * @param {string[]} [params.events] List of webhook events to receive
    * @param {string} [params.secret] Signing secret (between 6 and 40 characters)
+   * 
    * @returns {Object} JSON
    */
-  async updateWebhook({ id, url, events, secret } = {}) {
+  async updateWebhook({ id, url, events, secret }: UpdateWebhookOptions) {
     if (!id) throw "You must provide an `id` in updateWebhook().";
-    let attributes = {};
+    let attributes: { url?: string; events?: string[]; secret?: string } = {};
     if (url) attributes.url = url;
     if (events) attributes.events = events;
     if (secret) attributes.secret = secret;
-    let payload = {
-      data: {
-        type: "webhooks",
-        id: "" + id,
-        attributes,
-      },
-    };
     return this._query({
-      path: "v1/webhooks/" + id,
+      path: `v1/webhooks/${id}`,
       method: "PATCH",
-      payload,
+      payload: {
+        data: {
+          type: "webhooks",
+          id: "" + id,
+          attributes,
+        },
+      }
     });
   }
 
   /**
    * Delete a webhook
+   * 
    * @param {Object} params
    * @param {number} params.id
    */
-  async deleteWebhook({ id }) {
+  async deleteWebhook({ id }: DeleteWebhookOptions) {
     if (!id) throw "You must provide an `id` in deleteWebhook().";
     this._query({ path: "v1/webhooks/" + id, method: "DELETE" });
   }

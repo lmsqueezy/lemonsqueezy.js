@@ -134,7 +134,13 @@ export interface CreateCheckoutOptions {
    * @see https://docs.lemonsqueezy.com/api/checkouts#create-a-checkout
    */
   attributes?: object;
+  /**
+   * The ID of the store
+   */
   storeId: number;
+  /**
+   * The ID of the variant
+   */
   variantId: number;
 }
 
@@ -543,7 +549,7 @@ export interface GetDiscountRedemptionsOptions extends PaginatedOptions {
   /**
    * List of record types to include
    */
-  include?: Array<"discount" | "order">
+  include?: Array<"discount" | "order">;
 }
 
 export interface GetDiscountRedemptionOptions {
@@ -554,5 +560,147 @@ export interface GetDiscountRedemptionOptions {
   /**
    * List of record types to include
    */
-  include?: Array<"discount" | "order">
+  include?: Array<"discount" | "order">;
+}
+
+export interface GetLicenseKeysOptions extends PaginatedOptions {
+  /**
+   * Filter license keys by store
+   */
+  storeId?: number;
+  /**
+   * Filter license keys by order
+   */
+  orderId?: number;
+  /**
+   * Filter license keys by order item
+   */
+  orderItemId?: number;
+  /**
+   * Filter license keys by product
+   */
+  productId?: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<
+    | "store"
+    | "customer"
+    | "order"
+    | "order-item"
+    | "product"
+    | "license-key-instances"
+  >;
+}
+
+export interface GetLicenseKeyOptions {
+  /**
+   * ID of the license key to retrieve
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<
+    | "store"
+    | "customer"
+    | "order"
+    | "order-item"
+    | "product"
+    | "license-key-instances"
+  >;
+}
+
+export interface GetLicenseKeyInstancesOptions extends PaginatedOptions {
+  /**
+   * Filter license key instances by license key
+   */
+  licenseKeyId?: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"license-key">;
+}
+
+export interface GetLicenseKeyInstanceOptions {
+  /**
+   * ID of the license key instance to retrieve
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"license-key">;
+}
+
+export interface GetWebhooksOptions extends PaginatedOptions {
+  /**
+   * Filter webhooks by store
+   */
+  storeId?: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"store">;
+}
+
+export interface GetWebhookOptions {
+  /**
+   * ID of the license key instance to retrieve
+   */
+  id: number;
+  /**
+   * List of record types to include
+   */
+  include?: Array<"store">;
+}
+
+
+export interface CreateWebhookOptions {
+  /**
+   * ID of the store the webhook is for
+   */
+  storeId: number;
+  /**
+   * Endpoint URL that the webhooks should be sent to
+   */
+  url: string;
+  /**
+   * List of webhook events to receive
+   * 
+   * @see https://docs.lemonsqueezy.com/help/webhooks#event-types
+   */
+  events: string[];
+  /**
+   * Signing secret (between 6 and 40 characters
+   */
+  secret: string;
+}
+
+export interface UpdateWebhookOptions {
+  /**
+   * ID of the webhook to update
+   */
+  id: number;
+  /**
+   * Endpoint URL that the webhooks should be sent to
+   */
+  url?: string;
+  /**
+   * List of webhook events to receive
+   * 
+   * @see https://docs.lemonsqueezy.com/help/webhooks#event-types
+   */
+  events?: string[];
+  /**
+   * Signing secret (between 6 and 40 characters
+   */
+  secret?: string;
+}
+
+export interface DeleteWebhookOptions {
+  /**
+   * ID of the webhook to delete
+   */
+  id: number;
 }
