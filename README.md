@@ -48,8 +48,10 @@ const subscription = await ls.cancelSubscription({ id: 123 });
 
 You can use `include` in every "read" method to pull in [related resources](https://docs.lemonsqueezy.com/api#including-related-resources) (works for both individual and list methods).
 
+Note: In v1.0.3 and lower, `include` was a string of object names. Now it should be an array of strings.
+
 ```javascript
-const product = await ls.getProduct({ id: 123, include: "variants" });
+const product = await ls.getProduct({ id: 123, include: ["store", "variants"] });
 ```
 
 ### Pagination
@@ -1463,26 +1465,4 @@ Delete a webhook.
 
 ```javascript
 await ls.deleteWebhook({ id: 123 })
-```
-
-## Development
-
-To get started developing this project locally, clone the repository & install the dependencies:
-
-```
-git clone https://github.com/lmsqueezy/lemonsqueezy.js.git
-cd lemonsqueezy-js
-npm install
-```
-
-To create a new build:
-
-```bash
-npm run build
-```
-
-To start the local development server:
-
-```bash
-npm run dev
 ```
