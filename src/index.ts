@@ -881,7 +881,7 @@ export class LemonSqueezy {
    * @param {Object} params
    * @param {number} params.id
    */
-  async deleteDiscount({ id }: DeleteDiscountOptions) {
+  async deleteDiscount({ id }: DeleteDiscountOptions): Promise<void> {
     if (!id) throw "You must provide a `id` in deleteDiscount().";
     this._query({ path: `v1/discounts/${id}`, method: "DELETE" });
   }
@@ -1113,7 +1113,7 @@ export class LemonSqueezy {
    * @param {Object} params
    * @param {number} params.id
    */
-  async deleteWebhook({ id }: DeleteWebhookOptions) {
+  async deleteWebhook({ id }: DeleteWebhookOptions): Promise<void> {
     if (!id) throw "You must provide an `id` in deleteWebhook().";
     this._query({ path: `v1/webhooks/${id}`, method: "DELETE" });
   }
