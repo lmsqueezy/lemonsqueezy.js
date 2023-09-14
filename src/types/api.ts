@@ -18,39 +18,6 @@ interface BaseApiObject {
   links: object;
 }
 
-interface FirstSubscriptionItem {
-  /**
-   * ID of the subscription item.
-   */
-  id: number;
-  /**
-   * ID of the related subscription.
-   */
-  subscription_id: number;
-  /**
-   * ID of the subscription item's price.
-   */
-  price_id: number;
-  /**
-   * Quantity of the subscription item.
-   */
-  quantity: number;
-  /**
-   * Date the subscription item was created (ISO 8601 format).
-   */
-  created_at: string;
-  /**
-   * Date the subscription item was updated (ISO 8601 format).
-   */
-  updated_at: string;
-}
-
-interface SubscriptionUrls {
-  /**
-   * A signed URL for managing payment and billing information for the subscription, valid for 24 hours.
-   */
-  update_payment_method: string;
-}
 
 interface SubscriptionAttributes {
   /**
@@ -128,11 +95,41 @@ interface SubscriptionAttributes {
   /**
    * URLs for the customer to manage the subscription.
    */
-  urls: SubscriptionUrls;
+  urls: {
+    /**
+     * A signed URL for managing payment and billing information for the subscription, valid for 24 hours.
+     */
+    update_payment_method: string;
+  };
   /**
    * An object representing the first subscription item belonging to this subscription.
    */
-  first_subscription_item: FirstSubscriptionItem;
+  first_subscription_item: {
+    /**
+     * ID of the subscription item.
+     */
+    id: number;
+    /**
+     * ID of the related subscription.
+     */
+    subscription_id: number;
+    /**
+     * ID of the subscription item's price.
+     */
+    price_id: number;
+    /**
+     * Quantity of the subscription item.
+     */
+    quantity: number;
+    /**
+     * Date the subscription item was created (ISO 8601 format).
+     */
+    created_at: string;
+    /**
+     * Date the subscription item was updated (ISO 8601 format).
+     */
+    updated_at: string;
+  };
 }
 
 
@@ -198,7 +195,6 @@ interface CustomerAttributes {
   updated_at: string;
   test_mode: boolean;
 }
-
 
 interface CustomerObject extends BaseApiObject {
   attributes: CustomerAttributes;
@@ -381,23 +377,6 @@ export interface CheckoutResponse extends BaseIndividualResponse {
 }
 
 
-interface OrderFirstOrderItem {
-  id: number;
-  order_id: number;
-  product_id: number;
-  variant_id: number;
-  product_name: string;
-  variant_name: string;
-  price: number;
-  created_at: string;
-  updated_at: string;
-  test_mode: boolean;
-}
-
-interface OrderUrls {
-  receipt: string;
-}
-
 interface OrderAttributes {
   store_id: number;
   customer_id: number;
@@ -425,8 +404,21 @@ interface OrderAttributes {
   discount_total_formatted: string;
   tax_formatted: string;
   total_formatted: string;
-  first_order_item: OrderFirstOrderItem;
-  urls: OrderUrls;
+  first_order_item: {
+    id: number;
+    order_id: number;
+    product_id: number;
+    variant_id: number;
+    product_name: string;
+    variant_name: string;
+    price: number;
+    created_at: string;
+    updated_at: string;
+    test_mode: boolean;
+  };
+  urls: {
+    receipt: string;
+  };
   created_at: string;
   updated_at: string;
 }
