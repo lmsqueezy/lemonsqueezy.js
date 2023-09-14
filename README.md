@@ -181,6 +181,8 @@ Do not use this package directly in the browser. as this will expose your API ke
 - [getSubscriptionInvoice()](#getsubscriptioninvoiceparameters)
 - [getSubscriptionItems()](#getsubscriptionitemsparameters)
 - [getSubscriptionItem()](#getsubscriptionitemparameters)
+- [updateSubscriptionItem()](#updatesubscriptionitemparameters)
+- [getSubscriptionItemUsage()](#getsubscriptionitemusageparameters)
 - [getUsageRecords()](#getusagerecordsparameters)
 - [getUsageRecord()](#getusagerecordparameters)
 - [createUsageRecord()](#createusagerecordparameters)
@@ -989,6 +991,51 @@ Returns a [Subscription item object](https://docs.lemonsqueezy.com/api/subscript
 
 ```javascript
 const subscriptionItem = await ls.getSubscriptionItem({ id: 123, include: 'price' })
+```
+
+---
+
+### updateSubscriptionItem(parameters)
+
+Update the quantity of a subscription item.
+
+Returns a [Subscription item object](https://docs.lemonsqueezy.com/api/subscription-items).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscription-items#update-a-subscription-item).
+
+#### Parameters
+
+| Parameter  | Type   | Required | Default | Notes |
+| ---------- | ------ | -------- | ------- | ----- |
+| `id`       | number | Yes      | -       |       |
+| `quantity` | number | Yes      | -       |       |
+
+#### Example
+
+```javascript
+const subscriptionItem = await ls.updateSubscriptionItem({ id: 123, quantity: 10 })
+```
+
+---
+
+### getSubscriptionItemUsage(parameters)
+
+Retrieves a subscription item's current usage.
+
+Returns a meta object containing usage information.
+
+[API reference](https://docs.lemonsqueezy.com/api/subscription-items#retrieve-a-subscription-item-s-current-usage).
+
+#### Parameters
+
+| Parameter  | Type   | Required | Default | Notes |
+| ---------- | ------ | -------- | ------- | ----- |
+| `id`       | number | Yes      | -       |       |
+
+#### Example
+
+```javascript
+const usageInformation = await ls.getSubscriptionItemUsage({ id: 123 })
 ```
 
 ---
