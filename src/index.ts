@@ -42,7 +42,38 @@ import {
   UpdateSubscriptionAttributes,
   UpdateSubscriptionOptions,
   UpdateWebhookOptions
-} from "./types";
+} from "./types/methods";
+import {
+  CheckoutsResponse,
+  CheckoutResponse,
+  CustomersResponse,
+  CustomerResponse,
+  DiscountsResponse,
+  DiscountResponse,
+  DiscountRedemptionsResponse,
+  DiscountRedemptionResponse,
+  FilesResponse,
+  FileResponse,
+  LicenseKeysResponse,
+  LicenseKeyResponse,
+  LicenseKeyInstancesResponse,
+  LicenseKeyInstanceResponse,
+  OrdersResponse,
+  OrderResponse,
+  ProductsResponse,
+  ProductResponse,
+  StoresResponse,
+  StoreResponse,
+  SubscriptionInvoicesResponse,
+  SubscriptionInvoiceResponse,
+  SubscriptionsResponse,
+  SubscriptionResponse,
+  UserResponse,
+  VariantsResponse,
+  VariantResponse,
+  WebhooksResponse,
+  WebhookResponse
+} from "./types/api";
 
 export class LemonSqueezy {
   public apiKey: string;
@@ -151,7 +182,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getUser() {
+  async getUser(): Promise<UserResponse> {
     return this._query({ path: "v1/users/me" });
   }
 
@@ -165,7 +196,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getStores(params: GetStoresOptions = {}) {
+  async getStores(params: GetStoresOptions = {}): Promise<StoresResponse> {
     return this._query({
       path: "v1/stores",
       params: this._buildParams(params),
@@ -181,7 +212,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getStore({ id, ...params }: GetStoreOptions) {
+  async getStore({ id, ...params }: GetStoreOptions): Promise<StoreResponse> {
     if (!id) throw "You must provide an `id` in getStore().";
 
     return this._query({
@@ -201,7 +232,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getProducts(params: GetProductsOptions = {}) {
+  async getProducts(params: GetProductsOptions = {}): Promise<ProductsResponse> {
     return this._query({
       path: "v1/products",
       params: this._buildParams(params, ["storeId"]),
@@ -217,7 +248,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getProduct({ id, ...params }: GetProductOptions) {
+  async getProduct({ id, ...params }: GetProductOptions): Promise<ProductResponse> {
     if (!id) throw "You must provide an `id` in getProduct().";
     return this._query({
       path: `v1/products/${id}`,
@@ -236,7 +267,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getVariants(params: GetVariantsOptions = {}) {
+  async getVariants(params: GetVariantsOptions = {}): Promise<VariantsResponse> {
     return this._query({
       path: "v1/variants",
       params: this._buildParams(params, ["productId"]),
@@ -252,7 +283,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getVariant({ id, ...params }: GetVariantOptions) {
+  async getVariant({ id, ...params }: GetVariantOptions): Promise<VariantResponse> {
     if (!id) throw "You must provide an `id` in getVariant().";
     return this._query({
       path: `v1/variants/${id}`,
@@ -272,7 +303,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getCheckouts(params: GetCheckoutsOptions = {}) {
+  async getCheckouts(params: GetCheckoutsOptions = {}): Promise<CheckoutsResponse> {
     return this._query({
       path: "v1/checkouts",
       params: this._buildParams(params, ["storeId", "variantId"])
@@ -288,7 +319,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getCheckout({ id, ...params }: GetCheckoutOptions) {
+  async getCheckout({ id, ...params }: GetCheckoutOptions): Promise<CheckoutResponse> {
     if (!id) throw "You must provide an `id` in getCheckout().";
     return this._query({
       path: `v1/checkouts/${id}`,
@@ -312,7 +343,7 @@ export class LemonSqueezy {
     storeId,
     variantId,
     attributes = {},
-  }: CreateCheckoutOptions) {
+  }: CreateCheckoutOptions): Promise<CheckoutResponse> {
     if (!storeId) throw "You must provide a `storeId` in createCheckout().";
     if (!variantId) throw "You must provide a `variantId` in createCheckout().";
     return this._query({
@@ -353,7 +384,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getCustomers(params: GetCustomersOptions = {}) {
+  async getCustomers(params: GetCustomersOptions = {}): Promise<CustomersResponse> {
     return this._query({
       path: "v1/customers",
       params: this._buildParams(params, ["storeId", "email"]),
@@ -369,7 +400,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getCustomer({ id, ...params }: GetCustomerOptions) {
+  async getCustomer({ id, ...params }: GetCustomerOptions): Promise<CustomerResponse> {
     if (!id) throw "You must provide an `id` in getCustomer().";
     return this._query({
       path: `v1/customers/${id}`,
@@ -389,7 +420,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getOrders(params: GetOrdersOptions = {}) {
+  async getOrders(params: GetOrdersOptions = {}): Promise<OrdersResponse> {
     return this._query({
       path: "v1/orders",
       params: this._buildParams(params, ["storeId", "userEmail"]),
@@ -405,7 +436,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getOrder({ id, ...params }: GetOrderOptions) {
+  async getOrder({ id, ...params }: GetOrderOptions): Promise<OrderResponse> {
     if (!id) throw "You must provide an `id` in getOrder().";
     return this._query({
       path: `v1/orders/${id}`,
@@ -424,7 +455,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getFiles(params: GetFilesOptions = {}) {
+  async getFiles(params: GetFilesOptions = {}): Promise<FilesResponse> {
     return this._query({
       path: "v1/files",
       params: this._buildParams(params, ["variantId"]),
@@ -440,7 +471,7 @@ export class LemonSqueezy {
    *
    * @returns {Object} JSON
    */
-  async getFile({ id, ...params }: GetFileOptions) {
+  async getFile({ id, ...params }: GetFileOptions): Promise<FileResponse> {
     if (!id) throw "You must provide an `id` in getFile().";
     return this._query({
       path: `v1/files/${id}`,
@@ -501,7 +532,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getSubscriptions(params: GetSubscriptionsOptions = {}) {
+  async getSubscriptions(params: GetSubscriptionsOptions = {}): Promise<SubscriptionsResponse> {
     return this._query({
       path: "v1/subscriptions",
       params: this._buildParams(params, [
@@ -524,7 +555,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getSubscription({ id, ...params }: GetSubscriptionOptions) {
+  async getSubscription({ id, ...params }: GetSubscriptionOptions): Promise<SubscriptionResponse> {
     if (!id) throw "You must provide an `id` in getSubscription().";
     return this._query({
       path: `v1/subscriptions/${id}`,
@@ -552,7 +583,7 @@ export class LemonSqueezy {
     productId,
     billingAnchor,
     proration,
-  }: UpdateSubscriptionOptions) {
+  }: UpdateSubscriptionOptions): Promise<SubscriptionResponse> {
     if (!id) throw "You must provide an `id` in updateSubscription().";
     let attributes: UpdateSubscriptionAttributes = {
       variant_id: variantId,
@@ -579,10 +610,24 @@ export class LemonSqueezy {
    * 
    * @param {Object} params
    * @param {number} params.id
+   * 
+   * @returns {Object} JSON
    */
-  async cancelSubscription({ id }: BaseUpdateSubscriptionOptions) {
+  async cancelSubscription({ id }: BaseUpdateSubscriptionOptions): Promise<SubscriptionResponse> {
     if (!id) throw "You must provide an `id` in cancelSubscription().";
-    this._query({ path: `v1/subscriptions/${id}`, method: "DELETE" });
+    return this._query({
+      path: `v1/subscriptions/${id}`,
+      method: "PATCH",
+      payload: {
+        data: {
+          type: "subscriptions",
+          id: "" + id,
+          attributes: {
+            cancelled: true,
+          }
+        }
+      }
+    });
   }
 
   /**
@@ -593,7 +638,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async resumeSubscription({ id }: BaseUpdateSubscriptionOptions) {
+  async resumeSubscription({ id }: BaseUpdateSubscriptionOptions): Promise<SubscriptionResponse> {
     if (!id) throw "You must provide an `id` in resumeSubscription().";
     return this._query({
       path: `v1/subscriptions/${id}`,
@@ -604,8 +649,8 @@ export class LemonSqueezy {
           id: "" + id,
           attributes: {
             cancelled: false,
-          },
-        },
+          }
+        }
       }
     });
   }
@@ -620,7 +665,11 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async pauseSubscription({ id, mode, resumesAt }: PauseSubscriptionOptions) {
+  async pauseSubscription({
+    id,
+    mode,
+    resumesAt
+  }: PauseSubscriptionOptions): Promise<SubscriptionResponse> {
     if (!id) throw "You must provide an `id` in pauseSubscription().";
     let pause: PauseSubscriptionAttributes = { mode: "void" };
     if (mode) pause.mode = mode;
@@ -646,7 +695,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async unpauseSubscription({ id }: BaseUpdateSubscriptionOptions) {
+  async unpauseSubscription({ id }: BaseUpdateSubscriptionOptions): Promise<SubscriptionResponse> {
     if (!id) throw "You must provide an `id` in unpauseSubscription().";
     return this._query({
       path: `v1/subscriptions/${id}`,
@@ -677,7 +726,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getSubscriptionInvoices(params: GetSubscriptionInvoicesOptions = {}) {
+  async getSubscriptionInvoices(params: GetSubscriptionInvoicesOptions = {}): Promise<SubscriptionInvoicesResponse> {
     return this._query({
       path: "v1/subscription-invoices",
       params: this._buildParams(params, [
@@ -698,7 +747,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getSubscriptionInvoice({ id, ...params }: GetSubscriptionInvoiceOptions) {
+  async getSubscriptionInvoice({ id, ...params }: GetSubscriptionInvoiceOptions): Promise<SubscriptionInvoiceResponse> {
     if (!id) throw "You must provide an `id` in getSubscriptionInvoice().";
     return this._query({
       path: `v1/subscription-invoices/${id}`,
@@ -717,7 +766,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getDiscounts(params: GetDiscountsOptions = {}) {
+  async getDiscounts(params: GetDiscountsOptions = {}): Promise<DiscountsResponse> {
     return this._query({
       path: "v1/discounts",
       params: this._buildParams(params, ["storeId"])
@@ -733,7 +782,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getDiscount({ id, ...params }: GetDiscountOptions) {
+  async getDiscount({ id, ...params }: GetDiscountOptions): Promise<DiscountResponse> {
     if (!id) throw "You must provide an `id` in getDiscount().";
     return this._query({
       path: `v1/discounts/${id}`,
@@ -770,7 +819,8 @@ export class LemonSqueezy {
     variantIds,
     maxRedemptions,
     startsAt,
-  }: CreateDiscountOptions) {
+    expiresAt
+  }: CreateDiscountOptions): Promise<DiscountResponse> {
     if (!storeId) throw "You must provide a `storeId` in createDiscount().";
     if (!name) throw "You must provide a `name` in createDiscount().";
     if (!code) throw "You must provide a `code` in createDiscount().";
@@ -848,7 +898,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getDiscountRedemptions(params: GetDiscountRedemptionsOptions = {}) {
+  async getDiscountRedemptions(params: GetDiscountRedemptionsOptions = {}): Promise<DiscountRedemptionsResponse> {
     return this._query({
       path: "v1/discount-redemptions",
       params: this._buildParams(params, ["discountId", "orderId"])
@@ -865,7 +915,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getDiscountRedemption({ id, ...params }: GetDiscountRedemptionOptions) {
+  async getDiscountRedemption({ id, ...params }: GetDiscountRedemptionOptions): Promise<DiscountRedemptionResponse> {
     if (!id) throw "You must provide a `id` in getDiscountRedemption().";
     return this._query({
       path: `v1/discount-redemptions/${id}`,
@@ -887,7 +937,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getLicenseKeys(params: GetLicenseKeysOptions = {}) {
+  async getLicenseKeys(params: GetLicenseKeysOptions = {}): Promise<LicenseKeysResponse> {
     return this._query({
       path: "v1/license-keys",
       params: this._buildParams(params, [
@@ -908,7 +958,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getLicenseKey({ id, ...params }: GetLicenseKeyOptions) {
+  async getLicenseKey({ id, ...params }: GetLicenseKeyOptions): Promise<LicenseKeyResponse> {
     if (!id) throw "You must provide an `id` in getLicenseKey().";
     return this._query({
       path: `v1/license-keys/${id}`,
@@ -927,7 +977,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getLicenseKeyInstances(params: GetLicenseKeyInstancesOptions = {}) {
+  async getLicenseKeyInstances(params: GetLicenseKeyInstancesOptions = {}): Promise<LicenseKeyInstancesResponse> {
     return this._query({
       path: "v1/license-key-instances",
       params: this._buildParams(params, ["licenseKeyId"])
@@ -943,7 +993,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getLicenseKeyInstance({ id, ...params }: GetLicenseKeyInstanceOptions) {
+  async getLicenseKeyInstance({ id, ...params }: GetLicenseKeyInstanceOptions): Promise<LicenseKeyInstanceResponse> {
     if (!id) throw "You must provide an `id` in getLicenseKeyInstance().";
     return this._query({
       path: `v1/license-key-instances/${id}}`,
@@ -962,7 +1012,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getWebhooks(params: GetWebhooksOptions = {}) {
+  async getWebhooks(params: GetWebhooksOptions = {}): Promise<WebhooksResponse> {
     return this._query({
       path: "v1/webhooks",
       params: this._buildParams(params, ["storeId"])
@@ -978,7 +1028,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async getWebhook({ id, ...params }: GetWebhookOptions) {
+  async getWebhook({ id, ...params }: GetWebhookOptions): Promise<WebhookResponse> {
     if (!id) throw "You must provide an `id` in getWebhook().";
     return this._query({
       path: `v1/webhooks/${id}`,
@@ -997,7 +1047,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async createWebhook({ storeId, url, events, secret }: CreateWebhookOptions) {
+  async createWebhook({ storeId, url, events, secret }: CreateWebhookOptions): Promise<WebhookResponse> {
     if (!storeId) throw "You must provide a `storeId` in createWebhook().";
     if (!url) throw "You must provide a `url` in createWebhook().";
     if (!events || events?.length < 1)
@@ -1038,7 +1088,7 @@ export class LemonSqueezy {
    * 
    * @returns {Object} JSON
    */
-  async updateWebhook({ id, url, events, secret }: UpdateWebhookOptions) {
+  async updateWebhook({ id, url, events, secret }: UpdateWebhookOptions): Promise<WebhookResponse> {
     if (!id) throw "You must provide an `id` in updateWebhook().";
     let attributes: { url?: string; events?: string[]; secret?: string } = {};
     if (url) attributes.url = url;
