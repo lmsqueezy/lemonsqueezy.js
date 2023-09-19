@@ -747,7 +747,7 @@ interface CheckoutAttributes {
   /**
    * A positive integer in cents representing the custom price of the variant.
    */
-  custom_price: number| null;
+  custom_price: number | null;
   /**
    * An object containing any overridden product options for this checkout.
    */
@@ -1446,6 +1446,21 @@ export interface LicenseKeyInstanceResponse extends BaseIndividualResponse {
   data: LicenseKeyInstanceObject;
 }
 
+export type WebhookEvent =
+  | "order_created"
+  | "order_refunded"
+  | "subscription_created"
+  | "subscription_updated"
+  | "subscription_cancelled"
+  | "subscription_resumed"
+  | "subscription_expired"
+  | "subscription_paused"
+  | "subscription_unpaused"
+  | "subscription_payment_success"
+  | "subscription_payment_failed"
+  | "subscription_payment_recovered"
+  | "license_key_created"
+  | "license_key_updated";
 
 interface WebhookAttributes {
   /**
@@ -1459,7 +1474,7 @@ interface WebhookAttributes {
   /**
    * An array of events that will be sent.
    */
-  events: string[];
+  events: Array<WebhookEvent>;
   /**
    * Date the webhook was last sent (ISO 8601 format).
    */
