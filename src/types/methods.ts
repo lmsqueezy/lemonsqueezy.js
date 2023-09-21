@@ -1,3 +1,5 @@
+import { WebhookEvent } from "./api";
+
 /**
  * A union of all possible API versions available.
  */
@@ -670,7 +672,7 @@ export interface CreateWebhookOptions {
    * 
    * @see https://docs.lemonsqueezy.com/help/webhooks#event-types
    */
-  events: string[];
+  events: Array<WebhookEvent>;
   /**
    * Signing secret (between 6 and 40 characters
    */
@@ -691,7 +693,7 @@ export interface UpdateWebhookOptions {
    * 
    * @see https://docs.lemonsqueezy.com/help/webhooks#event-types
    */
-  events?: string[];
+  events?: Array<WebhookEvent>;
   /**
    * Signing secret (between 6 and 40 characters
    */
