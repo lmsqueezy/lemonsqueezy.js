@@ -1,7 +1,7 @@
 {
   "name": "@lemonsqueezy/lemonsqueezy.js",
   "description": "The official Lemon Squeezy JavaScript SDK.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Lemon Squeezy",
   "license": "MIT",
   "main": "dist/index.js",
