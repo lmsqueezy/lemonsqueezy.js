@@ -2,13 +2,13 @@ interface BaseListResponse {
   meta: object;
   jsonapi: object;
   links: object;
-  included?: Array<any>;
+  included?: Record<string, any>;
 }
 
 interface BaseIndividualResponse {
   jsonapi: object;
   links: object;
-  included?: Array<any>;
+  included?: Record<string, any>;
 }
 
 interface BaseApiObject {
@@ -669,11 +669,14 @@ interface CheckoutCheckoutData {
   /**
    * An object containing any custom data to be passed to the checkout.
    */
-  custom: Array<any>;
+  custom: Record<string, any>;
   /**
    * A list containing quantity data objects.
    */
-  variant_quantities: Array<any>;
+  variant_quantities: Array<{
+    quantity: number;
+    variant_id: number;
+  }>;
 }
 
 interface CheckoutPreview {
