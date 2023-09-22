@@ -40,7 +40,7 @@ const subscriptions = await ls.getSubscriptions({ storeId: 123, perPage: 50 });
 
 const subscription = await ls.getSubscription({
   id: 123,
-  include: "subscription-invoices",
+  include: ["subscription-invoices"],
 });
 
 const subscription = await ls.cancelSubscription({ id: 123 });
@@ -68,7 +68,7 @@ const order = await ls.getOrders({
   storeId: 3,
   perPage: 50,
   page: 2,
-  include: "store,customer",
+  include: ["store", "customer"]
 });
 ```
 
@@ -121,9 +121,9 @@ Each method will throw an exception if there are issues with the request. JSON w
 Use `try { ... } catch { ... }` to access this object. Error messages will be available in a list in `errors`.
 
 ```javascript
-// "something" is not a valid value for `include`
+// "something" is not a valid value for `include` so this request will return an error
 try {
-  const subscriptions = await ls.getSubscriptions({ include: "something" });
+  const subscriptions = await ls.getSubscriptions({ include: ["something"] });
 } catch (err) {
   // `err` is an object like this:
   //  {
