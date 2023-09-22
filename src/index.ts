@@ -50,7 +50,7 @@ import {
   GetPricesOptions,
   GetPriceOptions,
   UpdateSubscriptionItemOptions,
-  GetSubscriptionItemUsageOptions
+  GetSubscriptionItemUsageOptions,
 } from "./types/methods";
 import {
   CheckoutsResponse,

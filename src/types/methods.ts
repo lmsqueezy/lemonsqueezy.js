@@ -1,3 +1,5 @@
+import { WebhookEvent } from "./api";
+
 /**
  * A union of all possible API versions available.
  */
@@ -99,28 +101,6 @@ export interface GetVariantOptions {
    * List of record types to include
    */
   include?: Array<"product" | "files">;
-}
-
-export interface GetPricesOptions extends PaginatedOptions {
-  /**
-   * List of record types to include
-   */
-  include?: Array<"variant">;
-  /**
-   * Filter prices by variant
-   */
-  variantId?: number;
-}
-
-export interface GetPriceOptions {
-  /**
-   * The ID of the price to retrieve
-   */
-  id: number;
-  /**
-   * List of record types to include
-   */
-  include?: Array<"variant">;
 }
 
 export interface GetCheckoutsOptions extends PaginatedOptions {
@@ -436,87 +416,6 @@ export interface GetSubscriptionInvoiceOptions {
   include?: Array<"store" | "subscription">;
 }
 
-export interface GetSubscriptionItemsOptions extends PaginatedOptions {
-  /**
-   * List of record types to include
-   */
-  include?: Array<"subscription" | "price" | "usage-records">;
-  /**
-   * Filter subscription items by subscription
-   */
-  subscriptionId?: number;
-  /**
-   * Filter subscription items by price
-   */
-  priceId?: number;
-}
-
-export interface GetSubscriptionItemOptions {
-  /**
-   * The ID of the subscription item to retrieve
-   */
-  id: number;
-  /**
-   * List of record types to include
-   */
-  include?: Array<"subscription" | "price" | "usage-records">;
-}
-
-export interface UpdateSubscriptionItemOptions {
-  /**
-   * The ID of the subscription item to update
-   */
-  id: number;
-  /**
-   * The new quantity for the subscription item
-   */
-  quantity: number;
-}
-
-export interface GetSubscriptionItemUsageOptions {
-  /**
-   * The ID of the subscription item to get usage for
-   */
-  id: number;
-}
-
-export interface GetUsageRecordsOptions extends PaginatedOptions {
-  /**
-   * List of record types to include
-   */
-  include?: Array<"subscription-item">;
-  /**
-   * Filter usage records by subscription item
-   */
-  subscriptionItemId?: number;
-}
-
-export interface GetUsageRecordOptions {
-  /**
-   * The ID of the usage record to retrieve
-   */
-  id: number;
-  /**
-   * List of record types to include
-   */
-  include?: Array<"subscription-item">;
-}
-
-export interface CreateUsageRecordOptions {
-  /**
-   * The ID of the subscription item to report usage for
-   */
-  subscriptionItemId: number;
-  /**
-   * The number of units to report
-   */
-  quantity: number;
-  /**
-   * Type of record
-   */
-  action?: "increment" | "set";
-}
-
 export interface GetDiscountsOptions extends PaginatedOptions {
   /**
    * Filter discounts by store
@@ -773,7 +672,7 @@ export interface CreateWebhookOptions {
    * 
    * @see https://docs.lemonsqueezy.com/help/webhooks#event-types
    */
-  events: string[];
+  events: Array<WebhookEvent>;
   /**
    * Signing secret (between 6 and 40 characters
    */
@@ -794,7 +693,7 @@ export interface UpdateWebhookOptions {
    * 
    * @see https://docs.lemonsqueezy.com/help/webhooks#event-types
    */
-  events?: string[];
+  events?: Array<WebhookEvent>;
   /**
    * Signing secret (between 6 and 40 characters
    */
