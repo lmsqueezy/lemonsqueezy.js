@@ -41,7 +41,16 @@ import {
   QueryApiOptions,
   UpdateSubscriptionAttributes,
   UpdateSubscriptionOptions,
-  UpdateWebhookOptions
+  UpdateWebhookOptions,
+  GetSubscriptionItemsOptions,
+  GetUsageRecordsOptions,
+  GetSubscriptionItemOptions,
+  GetUsageRecordOptions,
+  CreateUsageRecordOptions,
+  GetPricesOptions,
+  GetPriceOptions,
+  UpdateSubscriptionItemOptions,
+  GetSubscriptionItemUsageOptions,
 } from "./types/methods";
 import {
   CheckoutsResponse,
@@ -192,7 +201,7 @@ export class LemonSqueezy {
    * @param {Object} [params]
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"products" | "discounts" | "license-keys" | "subscriptions" | "webhooks">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"products" | "discounts" | "license-keys" | "subscriptions" | "webhooks">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -208,7 +217,7 @@ export class LemonSqueezy {
    *
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"products" | "discounts" | "license-keys" | "subscriptions" | "webhooks">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"products" | "discounts" | "license-keys" | "subscriptions" | "webhooks">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -228,7 +237,7 @@ export class LemonSqueezy {
    * @param {number} [params.storeId] Filter products by store
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"store" | "variants">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "variants">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -244,7 +253,7 @@ export class LemonSqueezy {
    *
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"store" | "variants">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "variants">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -263,7 +272,7 @@ export class LemonSqueezy {
    * @param {number} [params.productId] Filter variants by product
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"product" | "files">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"product" | "files">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -279,7 +288,7 @@ export class LemonSqueezy {
    *
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"product" | "files">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"product" | "files">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -292,6 +301,42 @@ export class LemonSqueezy {
   }
 
   /**
+   * Get prices
+   * 
+   * @param {Object} [params]
+   * @param {number} [params.variantId] Filter prices by variant
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {Array<"variant">} [params.include] List of record types to include
+   * 
+   * @returns {Object} JSON
+   */
+  async getPrices(params: GetPricesOptions = {}) {
+    return this._query({
+      path: "v1/prices",
+      params: this._buildParams(params, ["variantId"])
+    });
+  }
+
+  /**
+   * Get a price
+   * 
+   * @param {Object} params
+   * @param {number} params.id
+   * @param {Array<"variant">} [params.include] List of record types to include
+   * 
+   * @returns {Object} JSON
+   */
+  async getPrice({ id, ...params }: GetPriceOptions) {
+    if (!id) throw 'You must provide an `id` in getPrice().'
+    return this._query({
+      path: `v1/prices/${id}`,
+      params: this._buildParams(params)
+    });
+  }
+
+
+  /**
    * Get checkouts
    *
    * @param {Object} [params]
@@ -299,7 +344,7 @@ export class LemonSqueezy {
    * @param {number} [params.variantId] Filter checkouts by variant
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"store" | "variant">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "variant">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -315,7 +360,7 @@ export class LemonSqueezy {
    *
    * @param {Object} params
    * @param {string} params.id
-   * @param {Array<"store" | "variant">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "variant">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -380,7 +425,7 @@ export class LemonSqueezy {
    * @param {number} [params.email] Filter customers by email address
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"license-keys" | "orders" | "store" | "subscriptions">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"license-keys" | "orders" | "store" | "subscriptions">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -396,7 +441,7 @@ export class LemonSqueezy {
    *
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"license-keys" | "orders" | "store" | "subscriptions">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"license-keys" | "orders" | "store" | "subscriptions">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -416,7 +461,7 @@ export class LemonSqueezy {
    * @param {number} [params.userEmail] Filter orders by email address
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"customer" | "discount-redemptions" | "license-keys" | "order-items" | "store" | "subscriptions">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"customer" | "discount-redemptions" | "license-keys" | "order-items" | "store" | "subscriptions">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -432,7 +477,7 @@ export class LemonSqueezy {
    *
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"customer" | "discount-redemptions" | "license-keys" | "order-items" | "store" | "subscriptions">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"customer" | "discount-redemptions" | "license-keys" | "order-items" | "store" | "subscriptions">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -451,7 +496,7 @@ export class LemonSqueezy {
    * @param {number} [params.variantId] Filter orders by variant
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"variant">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"variant">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -467,7 +512,7 @@ export class LemonSqueezy {
    *
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"variant">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"variant">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -488,7 +533,7 @@ export class LemonSqueezy {
    * @param {number} [params.variantId] Filter order items by variant
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"order" | "product" | "variant">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"order" | "product" | "variant">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -504,7 +549,7 @@ export class LemonSqueezy {
    *
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"order" | "product" | "variant">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"order" | "product" | "variant">} [params.include] List of record types to include
    *
    * @returns {Object} JSON
    */
@@ -528,7 +573,7 @@ export class LemonSqueezy {
    * @param {"on_trial" | "active" | "paused" | "past_due" | "unpaid" | "cancelled" | "expired"} [params.status] Filter subscriptions by status
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"store" | "customer" | "order" | "order-item" | "product" | "variant">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "customer" | "order" | "order-item" | "product" | "variant">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -551,7 +596,7 @@ export class LemonSqueezy {
    * 
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"store" | "customer" | "order" | "order-item" | "product" | "variant">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "customer" | "order" | "order-item" | "product" | "variant">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -722,7 +767,7 @@ export class LemonSqueezy {
    * @param {number} [params.subscriptionId] Filter subscription invoices by subscription
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"store" | "subscription">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "subscription">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -743,7 +788,7 @@ export class LemonSqueezy {
    * 
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"store" | "subscription">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "subscription">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -756,13 +801,166 @@ export class LemonSqueezy {
   }
 
   /**
+   * Get subscription items
+   * 
+   * @param {Object} [params]
+   * @param {number} [params.subscriptionId] Filter subscription items by subscription
+   * @param {number} [params.priceId] Filter subscription items by price
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {Array<"subscription" | "price" | "usage-records">} [params.include] List of record types to include
+   * 
+   * @returns {Object} JSON
+   */
+  async getSubscriptionItems(params: GetSubscriptionItemsOptions = {}) {
+    return this._query({
+      path: "v1/subscription-items",
+      params: this._buildParams(params, ['subscriptionId', 'priceId'])
+    });
+  }
+
+  /**
+   * Get a subscription item
+   * 
+   * @param {Object} params
+   * @param {number} params.id
+   * @param {Array<"subscription" | "price" | "usage-records">} [params.include] List of record types to include
+   * 
+   * @returns {Object} JSON
+   */
+  async getSubscriptionItem({ id, ...params }: GetSubscriptionItemOptions) {
+    if (!id) throw 'You must provide an `id` in getSubscriptionItem().'
+    return this._query({
+      path: `v1/subscription-items/${id}`,
+      params: this._buildParams(params)
+    });
+  }
+
+  /**
+   * Update the quantity of a subscription item
+   * 
+   * @param {Object} params
+   * @param {number} params.id
+   * @param {number} params.quantity The new quantity for the subscription item
+   * 
+   * @returns {Object} JSON
+   */
+  async updateSubscriptionItem({ id, quantity }: UpdateSubscriptionItemOptions) {
+    if (!id) throw 'You must provide an `id` in updateSubscriptionItem().'
+    if (!id) throw 'You must provide a `quantity` in updateSubscriptionItem().'
+    return this._query({
+      path: `v1/subscription-items/${id}`,
+      method: "PATCH",
+      params: {
+        data: {
+          type: "subscription-items",
+          id: "" + id,
+          attributes: {
+            quantity
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Retrieves a subscription item's current usage
+   * 
+   * @param {Object} params
+   * @param {number} params.id
+   * 
+   * @returns {Object} JSON
+   */
+  async getSubscriptionItemUsage({ id }: GetSubscriptionItemUsageOptions) {
+    if (!id) throw 'You must provide an `id` in getSubscriptionItemUsage().'
+    return this._query({
+      path: `v1/subscription-items/${id}/current-usage`
+    });
+  }
+
+  /**
+   * Get usage records
+   * 
+   * @param {Object} [params]
+   * @param {number} [params.subscriptionItemId] Filter usage records by subscription item
+   * @param {number} [params.perPage] Number of records to return (between 1 and 100)
+   * @param {number} [params.page] Page of records to return
+   * @param {Array<"subscription-item">} [params.include] List of record types to include
+   * 
+   * @returns {Object} JSON
+   */
+  async getUsageRecords(params: GetUsageRecordsOptions = {}) {
+    return this._query({
+      path: "v1/usage-records",
+      params: this._buildParams(params, ['subscriptionItemId'])
+    });
+  }
+
+  /**
+   * Get a usage record
+   * 
+   * @param {Object} params
+   * @param {number} params.id
+   * @param {Array<"subscription-item">} [params.include] List of record types to include
+   * 
+   * @returns {Object} JSON
+   */
+  async getUsageRecord({ id, ...params }: GetUsageRecordOptions) {
+    if (!id) throw 'You must provide an `id` in getUsageRecord().'
+    return this._query({
+      path: `v1/usage-records/${id}`,
+      params: this._buildParams(params)
+    });
+  }
+
+  /**
+   * Create a usage record
+   * 
+   * @param {Object} params
+   * @param {number} params.subscriptionItemId The ID of the subscription item to report usage for
+   * @param {number} params.quantity The number of units to report
+   * @param {"increment" | "set"} [params.action] Type of record
+   * 
+   * @returns {Object} JSON
+   */
+  async createUsageRecord({
+      subscriptionItemId,
+      quantity,
+      action = "increment"
+    }: CreateUsageRecordOptions) {
+    if (!subscriptionItemId) throw 'You must provide a `subscriptionItemId` in createUsageRecord().'
+    if (!quantity) throw 'You must provide a `quantity` in createUsageRecord().'
+    return this._query({
+      path: "v1/usage-records",
+      method: "POST",
+      payload: {
+        data: {
+          type: "usage-records",
+          attributes: {
+            quantity,
+            action
+          },
+          relationships: {
+            "subscription-item": {
+              data: {
+                type: "subscription-items",
+                id: "" + subscriptionItemId
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  /**
    * Get discounts
    * 
    * @param {Object} [params]
    * @param {number} [params.storeId] Filter discounts by store
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"store" | "variants" | "discount-redemptions">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "variants" | "discount-redemptions">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -778,7 +976,7 @@ export class LemonSqueezy {
    * 
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"store" | "variants" | "discount-redemptions">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "variants" | "discount-redemptions">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -894,7 +1092,7 @@ export class LemonSqueezy {
    * @param {number} [params.orderId] Filter discount redemptions by order
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"discount" | "order">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"discount" | "order">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -911,7 +1109,7 @@ export class LemonSqueezy {
    * 
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"discount" | "order">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"discount" | "order">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -933,7 +1131,7 @@ export class LemonSqueezy {
    * @param {number} [params.productId] Filter license keys by product
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"store" | "customer" | "order" | "order-item" | "product" | "license-key-instances">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "customer" | "order" | "order-item" | "product" | "license-key-instances">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -954,7 +1152,7 @@ export class LemonSqueezy {
    * 
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"store" | "customer" | "order" | "order-item" | "product" | "license-key-instances">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store" | "customer" | "order" | "order-item" | "product" | "license-key-instances">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -973,7 +1171,7 @@ export class LemonSqueezy {
    * @param {number} [params.licenseKeyId] Filter license keys instances by license key
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"license-key">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"license-key">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -989,7 +1187,7 @@ export class LemonSqueezy {
    * 
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"license-key">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"license-key">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -1008,7 +1206,7 @@ export class LemonSqueezy {
    * @param {number} [params.storeId] Filter webhooks by store
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
-   * @param {Array<"store">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */
@@ -1024,7 +1222,7 @@ export class LemonSqueezy {
    * 
    * @param {Object} params
    * @param {number} params.id
-   * @param {Array<"store">} [params.include] Comma-separated list of record types to include
+   * @param {Array<"store">} [params.include] List of record types to include
    * 
    * @returns {Object} JSON
    */

@@ -40,7 +40,7 @@ const subscriptions = await ls.getSubscriptions({ storeId: 123, perPage: 50 });
 
 const subscription = await ls.getSubscription({
   id: 123,
-  include: "subscription-invoices",
+  include: ["subscription-invoices"],
 });
 
 const subscription = await ls.cancelSubscription({ id: 123 });
@@ -68,7 +68,7 @@ const order = await ls.getOrders({
   storeId: 3,
   perPage: 50,
   page: 2,
-  include: "store,customer",
+  include: ["store", "customer"]
 });
 ```
 
@@ -121,9 +121,9 @@ Each method will throw an exception if there are issues with the request. JSON w
 Use `try { ... } catch { ... }` to access this object. Error messages will be available in a list in `errors`.
 
 ```javascript
-// "something" is not a valid value for `include`
+// "something" is not a valid value for `include` so this request will return an error
 try {
-  const subscriptions = await ls.getSubscriptions({ include: "something" });
+  const subscriptions = await ls.getSubscriptions({ include: ["something"] });
 } catch (err) {
   // `err` is an object like this:
   //  {
@@ -159,6 +159,8 @@ Do not use this package directly in the browser. as this will expose your API ke
 - [getProduct()](#getproductparameters)
 - [getVariants()](#getvariantsparameters)
 - [getVariant()](#getvariantparameters)
+- [getPrices()](#getpricesparameters)
+- [getPrice()](#getpriceparameters)
 - [getCheckouts()](#getcheckoutsparameters)
 - [getCheckout()](#getcheckoutparameters)
 - [createCheckout()](#createcheckoutparameters)
@@ -179,6 +181,13 @@ Do not use this package directly in the browser. as this will expose your API ke
 - [unpauseSubscription()](#unpausesubscriptionparameters)
 - [getSubscriptionInvoices()](#getsubscriptioninvoicesparameters)
 - [getSubscriptionInvoice()](#getsubscriptioninvoiceparameters)
+- [getSubscriptionItems()](#getsubscriptionitemsparameters)
+- [getSubscriptionItem()](#getsubscriptionitemparameters)
+- [updateSubscriptionItem()](#updatesubscriptionitemparameters)
+- [getSubscriptionItemUsage()](#getsubscriptionitemusageparameters)
+- [getUsageRecords()](#getusagerecordsparameters)
+- [getUsageRecord()](#getusagerecordparameters)
+- [createUsageRecord()](#createusagerecordparameters)
 - [getDiscounts()](#getdiscountsparameters)
 - [getDiscount()](#getdiscountparameters)
 - [createDiscount()](#creatediscountparameters)
@@ -362,6 +371,56 @@ Returns a [Variant object](https://docs.lemonsqueezy.com/api/variants).
 
 ```javascript
 const variant = await ls.getVariant({ id: 123 })
+```
+
+---
+
+### getPrices(parameters)
+
+Get a list of prices.
+
+Returns a list of [Price objects](https://docs.lemonsqueezy.com/api/prices).
+
+[API reference](https://docs.lemonsqueezy.com/api/prices#list-all-prices).
+
+#### Parameters
+
+| Parameter   | Type   | Required | Default | Notes                                                           |
+| ----------- | ------ | -------- | ------- | --------------------------------------------------------------- |
+| `variantId` | number | -        | -       | Filter prices by variant.                                       |
+| `perPage`   | number | -        | `10`    |                                                                 |
+| `page`      | number | -        | `1`     |                                                                 |
+| `include`   | string | -        | -       | Comma-separated list of object names: <ul><li>variant</li></ul> |
+
+#### Example
+
+```javascript
+const prices = await ls.getPrices()
+
+const prices = await ls.getPrices({ variantId: 123, include: 'variant' })
+```
+
+---
+
+### getPrice(parameters)
+
+Get a price.
+
+Returns a [Price object](https://docs.lemonsqueezy.com/api/prices).
+
+[API reference](https://docs.lemonsqueezy.com/api/prices#retrieve-a-price).
+
+#### Parameters
+
+| Parameter | Type   | Required | Default | Notes                                                           |
+| --------- | ------ | -------- | ------- | --------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                 |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>variant</li></ul> |
+
+#### Example
+
+```javascript
+const price = await ls.getPrice({ id: 123 })
 ```
 
 ---
@@ -884,6 +943,178 @@ Returns a [Subscription invoice object](https://docs.lemonsqueezy.com/api/subscr
 
 ```javascript
 const subscriptionInvoice = await ls.getSubscriptionInvoice({ id: 123 })
+```
+
+---
+
+### getSubscriptionItems(parameters)
+
+Get a list of subscription items.
+
+Returns a list of [Subscription item objects](https://docs.lemonsqueezy.com/api/subscription-items).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscription-items#list-all-subscription-items).
+
+#### Parameters
+
+| Parameter        | Type   | Required | Default | Notes                                                         |
+| ---------------- | ------ | -------- | ------- | ------------------------------------------------------------- |
+| `subscriptionId` | number | -        | -       | Filter subscription items by subscription.                    |
+| `perPage`        | number | -        | `10`    |                                                               |
+| `page`           | number | -        | `1`     |                                                               |
+| `include`        | string | -        | -       | Comma-separated list of object names: <ul><li>subscription</li><li>price</li><li>usage-records</li></ul> |
+
+#### Example
+
+```javascript
+const subscriptionItems = await ls.getSubscriptionItems()
+
+const subscriptionItems = await ls.getSubscriptionItems({ storeId: 123 })
+```
+
+---
+
+### getSubscriptionItem(parameters)
+
+Get a subscription item.
+
+Returns a [Subscription item object](https://docs.lemonsqueezy.com/api/subscription-items).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscription-items#retrieve-a-subscription-item).
+
+#### Parameters
+
+| Parameter | Type   | Required | Default | Notes                                                         |
+| --------- | ------ | -------- | ------- | ------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                               |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>subscription</li><li>price</li><li>usage-records</li></ul> |
+
+#### Example
+
+```javascript
+const subscriptionItem = await ls.getSubscriptionItem({ id: 123, include: 'price' })
+```
+
+---
+
+### updateSubscriptionItem(parameters)
+
+Update the quantity of a subscription item.
+
+Returns a [Subscription item object](https://docs.lemonsqueezy.com/api/subscription-items).
+
+[API reference](https://docs.lemonsqueezy.com/api/subscription-items#update-a-subscription-item).
+
+#### Parameters
+
+| Parameter  | Type   | Required | Default | Notes |
+| ---------- | ------ | -------- | ------- | ----- |
+| `id`       | number | Yes      | -       |       |
+| `quantity` | number | Yes      | -       |       |
+
+#### Example
+
+```javascript
+const subscriptionItem = await ls.updateSubscriptionItem({ id: 123, quantity: 10 })
+```
+
+---
+
+### getSubscriptionItemUsage(parameters)
+
+Retrieves a subscription item's current usage.
+
+Returns a meta object containing usage information.
+
+[API reference](https://docs.lemonsqueezy.com/api/subscription-items#retrieve-a-subscription-item-s-current-usage).
+
+#### Parameters
+
+| Parameter  | Type   | Required | Default | Notes |
+| ---------- | ------ | -------- | ------- | ----- |
+| `id`       | number | Yes      | -       |       |
+
+#### Example
+
+```javascript
+const usageInformation = await ls.getSubscriptionItemUsage({ id: 123 })
+```
+
+---
+
+### getUsageRecords(parameters)
+
+Get a list of usage records.
+
+Returns a list of [Usage record objects](https://docs.lemonsqueezy.com/api/usage-records).
+
+[API reference](https://docs.lemonsqueezy.com/api/usage-records#list-all-usage-records).
+
+#### Parameters
+
+| Parameter            | Type   | Required | Default | Notes                                                         |
+| -------------------- | ------ | -------- | ------- | ------------------------------------------------------------- |
+| `subscriptionItemId` | number | -        | -       | Filter usage records by subscription item.                    |
+| `perPage`            | number | -        | `10`    |                                                               |
+| `page`               | number | -        | `1`     |                                                               |
+| `include`            | string | -        | -       | Comma-separated list of object names: <ul><li>subscription-item</li></ul> |
+
+#### Example
+
+```javascript
+const usageRecords = await ls.getUsageRecords()
+
+const usageRecords = await ls.getUsageRecords({ subscriptionItemId: 123 })
+```
+
+---
+
+### getUsageRecord(parameters)
+
+Get a usage record.
+
+Returns a [Usage record object](https://docs.lemonsqueezy.com/api/usage-records).
+
+[API reference](https://docs.lemonsqueezy.com/api/usage-records#retrieve-a-usage-record).
+
+#### Parameters
+
+| Parameter | Type   | Required | Default | Notes                                                         |
+| --------- | ------ | -------- | ------- | ------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                               |
+| `include` | string | -        | -       | Comma-separated list of object names: <ul><li>subscription-item</li></ul> |
+
+#### Example
+
+```javascript
+const usageRecord = await ls.getUsageRecord({ id: 123 })
+```
+
+---
+
+### createUsageRecord(parameters)
+
+Create a usage record.
+
+Returns a [Usage record object](https://docs.lemonsqueezy.com/api/usage-records).
+
+[API reference](https://docs.lemonsqueezy.com/api/usage-records#create-a-usage-record).
+
+#### Parameters
+
+| Parameter            | Type   | Required | Default     | Notes |
+| -------------------- | ------ | -------- | ----------- | ----- |
+| `subscriptionItemId` | number | Yes      | -           |       |
+| `quantity`           | number | Yes      | -           |       |
+| `action`             | string | -        | `increment` | The type of record:<ul><li>`increment` - Add to existing records from this billing period.</li><li>`set` - Reset usage in this billing period to the given quantity.</li></ul> |
+
+#### Example
+
+```javascript
+const usageRecord = await ls.createUsageRecord({
+  subscriptionItemId: 123,
+  quantity: 18
+})
 ```
 
 ---
