@@ -20,6 +20,8 @@ Create a new API key from [Settings > API](https://app.lemonsqueezy.com/settings
 
 Add this API key into your project, for example as `LEMONSQUEEZY_API_KEY` in your `.env` file.
 
+You can test the API/SDK when in [test mode](/help/getting-started/test-mode) so you can build a full integration without making live transactions.
+
 ## Usage
 
 ### Basic usage
