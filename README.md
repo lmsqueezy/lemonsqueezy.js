@@ -6,6 +6,8 @@
 
 This is the official JavaScript SDK for [Lemon Squeezy](https://lemonsqueezy.com), helping make it easy to incorporate billing into your JavaScript application.
 
+Now with full TypeScript support.
+
 Please read the [API introduction page](https://docs.lemonsqueezy.com/api) to understand how the API works.
 
 ## Installation
