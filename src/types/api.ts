@@ -1,12 +1,16 @@
 interface BaseListResponse {
   meta: object;
-  jsonapi: object;
+  jsonapi: {
+    version: "1.0";
+  };
   links: object;
   included?: Record<string, any>;
 }
 
 interface BaseIndividualResponse {
-  jsonapi: object;
+  jsonapi: {
+    version: "1.0";
+  };
   links: object;
   included?: Record<string, any>;
 }
@@ -1191,6 +1195,111 @@ export interface SubscriptionInvoicesResponse extends BaseListResponse {
 
 export interface SubscriptionInvoiceResponse extends BaseIndividualResponse {
   data: SubscriptionInvoiceObject;
+}
+
+
+interface SubscriptionItemAttributes {
+  /**
+   * The ID of the Subscription this subscription item belongs to.
+   */
+  subscription_id: number;
+  /**
+   * The ID of the Price this subscription item belongs to.
+   */
+  price_id: number;
+  /**
+   * A positive integer representing the unit quantity of this subscription item.
+   */
+  quantity: number;
+  /**
+   * A boolean value indicating whether the related subscription product/variant has usage-based billing enabled.
+   */
+  is_usage_based: boolean;
+  /**
+   * Date the subscription item was created (ISO 8601 format).
+   */
+  created_at: string;
+  /**
+   * Date the subscription item was updated (ISO 8601 format).
+   */
+  updated_at: string;
+}
+
+interface SubscriptionItemObject extends BaseApiObject {
+  attributes: SubscriptionItemAttributes;
+}
+
+export interface SubscriptionItemsResponse extends BaseListResponse {
+  data: SubscriptionItemObject[];
+}
+
+export interface SubscriptionItemResponse extends BaseIndividualResponse {
+  data: SubscriptionItemObject;
+}
+
+
+export interface SubscriptionItemUsageResponse {
+  jsonapi: {
+    version: "1.0";
+  };
+  meta: {
+    /**
+     * Date the billing period started (ISO 8601 format).
+     */
+    period_start: string;
+    /**
+     * Date the billing period will end (ISO 8601 format).
+     */
+    period_end: string;
+    /**
+     * A positive integer representing the usage total.
+     */
+    quantity: number;
+    /**
+     * The interval unit of the subscription's variant.
+     */
+    interval_unit: "day" | "week" | "month" | "year";
+    /**
+     * The interval count of the subscription's variant.
+     */
+    interval_quantity: number;
+  }
+}
+
+
+interface UsageRecordAttributes {
+  /**
+   * The ID of the Subscription item this usage record belongs to.
+   */
+  subscription_item_id: number;
+  /**
+   * A positive integer representing the unit usage reported.
+   */
+  quantity: number;
+  /**
+   * The type of record.
+   */
+  action: "increment" | "set";
+  /**
+   * Date the usage record was created (ISO 8601 format).
+   */
+  created_at: string;
+  /**
+   * Date the usage record was updated (ISO 8601 format).
+   */
+  updated_at: string;
+}
+
+interface UsageRecordObject extends BaseApiObject {
+  attributes: UsageRecordAttributes;
+}
+
+export interface UsageRecordsResponse extends BaseListResponse {
+  data: UsageRecordObject[];
+}
+
+export interface UsageRecordResponse extends BaseIndividualResponse {
+  data: UsageRecordObject;
 }
 
 
