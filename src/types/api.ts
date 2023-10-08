@@ -133,6 +133,10 @@ interface SubscriptionAttributes {
      * A signed URL for managing payment and billing infanaginormation for the subscription, valid for 24 hours.
      */
     update_payment_method: string;
+    /**
+     * A signed URL for managing the subscription, valid for 24 hours.
+     */
+    customer_portal: string;
   };
   /**
    * Date indicating the end of the current billing cycle, and when the next invoice will be issued (ISO 8601 format).
