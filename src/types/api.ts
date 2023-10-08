@@ -1,7 +1,7 @@
 interface BaseListResponse {
   meta: object;
   jsonapi: {
-    version: "1.0";
+    version: '1.0';
   };
   links: object;
   included?: Record<string, any>;
@@ -9,7 +9,7 @@ interface BaseListResponse {
 
 interface BaseIndividualResponse {
   jsonapi: {
-    version: "1.0";
+    version: '1.0';
   };
   links: object;
   included?: Record<string, any>;
@@ -21,7 +21,6 @@ interface BaseApiObject {
   relationships: object;
   links: object;
 }
-
 
 interface SubscriptionAttributes {
   /**
@@ -67,15 +66,29 @@ interface SubscriptionAttributes {
   /**
    * The status of the subscription.
    */
-  status: "on_trial" | "active" | "paused" | "unpaid" | "cancelled" | "expired";
+  status: 'on_trial' | 'active' | 'paused' | 'unpaid' | 'cancelled' | 'expired';
   /**
    * The title-case formatted status of the subscription.
    */
-  status_formatted: "On Trial" | "Active" | "Paused" | "Unpaid" | "Cancelled" | "Expired";
+  status_formatted:
+    | 'On Trial'
+    | 'Active'
+    | 'Paused'
+    | 'Unpaid'
+    | 'Cancelled'
+    | 'Expired';
   /**
    * Lowercase brand of the card used to pay for the latest subscription payment.
    */
-  card_brand: "visa" | "mastercard" | "amex" | "discover" | "jcb" | "diners" | "unionpay" | null;
+  card_brand:
+    | 'visa'
+    | 'mastercard'
+    | 'amex'
+    | 'discover'
+    | 'jcb'
+    | 'diners'
+    | 'unionpay'
+    | null;
   /**
    * The last 4 digits of the card used to pay for the latest subscription payment.
    */
@@ -133,6 +146,10 @@ interface SubscriptionAttributes {
      * A signed URL for managing payment and billing infanaginormation for the subscription, valid for 24 hours.
      */
     update_payment_method: string;
+    /**
+     * A signed URL for managing the subscription, valid for 24 hours.
+     */
+    customer_portal: string;
   };
   /**
    * Date indicating the end of the current billing cycle, and when the next invoice will be issued (ISO 8601 format).
@@ -156,7 +173,6 @@ interface SubscriptionAttributes {
   test_mode: boolean;
 }
 
-
 interface SubscriptionObject extends BaseApiObject {
   attributes: SubscriptionAttributes;
 }
@@ -168,7 +184,6 @@ export interface SubscriptionsResponse extends BaseListResponse {
 export interface SubscriptionResponse extends BaseIndividualResponse {
   data: SubscriptionObject;
 }
-
 
 interface StoreAttributes {
   /**
@@ -245,7 +260,6 @@ export interface StoreResponse extends BaseIndividualResponse {
   data: StoreObject;
 }
 
-
 interface CustomerAttributes {
   /**
    * The ID of the store this customer belongs to.
@@ -262,7 +276,13 @@ interface CustomerAttributes {
   /**
    * The email marketing status of the customer.
    */
-  status: "subscribed" | "unsubscribed" | "archived" | "requires_verification" | "invalid_email" | "bounced";
+  status:
+    | 'subscribed'
+    | 'unsubscribed'
+    | 'archived'
+    | 'requires_verification'
+    | 'invalid_email'
+    | 'bounced';
   /**
    * The city of the customer.
    */
@@ -286,7 +306,13 @@ interface CustomerAttributes {
   /**
    * The formatted status of the customer.
    */
-  status_formatted: "Subscribed" | "Unsubscribed" | "Archived" | "Requires Verification" | "Invalid Email" | "Bounced";
+  status_formatted:
+    | 'Subscribed'
+    | 'Unsubscribed'
+    | 'Archived'
+    | 'Requires Verification'
+    | 'Invalid Email'
+    | 'Bounced';
   /**
    * The formatted country of the customer.
    */
@@ -324,7 +350,6 @@ export interface CustomersResponse extends BaseListResponse {
 export interface CustomerResponse extends BaseIndividualResponse {
   data: CustomerObject;
 }
-
 
 interface UserAttributes {
   /**
@@ -365,7 +390,6 @@ export interface UserResponse extends BaseIndividualResponse {
   data: UserObject;
 }
 
-
 interface ProductAttributes {
   /**
    * The ID of the store this product belongs to.
@@ -386,11 +410,11 @@ interface ProductAttributes {
   /**
    * The status of the product.
    */
-  status: "draft" | "published";
+  status: 'draft' | 'published';
   /**
    * The formatted status of the product.
    */
-  status_formatted: "Draft" | "Published";
+  status_formatted: 'Draft' | 'Published';
   /**
    * A URL to the thumbnail image for this product (if one exists). The image will be 100x100px in size.
    */
@@ -449,7 +473,6 @@ export interface ProductResponse extends BaseIndividualResponse {
   data: ProductObject;
 }
 
-
 interface VariantAttributes {
   /**
    * The ID of the product this variant belongs to.
@@ -478,7 +501,7 @@ interface VariantAttributes {
   /**
    * @deprecated Price information has been moved to Price objects.
    */
-  interval: "day" | "week" | "month" | "year" | null;
+  interval: 'day' | 'week' | 'month' | 'year' | null;
   /**
    * @deprecated Price information has been moved to Price objects.
    */
@@ -490,7 +513,7 @@ interface VariantAttributes {
   /**
    * @deprecated Price information has been moved to Price objects.
    */
-  trial_interval: "day" | "week" | "month" | "year" | null;
+  trial_interval: 'day' | 'week' | 'month' | 'year' | null;
   /**
    * @deprecated Price information has been moved to Price objects.
    */
@@ -526,7 +549,7 @@ interface VariantAttributes {
   /**
    * The unit linked with the `license_length_value` attribute.
    */
-  license_length_unit: "days" | "months" | "years" | null;
+  license_length_unit: 'days' | 'months' | 'years' | null;
   /**
    * A boolean representing if license keys should never expire.
    */
@@ -538,11 +561,11 @@ interface VariantAttributes {
   /**
    * The status of the variant.
    */
-  status: "pending" | "draft" | "published";
+  status: 'pending' | 'draft' | 'published';
   /**
    * The formatted status of the variant.
    */
-  status_formatted: "Pending" | "Draft" | "Published";
+  status_formatted: 'Pending' | 'Draft' | 'Published';
   /**
    * Date the variant was created (ISO 8601 format).
    */
@@ -568,7 +591,6 @@ export interface VariantsResponse extends BaseListResponse {
 export interface VariantResponse extends BaseIndividualResponse {
   data: VariantObject;
 }
-
 
 interface CheckoutProductOptions {
   /**
@@ -739,7 +761,7 @@ interface CheckoutPreview {
   /**
    * A human-readable string representing the total price of the checkout in the store currency.
    */
-  total_formatted:  string;
+  total_formatted: string;
 }
 
 interface CheckoutAttributes {
@@ -804,7 +826,6 @@ export interface CheckoutsResponse extends BaseListResponse {
 export interface CheckoutResponse extends BaseIndividualResponse {
   data: CheckoutObject;
 }
-
 
 interface OrderAttributes {
   /**
@@ -882,11 +903,11 @@ interface OrderAttributes {
   /**
    * The status of the order.
    */
-  status: "pending" | "failed" | "paid" | "refunded";
+  status: 'pending' | 'failed' | 'paid' | 'refunded';
   /**
    * The formatted status of the order.
    */
-  status_formatted: "Pending" | "Failed" | "Paid" | "Refunded";
+  status_formatted: 'Pending' | 'Failed' | 'Paid' | 'Refunded';
   /**
    * A boolean indicating if the order has been refunded.
    */
@@ -988,7 +1009,6 @@ export interface OrderResponse extends BaseIndividualResponse {
   data: OrderObject;
 }
 
-
 interface FileAttributes {
   /**
    * The ID of the variant this file belongs to.
@@ -1029,7 +1049,7 @@ interface FileAttributes {
   /**
    * The status of the file
    */
-  status: "draft" | "published";
+  status: 'draft' | 'published';
   /**
    * Date the file was created (ISO 8601 format).
    */
@@ -1056,7 +1076,6 @@ export interface FileResponse extends BaseIndividualResponse {
   data: FileObject;
 }
 
-
 interface SubscriptionInvoiceAttributes {
   /**
    * The ID of the Store this subscription invoice belongs to.
@@ -1081,11 +1100,19 @@ interface SubscriptionInvoiceAttributes {
   /**
    * The reason for the invoice being generated.
    */
-  billing_reason: "initial" | "renewal" | "updated";
+  billing_reason: 'initial' | 'renewal' | 'updated';
   /**
    * Lowercase brand of the card used to pay for the invoice.
    */
-  card_brand: "visa" | "mastercard" | "amex" | "discover" | "jcb" | "diners" | "unionpay" | null;
+  card_brand:
+    | 'visa'
+    | 'mastercard'
+    | 'amex'
+    | 'discover'
+    | 'jcb'
+    | 'diners'
+    | 'unionpay'
+    | null;
   /**
    * The last 4 digits of the card used to pay for the invoice.
    */
@@ -1101,11 +1128,11 @@ interface SubscriptionInvoiceAttributes {
   /**
    * The status of the invoice.
    */
-  status: "pending" | "paid" | "void" | "refunded";
+  status: 'pending' | 'paid' | 'void' | 'refunded';
   /**
    * The formatted status of the invoice.
    */
-  status_formatted: "Pending" | "Paid" | "Void" | "Refunded";
+  status_formatted: 'Pending' | 'Paid' | 'Void' | 'Refunded';
   /**
    * A boolean value indicating whether the invoice has been refunded.
    */
@@ -1197,7 +1224,6 @@ export interface SubscriptionInvoiceResponse extends BaseIndividualResponse {
   data: SubscriptionInvoiceObject;
 }
 
-
 interface SubscriptionItemAttributes {
   /**
    * The ID of the Subscription this subscription item belongs to.
@@ -1237,10 +1263,9 @@ export interface SubscriptionItemResponse extends BaseIndividualResponse {
   data: SubscriptionItemObject;
 }
 
-
 export interface SubscriptionItemUsageResponse {
   jsonapi: {
-    version: "1.0";
+    version: '1.0';
   };
   meta: {
     /**
@@ -1258,14 +1283,13 @@ export interface SubscriptionItemUsageResponse {
     /**
      * The interval unit of the subscription's variant.
      */
-    interval_unit: "day" | "week" | "month" | "year";
+    interval_unit: 'day' | 'week' | 'month' | 'year';
     /**
      * The interval count of the subscription's variant.
      */
     interval_quantity: number;
-  }
+  };
 }
-
 
 interface UsageRecordAttributes {
   /**
@@ -1279,7 +1303,7 @@ interface UsageRecordAttributes {
   /**
    * The type of record.
    */
-  action: "increment" | "set";
+  action: 'increment' | 'set';
   /**
    * Date the usage record was created (ISO 8601 format).
    */
@@ -1302,7 +1326,6 @@ export interface UsageRecordResponse extends BaseIndividualResponse {
   data: UsageRecordObject;
 }
 
-
 interface DiscountAttributes {
   /**
    * The ID of the store this discount belongs to.
@@ -1323,7 +1346,7 @@ interface DiscountAttributes {
   /**
    * The type of the amount.
    */
-  amount_type: "percent" | "fixed";
+  amount_type: 'percent' | 'fixed';
   /**
    * A boolean indicating if the discount can only be applied to certain products/variants.
    */
@@ -1347,7 +1370,7 @@ interface DiscountAttributes {
   /**
    * When applied to a subscription, how often the discount should be applied.
    */
-  duration: "once" | "repeating" | "forever";
+  duration: 'once' | 'repeating' | 'forever';
   /**
    * If duration is repeating, this specifies how many months the discount should apply.
    */
@@ -1355,11 +1378,11 @@ interface DiscountAttributes {
   /**
    * The status of the discount.
    */
-  status: "draft" | "published";
+  status: 'draft' | 'published';
   /**
    * The formatted status of the discount.
    */
-  status_formatted: "Draft" | "Published";
+  status_formatted: 'Draft' | 'Published';
   /**
    * Date the discount was created (ISO 8601 format).
    */
@@ -1386,7 +1409,6 @@ export interface DiscountResponse extends BaseIndividualResponse {
   data: DiscountObject;
 }
 
-
 interface DiscountRedemptionAttributes {
   /**
    * The ID of the discount this redemption belongs to.
@@ -1411,7 +1433,7 @@ interface DiscountRedemptionAttributes {
   /**
    * The type of the discount_amount.
    */
-  discount_amount_type: "percent" | "fixed";
+  discount_amount_type: 'percent' | 'fixed';
   /**
    * A positive integer in cents representing the amount of the discount that was applied to the order (in the order currency).
    */
@@ -1437,7 +1459,6 @@ export interface DiscountRedemptionsResponse extends BaseListResponse {
 export interface DiscountRedemptionResponse extends BaseIndividualResponse {
   data: DiscountRedemptionObject;
 }
-
 
 interface LicenseKeyAttributes {
   /**
@@ -1491,11 +1512,11 @@ interface LicenseKeyAttributes {
   /**
    * The status of the license key.
    */
-  status: "inactive" | "active" | "expired" | "disabled";
+  status: 'inactive' | 'active' | 'expired' | 'disabled';
   /**
    * The formatted status of the license key.
    */
-  status_formatted: "Inactive" | "Active" | "Expired" | "Disabled";
+  status_formatted: 'Inactive' | 'Active' | 'Expired' | 'Disabled';
   /**
    * Date the license key expires (ISO 8601 format).
    */
@@ -1521,7 +1542,6 @@ export interface LicenseKeysResponse extends BaseListResponse {
 export interface LicenseKeyResponse extends BaseIndividualResponse {
   data: LicenseKeyObject;
 }
-
 
 interface LicenseKeyInstanceAttributes {
   /**
@@ -1559,20 +1579,20 @@ export interface LicenseKeyInstanceResponse extends BaseIndividualResponse {
 }
 
 export type WebhookEvent =
-  | "order_created"
-  | "order_refunded"
-  | "subscription_created"
-  | "subscription_updated"
-  | "subscription_cancelled"
-  | "subscription_resumed"
-  | "subscription_expired"
-  | "subscription_paused"
-  | "subscription_unpaused"
-  | "subscription_payment_success"
-  | "subscription_payment_failed"
-  | "subscription_payment_recovered"
-  | "license_key_created"
-  | "license_key_updated";
+  | 'order_created'
+  | 'order_refunded'
+  | 'subscription_created'
+  | 'subscription_updated'
+  | 'subscription_cancelled'
+  | 'subscription_resumed'
+  | 'subscription_expired'
+  | 'subscription_paused'
+  | 'subscription_unpaused'
+  | 'subscription_payment_success'
+  | 'subscription_payment_failed'
+  | 'subscription_payment_recovered'
+  | 'license_key_created'
+  | 'license_key_updated';
 
 interface WebhookAttributes {
   /**
