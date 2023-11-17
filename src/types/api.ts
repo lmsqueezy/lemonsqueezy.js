@@ -83,7 +83,19 @@ interface SubscriptionAttributes {
   /**
    * An object containing the payment collection pause behaviour options for the subscription, if set.
    */
-  pause: object | null;
+  pause: {
+    /**
+     * Defines payment pause behaviour, can be one of:
+     *
+     *  - `void` - If you can't offer your services for a period of time (for maintenance as an example), you can void invoices so your customers aren't charged
+     *  - `free` - Offer your subscription services for free, whilst halting payment collection
+     */
+    mode: 'void' | 'free';
+    /**
+     * An ISO-8601 formatted date-time string indicating when the subscription will continue collecting payments
+     */
+    resumes_at: string;
+  } | null;
   /**
    * A boolean indicating if the subscription has been cancelled.
    */
