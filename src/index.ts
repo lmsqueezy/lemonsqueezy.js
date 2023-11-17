@@ -855,7 +855,7 @@ export class LemonSqueezy {
     return this._query({
       path: `v1/subscription-items/${id}`,
       method: "PATCH",
-      params: {
+      payload: {
         data: {
           type: "subscription-items",
           id: "" + id,
