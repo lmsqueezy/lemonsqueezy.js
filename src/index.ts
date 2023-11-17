@@ -96,6 +96,8 @@ export class LemonSqueezy {
    *
    * @params {Object} [args] Arguments to the API method
    * @params {string[]} [allowedFilters] List of filters the API query permits (camelCase)
+   * 
+   * @returns {Record} Params object
    */
   private _buildParams<TArgs extends Record<string, any>>(
     args: TArgs,
@@ -883,7 +885,7 @@ export class LemonSqueezy {
    */
   async deleteDiscount({ id }: DeleteDiscountOptions): Promise<void> {
     if (!id) throw "You must provide a `id` in deleteDiscount().";
-    this._query({ path: `v1/discounts/${id}`, method: "DELETE" });
+    return this._query({ path: `v1/discounts/${id}`, method: "DELETE" });
   }
 
   /**
@@ -1112,10 +1114,12 @@ export class LemonSqueezy {
    * 
    * @param {Object} params
    * @param {number} params.id
+   * 
+   * @returns {Object} JSON
    */
   async deleteWebhook({ id }: DeleteWebhookOptions): Promise<void> {
     if (!id) throw "You must provide an `id` in deleteWebhook().";
-    this._query({ path: `v1/webhooks/${id}`, method: "DELETE" });
+    return this._query({ path: `v1/webhooks/${id}`, method: "DELETE" });
   }
 }
 
