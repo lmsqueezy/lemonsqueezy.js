@@ -171,7 +171,7 @@ export interface GetCustomersOptions extends PaginatedOptions {
   /**
    * Filter customers by email address
    */
-  email?: number;
+  email?: string;
   /**
    * List of record types to include
    */
@@ -380,7 +380,7 @@ export interface UpdateSubscriptionAttributes {
 export interface PauseSubscriptionOptions extends BaseUpdateSubscriptionOptions {
   /**
    * Type of pause
-   * 
+   *
    * @default "void"
    */
   mode?: "void" | "free";
@@ -393,7 +393,7 @@ export interface PauseSubscriptionOptions extends BaseUpdateSubscriptionOptions 
 export interface PauseSubscriptionAttributes {
   /**
    * Type of pause
-   * 
+   *
    * @default "void"
    */
   mode?: "void" | "free";
@@ -770,7 +770,7 @@ export interface CreateWebhookOptions {
   url: string;
   /**
    * List of webhook events to receive
-   * 
+   *
    * @see https://docs.lemonsqueezy.com/help/webhooks#event-types
    */
   events: Array<WebhookEvent>;
@@ -791,7 +791,7 @@ export interface UpdateWebhookOptions {
   url?: string;
   /**
    * List of webhook events to receive
-   * 
+   *
    * @see https://docs.lemonsqueezy.com/help/webhooks#event-types
    */
   events?: Array<WebhookEvent>;
