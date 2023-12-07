@@ -142,9 +142,13 @@ interface SubscriptionAttributes {
    */
   urls: {
     /**
-     * A signed URL for managing payment and billing infanaginormation for the subscription, valid for 24 hours.
+     * A signed URL for managing payment and billing information for the subscription, valid for 24 hours.
      */
     update_payment_method: string;
+    /**
+     *  A pre-signed URL to the Customer Portal, which allows customers to fully manage their subscriptions and billing information from within your application. The URL is valid for 24 hours from time of request.
+     */
+    customer_portal: string;
   };
   /**
    * Date indicating the end of the current billing cycle, and when the next invoice will be issued (ISO 8601 format).
@@ -311,6 +315,15 @@ interface CustomerAttributes {
    * A human-readable string representing the monthly recurring revenue from the customer (e.g. $9.99).
    */
   mrr_formatted: string;
+  /**
+   * URLs for the customer to manage subscriptions.
+   */
+  urls: {
+    /**
+     * A pre-signed URL to the Customer Portal, which allows customers to fully manage their subscriptions and billing information from within your application. The URL is valid for 24 hours from time of request.
+     */
+    customer_portal: string | null;
+  };
   /**
    * Date the customer was created (ISO 8601 format).
    */
