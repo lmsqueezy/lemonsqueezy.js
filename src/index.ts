@@ -52,6 +52,7 @@ import {
   UpdateSubscriptionItemOptions,
   GetSubscriptionItemUsageOptions,
 } from "./types/methods";
+import { validateId } from './utils';
 import {
   CheckoutsResponse,
   CheckoutResponse,
@@ -226,8 +227,7 @@ export class LemonSqueezy {
    * @returns {Object} JSON
    */
   async getStore({ id, ...params }: GetStoreOptions): Promise<StoreResponse> {
-    if (!id) throw "You must provide an `id` in getStore().";
-
+    validateId(id, 'getStore');
     return this._query({
       path: `v1/stores/${id}`,
       params: this._buildParams(params),
