@@ -29,7 +29,7 @@ You can test the API/SDK when in [test mode](https://docs.lemonsqueezy.com/help/
 ### Basic usage
 
 ```javascript
-import LemonSqueezy from "@lemonsqueezy/lemonsqueezy.js";
+import { LemonSqueezy } from "@lemonsqueezy/lemonsqueezy.js";
 const ls = new LemonSqueezy(process.env.LEMONSQUEEZY_API_KEY);
 
 const products = await ls.getProducts();
