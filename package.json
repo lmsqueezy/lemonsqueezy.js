@@ -27,7 +27,12 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "version:dev": "changeset version --snapshop --no-git-tag --tag dev",
+    "release": "npm run build && changeset publish",
+    "release:dev": "npm run build && changeset publish --snapshot --no-git-tag --tag dev"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",
@@ -35,5 +40,8 @@
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@changesets/cli": "^2.27.1"
+  }
 }
