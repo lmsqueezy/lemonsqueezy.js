@@ -29,7 +29,7 @@ You can test the API/SDK when in [test mode](https://docs.lemonsqueezy.com/help/
 ### Basic usage
 
 ```javascript
-import LemonSqueezy from "@lemonsqueezy/lemonsqueezy.js";
+import { LemonSqueezy } from "@lemonsqueezy/lemonsqueezy.js";
 const ls = new LemonSqueezy(process.env.LEMONSQUEEZY_API_KEY);
 
 const products = await ls.getProducts();
@@ -55,7 +55,10 @@ You can use `include` in every "read" method to pull in [related resources](http
 Note: In v1.0.3 and lower, `include` was a string of object names. Now it should be an array of strings.
 
 ```javascript
-const product = await ls.getProduct({ id: 123, include: ["store", "variants"] });
+const product = await ls.getProduct({
+  id: 123,
+  include: ["store", "variants"],
+});
 ```
 
 ### Pagination
@@ -70,7 +73,7 @@ const order = await ls.getOrders({
   storeId: 3,
   perPage: 50,
   page: 2,
-  include: ["store", "customer"]
+  include: ["store", "customer"],
 });
 ```
 
@@ -223,7 +226,7 @@ None.
 #### Example
 
 ```javascript
-const user = await ls.getUser()
+const user = await ls.getUser();
 ```
 
 ---
@@ -247,9 +250,9 @@ Returns a list of [Store objects](https://docs.lemonsqueezy.com/api/stores).
 #### Example
 
 ```javascript
-const stores = await ls.getStores()
+const stores = await ls.getStores();
 
-const stores = await ls.getStores({ include: 'products' })
+const stores = await ls.getStores({ include: "products" });
 ```
 
 ---
@@ -272,7 +275,7 @@ Returns a [Store object](https://docs.lemonsqueezy.com/api/stores).
 #### Example
 
 ```javascript
-const store = await ls.getStore({ id: 123 })
+const store = await ls.getStore({ id: 123 });
 ```
 
 ---
@@ -297,9 +300,13 @@ Returns a list of [Product objects](https://docs.lemonsqueezy.com/api/products).
 #### Example
 
 ```javascript
-const products = await ls.getProducts()
+const products = await ls.getProducts();
 
-const products = await ls.getProducts({ storeId: 123, perPage: 50, include: 'variants' })
+const products = await ls.getProducts({
+  storeId: 123,
+  perPage: 50,
+  include: "variants",
+});
 ```
 
 ---
@@ -322,7 +329,7 @@ Returns a [Product object](https://docs.lemonsqueezy.com/api/products).
 #### Example
 
 ```javascript
-const product = await ls.getProduct({ id: 123 })
+const product = await ls.getProduct({ id: 123 });
 ```
 
 ---
@@ -347,9 +354,13 @@ Returns a list of [Variant objects](https://docs.lemonsqueezy.com/api/variants).
 #### Example
 
 ```javascript
-const variants = await ls.getVariants()
+const variants = await ls.getVariants();
 
-const variants = await ls.getVariants({ productId: 123, perPage: 50, include: 'product' })
+const variants = await ls.getVariants({
+  productId: 123,
+  perPage: 50,
+  include: "product",
+});
 ```
 
 ---
@@ -372,7 +383,7 @@ Returns a [Variant object](https://docs.lemonsqueezy.com/api/variants).
 #### Example
 
 ```javascript
-const variant = await ls.getVariant({ id: 123 })
+const variant = await ls.getVariant({ id: 123 });
 ```
 
 ---
@@ -397,9 +408,9 @@ Returns a list of [Price objects](https://docs.lemonsqueezy.com/api/prices).
 #### Example
 
 ```javascript
-const prices = await ls.getPrices()
+const prices = await ls.getPrices();
 
-const prices = await ls.getPrices({ variantId: 123, include: 'variant' })
+const prices = await ls.getPrices({ variantId: 123, include: "variant" });
 ```
 
 ---
@@ -422,7 +433,7 @@ Returns a [Price object](https://docs.lemonsqueezy.com/api/prices).
 #### Example
 
 ```javascript
-const price = await ls.getPrice({ id: 123 })
+const price = await ls.getPrice({ id: 123 });
 ```
 
 ---
@@ -448,9 +459,9 @@ Returns a list of [Checkout objects](https://docs.lemonsqueezy.com/api/checkouts
 #### Example
 
 ```javascript
-const checkouts = await ls.getCheckouts()
+const checkouts = await ls.getCheckouts();
 
-const checkouts = await ls.getCheckouts({ storeId: 123, perPage: 50 })
+const checkouts = await ls.getCheckouts({ storeId: 123, perPage: 50 });
 ```
 
 ---
@@ -473,7 +484,9 @@ Returns a [Checkout object](https://docs.lemonsqueezy.com/api/checkouts).
 #### Example
 
 ```javascript
-const checkout = await ls.getCheckout({ id: 'edc0158c-794a-445d-bfad-24ab66baeb01' })
+const checkout = await ls.getCheckout({
+  id: "edc0158c-794a-445d-bfad-24ab66baeb01",
+});
 ```
 
 ---
@@ -542,9 +555,12 @@ Returns a list of [Customer objects](https://docs.lemonsqueezy.com/api/customers
 #### Example
 
 ```javascript
-const customers = await ls.getCustomers()
+const customers = await ls.getCustomers();
 
-const customers = await ls.getCustomers({ email: 'customer@gmail.com', include: 'orders,license-keys,subscriptions' })
+const customers = await ls.getCustomers({
+  email: "customer@gmail.com",
+  include: "orders,license-keys,subscriptions",
+});
 ```
 
 ---
@@ -567,7 +583,7 @@ Returns a [Customer object](https://docs.lemonsqueezy.com/api/customers).
 #### Example
 
 ```javascript
-const customer = await ls.getCustomer({ id: 123 })
+const customer = await ls.getCustomer({ id: 123 });
 ```
 
 ---
@@ -593,9 +609,12 @@ Returns a list of [Order objects](https://docs.lemonsqueezy.com/api/orders).
 #### Example
 
 ```javascript
-const orders = await ls.getOrders()
+const orders = await ls.getOrders();
 
-const orders = await ls.getOrders({ email: 'customer@gmail.com', include: 'orders,license-keys,subscriptions' })
+const orders = await ls.getOrders({
+  email: "customer@gmail.com",
+  include: "orders,license-keys,subscriptions",
+});
 ```
 
 ---
@@ -618,7 +637,7 @@ Returns an [Order object](https://docs.lemonsqueezy.com/api/orders).
 #### Example
 
 ```javascript
-const order = await ls.getOrder({ id: 123 })
+const order = await ls.getOrder({ id: 123 });
 ```
 
 ---
@@ -643,9 +662,9 @@ Returns a list of [File objects](https://docs.lemonsqueezy.com/api/files).
 #### Example
 
 ```javascript
-const files = await ls.getFiles()
+const files = await ls.getFiles();
 
-const files = await ls.getFiles({ variantId: 123 })
+const files = await ls.getFiles({ variantId: 123 });
 ```
 
 ---
@@ -668,7 +687,7 @@ Returns a [File object](https://docs.lemonsqueezy.com/api/files).
 #### Example
 
 ```javascript
-const file = await ls.getFile({ id: 123 })
+const file = await ls.getFile({ id: 123 });
 ```
 
 ---
@@ -695,9 +714,9 @@ Returns a list of [Order item objects](https://docs.lemonsqueezy.com/api/order-i
 #### Example
 
 ```javascript
-const orderItems = await ls.getOrderItems()
+const orderItems = await ls.getOrderItems();
 
-const orderItems = await ls.getOrderItems({ order: 123 })
+const orderItems = await ls.getOrderItems({ order: 123 });
 ```
 
 ---
@@ -720,7 +739,7 @@ Returns an [Order item object](https://docs.lemonsqueezy.com/api/order-items).
 #### Example
 
 ```javascript
-const orderItem = await ls.getOrderItem({ id: 123 })
+const orderItem = await ls.getOrderItem({ id: 123 });
 ```
 
 ---
@@ -750,9 +769,12 @@ Returns a list of [Subscription objects](https://docs.lemonsqueezy.com/api/subsc
 #### Example
 
 ```javascript
-const subscriptions = await ls.getSubscriptions()
+const subscriptions = await ls.getSubscriptions();
 
-const subscriptions = await ls.getSubscriptions({ storeId: 123, status: 'past_due' })
+const subscriptions = await ls.getSubscriptions({
+  storeId: 123,
+  status: "past_due",
+});
 ```
 
 ---
@@ -775,7 +797,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 #### Example
 
 ```javascript
-const subscription = await ls.getSubscription({ id: 123 })
+const subscription = await ls.getSubscription({ id: 123 });
 ```
 
 ---
@@ -801,7 +823,11 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 #### Example
 
 ```javascript
-const subscription = await ls.updateSubscription({ id: 123, productId: 123, variantId: 123 })
+const subscription = await ls.updateSubscription({
+  id: 123,
+  productId: 123,
+  variantId: 123,
+});
 ```
 
 ---
@@ -823,7 +849,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 #### Example
 
 ```javascript
-const subscription = await ls.cancelSubscription({ id: 123 })
+const subscription = await ls.cancelSubscription({ id: 123 });
 ```
 
 ---
@@ -845,7 +871,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 #### Example
 
 ```javascript
-const subscription = await ls.resumeSubscription({ id: 123 })
+const subscription = await ls.resumeSubscription({ id: 123 });
 ```
 
 ---
@@ -869,7 +895,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 #### Example
 
 ```javascript
-const subscription = await ls.pauseSubscription({ id: 123 })
+const subscription = await ls.pauseSubscription({ id: 123 });
 ```
 
 ---
@@ -891,7 +917,7 @@ Returns a [Subscription object](https://docs.lemonsqueezy.com/api/subscriptions)
 #### Example
 
 ```javascript
-const subscription = await ls.unpauseSubscription({ id: 123 })
+const subscription = await ls.unpauseSubscription({ id: 123 });
 ```
 
 ---
@@ -919,9 +945,12 @@ Returns a list of [Subscription invoice objects](https://docs.lemonsqueezy.com/a
 #### Example
 
 ```javascript
-const subscriptionInvoices = await ls.getSubscriptionInvoices()
+const subscriptionInvoices = await ls.getSubscriptionInvoices();
 
-const subscriptionInvoices = await ls.getSubscriptionInvoices({ storeId: 123, refunded: true })
+const subscriptionInvoices = await ls.getSubscriptionInvoices({
+  storeId: 123,
+  refunded: true,
+});
 ```
 
 ---
@@ -944,7 +973,7 @@ Returns a [Subscription invoice object](https://docs.lemonsqueezy.com/api/subscr
 #### Example
 
 ```javascript
-const subscriptionInvoice = await ls.getSubscriptionInvoice({ id: 123 })
+const subscriptionInvoice = await ls.getSubscriptionInvoice({ id: 123 });
 ```
 
 ---
@@ -959,19 +988,19 @@ Returns a list of [Subscription item objects](https://docs.lemonsqueezy.com/api/
 
 #### Parameters
 
-| Parameter        | Type   | Required | Default | Notes                                                         |
-| ---------------- | ------ | -------- | ------- | ------------------------------------------------------------- |
-| `subscriptionId` | number | -        | -       | Filter subscription items by subscription.                    |
-| `perPage`        | number | -        | `10`    |                                                               |
-| `page`           | number | -        | `1`     |                                                               |
+| Parameter        | Type   | Required | Default | Notes                                                                                                    |
+| ---------------- | ------ | -------- | ------- | -------------------------------------------------------------------------------------------------------- |
+| `subscriptionId` | number | -        | -       | Filter subscription items by subscription.                                                               |
+| `perPage`        | number | -        | `10`    |                                                                                                          |
+| `page`           | number | -        | `1`     |                                                                                                          |
 | `include`        | string | -        | -       | Comma-separated list of object names: <ul><li>subscription</li><li>price</li><li>usage-records</li></ul> |
 
 #### Example
 
 ```javascript
-const subscriptionItems = await ls.getSubscriptionItems()
+const subscriptionItems = await ls.getSubscriptionItems();
 
-const subscriptionItems = await ls.getSubscriptionItems({ storeId: 123 })
+const subscriptionItems = await ls.getSubscriptionItems({ storeId: 123 });
 ```
 
 ---
@@ -986,15 +1015,18 @@ Returns a [Subscription item object](https://docs.lemonsqueezy.com/api/subscript
 
 #### Parameters
 
-| Parameter | Type   | Required | Default | Notes                                                         |
-| --------- | ------ | -------- | ------- | ------------------------------------------------------------- |
-| `id`      | number | Yes      | -       |                                                               |
+| Parameter | Type   | Required | Default | Notes                                                                                                    |
+| --------- | ------ | -------- | ------- | -------------------------------------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                                                          |
 | `include` | string | -        | -       | Comma-separated list of object names: <ul><li>subscription</li><li>price</li><li>usage-records</li></ul> |
 
 #### Example
 
 ```javascript
-const subscriptionItem = await ls.getSubscriptionItem({ id: 123, include: 'price' })
+const subscriptionItem = await ls.getSubscriptionItem({
+  id: 123,
+  include: "price",
+});
 ```
 
 ---
@@ -1017,7 +1049,10 @@ Returns a [Subscription item object](https://docs.lemonsqueezy.com/api/subscript
 #### Example
 
 ```javascript
-const subscriptionItem = await ls.updateSubscriptionItem({ id: 123, quantity: 10 })
+const subscriptionItem = await ls.updateSubscriptionItem({
+  id: 123,
+  quantity: 10,
+});
 ```
 
 ---
@@ -1032,14 +1067,14 @@ Returns a meta object containing usage information.
 
 #### Parameters
 
-| Parameter  | Type   | Required | Default | Notes |
-| ---------- | ------ | -------- | ------- | ----- |
-| `id`       | number | Yes      | -       |       |
+| Parameter | Type   | Required | Default | Notes |
+| --------- | ------ | -------- | ------- | ----- |
+| `id`      | number | Yes      | -       |       |
 
 #### Example
 
 ```javascript
-const usageInformation = await ls.getSubscriptionItemUsage({ id: 123 })
+const usageInformation = await ls.getSubscriptionItemUsage({ id: 123 });
 ```
 
 ---
@@ -1054,19 +1089,19 @@ Returns a list of [Usage record objects](https://docs.lemonsqueezy.com/api/usage
 
 #### Parameters
 
-| Parameter            | Type   | Required | Default | Notes                                                         |
-| -------------------- | ------ | -------- | ------- | ------------------------------------------------------------- |
-| `subscriptionItemId` | number | -        | -       | Filter usage records by subscription item.                    |
-| `perPage`            | number | -        | `10`    |                                                               |
-| `page`               | number | -        | `1`     |                                                               |
+| Parameter            | Type   | Required | Default | Notes                                                                     |
+| -------------------- | ------ | -------- | ------- | ------------------------------------------------------------------------- |
+| `subscriptionItemId` | number | -        | -       | Filter usage records by subscription item.                                |
+| `perPage`            | number | -        | `10`    |                                                                           |
+| `page`               | number | -        | `1`     |                                                                           |
 | `include`            | string | -        | -       | Comma-separated list of object names: <ul><li>subscription-item</li></ul> |
 
 #### Example
 
 ```javascript
-const usageRecords = await ls.getUsageRecords()
+const usageRecords = await ls.getUsageRecords();
 
-const usageRecords = await ls.getUsageRecords({ subscriptionItemId: 123 })
+const usageRecords = await ls.getUsageRecords({ subscriptionItemId: 123 });
 ```
 
 ---
@@ -1081,15 +1116,15 @@ Returns a [Usage record object](https://docs.lemonsqueezy.com/api/usage-records)
 
 #### Parameters
 
-| Parameter | Type   | Required | Default | Notes                                                         |
-| --------- | ------ | -------- | ------- | ------------------------------------------------------------- |
-| `id`      | number | Yes      | -       |                                                               |
+| Parameter | Type   | Required | Default | Notes                                                                     |
+| --------- | ------ | -------- | ------- | ------------------------------------------------------------------------- |
+| `id`      | number | Yes      | -       |                                                                           |
 | `include` | string | -        | -       | Comma-separated list of object names: <ul><li>subscription-item</li></ul> |
 
 #### Example
 
 ```javascript
-const usageRecord = await ls.getUsageRecord({ id: 123 })
+const usageRecord = await ls.getUsageRecord({ id: 123 });
 ```
 
 ---
@@ -1104,10 +1139,10 @@ Returns a [Usage record object](https://docs.lemonsqueezy.com/api/usage-records)
 
 #### Parameters
 
-| Parameter            | Type   | Required | Default     | Notes |
-| -------------------- | ------ | -------- | ----------- | ----- |
-| `subscriptionItemId` | number | Yes      | -           |       |
-| `quantity`           | number | Yes      | -           |       |
+| Parameter            | Type   | Required | Default     | Notes                                                                                                                                                                          |
+| -------------------- | ------ | -------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `subscriptionItemId` | number | Yes      | -           |                                                                                                                                                                                |
+| `quantity`           | number | Yes      | -           |                                                                                                                                                                                |
 | `action`             | string | -        | `increment` | The type of record:<ul><li>`increment` - Add to existing records from this billing period.</li><li>`set` - Reset usage in this billing period to the given quantity.</li></ul> |
 
 #### Example
@@ -1115,8 +1150,8 @@ Returns a [Usage record object](https://docs.lemonsqueezy.com/api/usage-records)
 ```javascript
 const usageRecord = await ls.createUsageRecord({
   subscriptionItemId: 123,
-  quantity: 18
-})
+  quantity: 18,
+});
 ```
 
 ---
@@ -1141,9 +1176,12 @@ Returns a list of [Discount objects](https://docs.lemonsqueezy.com/api/discounts
 #### Example
 
 ```javascript
-const discounts = await ls.getDiscounts()
+const discounts = await ls.getDiscounts();
 
-const discounts = await ls.getDiscounts({ storeId: 123, include: 'discount-redemptions' })
+const discounts = await ls.getDiscounts({
+  storeId: 123,
+  include: "discount-redemptions",
+});
 ```
 
 ---
@@ -1166,7 +1204,7 @@ Returns a [Discount object](https://docs.lemonsqueezy.com/api/discounts).
 #### Example
 
 ```javascript
-const discount = await ls.getDiscount({ id: 123 })
+const discount = await ls.getDiscount({ id: 123 });
 ```
 
 ---
@@ -1200,15 +1238,15 @@ Returns a [Discount object](https://docs.lemonsqueezy.com/api/discounts).
 ```javascript
 const options = {
   storeId: 123,
-  name: 'Summer sale',
-  code: 'SUMMERSALE',
+  name: "Summer sale",
+  code: "SUMMERSALE",
   amount: 30,
-  amountType: 'percent',
-  duration: 'repeating',
+  amountType: "percent",
+  duration: "repeating",
   durationInMonths: 3,
-  startsAt: '2023-07-31T08:00:00.000000Z'
-}
-const discount = await ls.createDiscount(options)
+  startsAt: "2023-07-31T08:00:00.000000Z",
+};
+const discount = await ls.createDiscount(options);
 ```
 
 ---
@@ -1228,7 +1266,7 @@ Delete a discount.
 #### Example
 
 ```javascript
-await ls.deleteDiscount({ id: 123 })
+await ls.deleteDiscount({ id: 123 });
 ```
 
 ---
@@ -1254,9 +1292,12 @@ Returns a list of [Discount redemption objects](https://docs.lemonsqueezy.com/ap
 #### Example
 
 ```javascript
-const discountRedemptions = await ls.getDiscountRedemptions()
+const discountRedemptions = await ls.getDiscountRedemptions();
 
-const discountRedemptions = await ls.getDiscountRedemptions({ orderId: 123, include: 'discount,order' })
+const discountRedemptions = await ls.getDiscountRedemptions({
+  orderId: 123,
+  include: "discount,order",
+});
 ```
 
 ---
@@ -1279,7 +1320,7 @@ Returns a [Discount redemption object](https://docs.lemonsqueezy.com/api/discoun
 #### Example
 
 ```javascript
-const discountRedemption = await ls.getDiscountRedemption({ id: 123 })
+const discountRedemption = await ls.getDiscountRedemption({ id: 123 });
 ```
 
 ---
@@ -1307,9 +1348,9 @@ Returns a list of [License key objects](https://docs.lemonsqueezy.com/api/licens
 #### Example
 
 ```javascript
-const licenseKeys = await ls.getLicenseKeys()
+const licenseKeys = await ls.getLicenseKeys();
 
-const licenseKeys = await ls.getLicenseKeys({ storeId: 123 })
+const licenseKeys = await ls.getLicenseKeys({ storeId: 123 });
 ```
 
 ---
@@ -1332,7 +1373,7 @@ Returns a [License key object](https://docs.lemonsqueezy.com/api/license-keys).
 #### Example
 
 ```javascript
-const licenseKey = await ls.getLicenseKey({ id: 123 })
+const licenseKey = await ls.getLicenseKey({ id: 123 });
 ```
 
 ---
@@ -1357,9 +1398,9 @@ Returns a list of [License key instance objects](https://docs.lemonsqueezy.com/a
 #### Example
 
 ```javascript
-const licenseKeys = await ls.getLicenseKeys()
+const licenseKeys = await ls.getLicenseKeys();
 
-const licenseKeys = await ls.getLicenseKeys({ licenseKeyId: 123 })
+const licenseKeys = await ls.getLicenseKeys({ licenseKeyId: 123 });
 ```
 
 ---
@@ -1382,7 +1423,7 @@ Returns a [License key instance object](https://docs.lemonsqueezy.com/api/licens
 #### Example
 
 ```javascript
-const licenseKey = await ls.getLicenseKey({ id: 123 })
+const licenseKey = await ls.getLicenseKey({ id: 123 });
 ```
 
 ---
@@ -1407,9 +1448,9 @@ Returns a list of [Webhook objects](https://docs.lemonsqueezy.com/api/webhooks).
 #### Example
 
 ```javascript
-const webhooks = await ls.getWebhooks()
+const webhooks = await ls.getWebhooks();
 
-const webhooks = await ls.getWebhooks({ storeId: 123 })
+const webhooks = await ls.getWebhooks({ storeId: 123 });
 ```
 
 ---
@@ -1432,7 +1473,7 @@ Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
 #### Example
 
 ```javascript
-const webhook = await ls.getWebhook({ id: 123 })
+const webhook = await ls.getWebhook({ id: 123 });
 ```
 
 ---
@@ -1459,14 +1500,11 @@ Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
 ```javascript
 const options = {
   storeId: 123,
-  url: 'https://myapp.com/webhook/',
-  events: [
-    'subscription_created',
-    'subscription_updated'
-  ],
-  secret: 'randomstring'
-}
-const webhook = await ls.createWebhook(options)
+  url: "https://myapp.com/webhook/",
+  events: ["subscription_created", "subscription_updated"],
+  secret: "randomstring",
+};
+const webhook = await ls.createWebhook(options);
 ```
 
 ---
@@ -1493,9 +1531,9 @@ Returns a [Webhook object](https://docs.lemonsqueezy.com/api/webhooks).
 ```javascript
 const options = {
   id: 123,
-  url: 'https://myapp.com/webhook/',
-}
-const webhook = await ls.updateWebhook(options)
+  url: "https://myapp.com/webhook/",
+};
+const webhook = await ls.updateWebhook(options);
 ```
 
 ---
@@ -1515,5 +1553,5 @@ Delete a webhook.
 #### Example
 
 ```javascript
-await ls.deleteWebhook({ id: 123 })
+await ls.deleteWebhook({ id: 123 });
 ```
