@@ -4,8 +4,17 @@
   "version": "1.2.5",
   "author": "Lemon Squeezy",
   "license": "MIT",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "homepage": "https://github.com/lmsqueezy/lemonsqueezy.js",
   "repository": {
     "type": "git",
@@ -21,26 +30,50 @@
     "typescript"
   ],
   "files": [
-    "./dist/*",
-    "README.md"
+    "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "prepublishOnly": "npm run build",
+    "dev": "bun run --watch examples/dev.ts",
+    "build": "unbuild",
+    "test": "bun test",
+    "prepublishOnly": "bun run build",
     "changeset": "changeset",
     "version": "changeset version",
     "version:dev": "changeset version --snapshop --no-git-tag --tag dev",
-    "release": "npm run build && changeset publish",
-    "release:dev": "npm run build && changeset publish --snapshot --no-git-tag --tag dev"
+    "release": "bun run typecheck && bun run format && bun run lint:fix && bun run build && changeset publish",
+    "release:dev": "bun run typecheck && bun run format && bun run lint:fix && bun run build && changeset publish --snapshot --no-git-tag --tag dev",
+    "format": "biome format . --write",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint . --apply",
+    "typecheck": "tsc --noEmit",
+    "up": "taze major -w",
+    "export-size": "export-size ."
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.5.3",
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
-    "@types/node": "^20.10.6",
-    "prettier": "^3.1.1",
-    "tsup": "^8.0.1",
+    "@commitlint/cli": "^18.6.0",
+    "@commitlint/config-conventional": "^18.6.0",
+    "@heybrostudio/biome-config": "^0.0.5",
+    "@types/bun": "latest",
+    "export-size": "^0.7.0",
+    "lint-staged": "^15.2.1",
+    "simple-git-hooks": "^2.9.0",
+    "taze": "^0.13.2",
+    "unbuild": "^2.0.0"
+  },
+  "peerDependencies": {
     "typescript": "^5.3.3"
   },
-  "type": "module"
+  "engines": {
+    "node": ">=18"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "bun run lint-staged",
+    "commit-msg": "bun run commitlint --edit \"$1\""
+  },
+  "lint-staged": {
+    "*": "biome lint . --apply"
+  }
 }

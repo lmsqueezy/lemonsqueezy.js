@@ -1,5 +1,0 @@
-**/*.yaml
-/coverage
-dist/
-src/
-.changeset/
