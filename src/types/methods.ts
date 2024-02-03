@@ -311,6 +311,10 @@ export interface GetSubscriptionsOptions extends PaginatedOptions {
    */
   variantId?: number;
   /**
+   * Filter subscriptions by user email
+   */
+  userEmail?: string;
+  /**
    * Filter subscriptions by status
    */
   status?: "on_trial" | "active" | "paused" | "past_due" | "unpaid" | "cancelled" | "expired";

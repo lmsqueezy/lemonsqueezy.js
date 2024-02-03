@@ -574,6 +574,7 @@ export class LemonSqueezy {
    * @param {number} [params.orderItemId] Filter subscriptions by order item
    * @param {number} [params.productId] Filter subscriptions by product
    * @param {number} [params.variantId] Filter subscriptions by variant
+   * @param {string} [params.userEmail] Filter subscriptions by user email
    * @param {"on_trial" | "active" | "paused" | "past_due" | "unpaid" | "cancelled" | "expired"} [params.status] Filter subscriptions by status
    * @param {number} [params.perPage] Number of records to return (between 1 and 100)
    * @param {number} [params.page] Page of records to return
@@ -590,6 +591,7 @@ export class LemonSqueezy {
         "orderItemId",
         "productId",
         "variantId",
+        "userEmail",
         "status",
       ])
     })
