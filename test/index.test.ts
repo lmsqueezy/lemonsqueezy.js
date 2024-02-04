@@ -1,107 +1,110 @@
-import { describe, expect, it } from 'bun:test'
-import * as exports from '../src'
+import { describe, expect, it } from "bun:test";
+import * as exports from "../src";
 
-describe('Export', () => {
-	it('Should return all exported', () => {
-		const shouldBeExports = [
-			// Setup
-			'lemonSqueezySetup',
+describe("Export", () => {
+  it("Should return all exported", () => {
+    const shouldBeExports = [
+      // LemonSqueezy deprecated class
+      "LemonSqueezy",
 
-			// Users
-			'getAuthenticatedUser',
+      // Setup
+      "lemonSqueezySetup",
 
-			// Stores
-			'getStoreById',
-			'getAllStores',
+      // Users
+      "getAuthenticatedUser",
 
-			// Customers
-			'listCustomers',
-			'getCustomer',
-			'createCustomer',
-			'archiveCustomer',
-			'updateCustomer',
+      // Stores
+      "getStoreById",
+      "getAllStores",
 
-			// Products
-			'getProduct',
-			'listProducts',
+      // Customers
+      "listCustomers",
+      "getCustomer",
+      "createCustomer",
+      "archiveCustomer",
+      "updateCustomer",
 
-			// Variants
-			'getVariant',
-			'listVariants',
+      // Products
+      "getProduct",
+      "listProducts",
 
-			// Prices
-			'getPrice',
-			'listPrices',
+      // Variants
+      "getVariant",
+      "listVariants",
 
-			// Files
-			'getFile',
-			'listFiles',
+      // Prices
+      "getPrice",
+      "listPrices",
 
-			// Orders
-			'getOrder',
-			'listOrders',
+      // Files
+      "getFile",
+      "listFiles",
 
-			// Order Items
-			'getOrderItem',
-			'listOrderItems',
+      // Orders
+      "getOrder",
+      "listOrders",
 
-			// Subscriptions
-			'getSubscription',
-			'listSubscriptions',
-			'updateSubscription',
-			'cancelSubscription',
+      // Order Items
+      "getOrderItem",
+      "listOrderItems",
 
-			// Subscriptions Invoices
-			'getSubscriptionInvoice',
-			'listSubscriptionInvoices',
+      // Subscriptions
+      "getSubscription",
+      "listSubscriptions",
+      "updateSubscription",
+      "cancelSubscription",
 
-			// Subscriptions Items
-			'getSubscriptionItem',
-			'listSubscriptionItems',
-			'getSubscriptionItemCurrentUsage',
-			'updateSubscriptionItem',
+      // Subscriptions Invoices
+      "getSubscriptionInvoice",
+      "listSubscriptionInvoices",
 
-			// Usage Records
-			'listUsageRecords',
-			'getUsageRecord',
-			'createUsageRecord',
+      // Subscriptions Items
+      "getSubscriptionItem",
+      "listSubscriptionItems",
+      "getSubscriptionItemCurrentUsage",
+      "updateSubscriptionItem",
 
-			// Discounts
-			'listDiscounts',
-			'getDiscount',
-			'createDiscount',
-			'deleteDiscount',
+      // Usage Records
+      "listUsageRecords",
+      "getUsageRecord",
+      "createUsageRecord",
 
-			// Discount Redemptions
-			'listDiscountRedemptions',
-			'getDiscountRedemption',
+      // Discounts
+      "listDiscounts",
+      "getDiscount",
+      "createDiscount",
+      "deleteDiscount",
 
-			// License keys
-			'listLicenseKeys',
-			'getLicenseKey',
-			'updateLicenseKey',
+      // Discount Redemptions
+      "listDiscountRedemptions",
+      "getDiscountRedemption",
 
-			// License Key Instances
-			'listLicenseKeyInstances',
-			'getLicenseKeyInstance',
+      // License keys
+      "listLicenseKeys",
+      "getLicenseKey",
+      "updateLicenseKey",
 
-			// Checkouts
-			'listCheckouts',
-			'getCheckout',
-			'createCheckout',
+      // License Key Instances
+      "listLicenseKeyInstances",
+      "getLicenseKeyInstance",
 
-			// Webhooks
-			'listWebhooks',
-			'getWebhook',
-			'createWebhook',
-			'updateWebhook',
-			'deleteWebhook',
+      // Checkouts
+      "listCheckouts",
+      "getCheckout",
+      "createCheckout",
 
-			// License
-			'activateLicense',
-			'validateLicense',
-			'deactivateLicense',
-		]
-		expect(Object.keys(exports).length).toBe(shouldBeExports.length)
-	})
-})
+      // Webhooks
+      "listWebhooks",
+      "getWebhook",
+      "createWebhook",
+      "updateWebhook",
+      "deleteWebhook",
+
+      // License
+      "activateLicense",
+      "validateLicense",
+      "deactivateLicense",
+    ];
+    expect(Object.keys(exports).length).toBe(shouldBeExports.length);
+  });
+});

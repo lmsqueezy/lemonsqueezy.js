@@ -1,10 +1,15 @@
-import { $fetch, convertIncludeToQueryString, convertListParamsToQueryString, requiredCheck } from '../internal'
+import {
+  $fetch,
+  convertIncludeToQueryString,
+  convertListParamsToQueryString,
+  requiredCheck,
+} from "../internal";
 import type {
-	DiscountRedemption,
-	GetDiscountRedemptionParams,
-	ListDiscountRedemptions,
-	ListDiscountRedemptionsParams,
-} from './types'
+  DiscountRedemption,
+  GetDiscountRedemptionParams,
+  ListDiscountRedemptions,
+  ListDiscountRedemptionsParams,
+} from "./types";
 
 /**
  * Retrieve a discount redemption.
@@ -14,11 +19,14 @@ import type {
  * @param [params.include] (Optional) Related resources.
  * @returns A discount redemption object.
  */
-export function getDiscountRedemption(discountRedemptionId: number | string, params: GetDiscountRedemptionParams = {}) {
-	requiredCheck({ discountRedemptionId })
-	return $fetch<DiscountRedemption>({
-		path: `/v1/discount-redemptions/${discountRedemptionId}${convertIncludeToQueryString(params.include)}`,
-	})
+export function getDiscountRedemption(
+  discountRedemptionId: number | string,
+  params: GetDiscountRedemptionParams = {}
+) {
+  requiredCheck({ discountRedemptionId });
+  return $fetch<DiscountRedemption>({
+    path: `/v1/discount-redemptions/${discountRedemptionId}${convertIncludeToQueryString(params.include)}`,
+  });
 }
 
 /**
@@ -34,8 +42,10 @@ export function getDiscountRedemption(discountRedemptionId: number | string, par
  * @param [params.include] (Optional) Related resources.
  * @returns A paginated list of discount redemption objects ordered by `created_at` (descending).
  */
-export function listDiscountRedemptions(params: ListDiscountRedemptionsParams = {}) {
-	return $fetch<ListDiscountRedemptions>({
-		path: `/v1/discount-redemptions${convertListParamsToQueryString(params)}`,
-	})
+export function listDiscountRedemptions(
+  params: ListDiscountRedemptionsParams = {}
+) {
+  return $fetch<ListDiscountRedemptions>({
+    path: `/v1/discount-redemptions${convertListParamsToQueryString(params)}`,
+  });
 }

@@ -1,10 +1,15 @@
-import { $fetch, convertIncludeToQueryString, convertListParamsToQueryString, requiredCheck } from '../internal'
+import {
+  $fetch,
+  convertIncludeToQueryString,
+  convertListParamsToQueryString,
+  requiredCheck,
+} from "../internal";
 import type {
-	GetSubscriptionInvoiceParams,
-	ListSubscriptionInvoices,
-	ListSubscriptionInvoicesParams,
-	SubscriptionInvoice,
-} from './types'
+  GetSubscriptionInvoiceParams,
+  ListSubscriptionInvoices,
+  ListSubscriptionInvoicesParams,
+  SubscriptionInvoice,
+} from "./types";
 
 /**
  * Retrieve a subscription invoice.
@@ -15,13 +20,13 @@ import type {
  * @returns A subscription invoice object.
  */
 export function getSubscriptionInvoice(
-	subscriptionInvoiceId: number | string,
-	params: GetSubscriptionInvoiceParams = {},
+  subscriptionInvoiceId: number | string,
+  params: GetSubscriptionInvoiceParams = {}
 ) {
-	requiredCheck({ subscriptionInvoiceId })
-	return $fetch<SubscriptionInvoice>({
-		path: `/v1/subscription-invoices/${subscriptionInvoiceId}${convertIncludeToQueryString(params.include)}`,
-	})
+  requiredCheck({ subscriptionInvoiceId });
+  return $fetch<SubscriptionInvoice>({
+    path: `/v1/subscription-invoices/${subscriptionInvoiceId}${convertIncludeToQueryString(params.include)}`,
+  });
 }
 
 /**
@@ -39,8 +44,10 @@ export function getSubscriptionInvoice(
  * @param [params.include] (Optional) Related resources.
  * @returns A paginated list of subscription invoice objects ordered by `created_at` (descending).
  */
-export function listSubscriptionInvoices(params: ListSubscriptionInvoicesParams = {}) {
-	return $fetch<ListSubscriptionInvoices>({
-		path: `/v1/subscription-invoices${convertListParamsToQueryString(params)}`,
-	})
+export function listSubscriptionInvoices(
+  params: ListSubscriptionInvoicesParams = {}
+) {
+  return $fetch<ListSubscriptionInvoices>({
+    path: `/v1/subscription-invoices${convertListParamsToQueryString(params)}`,
+  });
 }

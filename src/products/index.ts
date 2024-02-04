@@ -1,5 +1,15 @@
-import { $fetch, convertIncludeToQueryString, convertListParamsToQueryString, requiredCheck } from '../internal'
-import type { GetProductParams, ListProducts, ListProductsParams, Product } from './types'
+import {
+  $fetch,
+  convertIncludeToQueryString,
+  convertListParamsToQueryString,
+  requiredCheck,
+} from "../internal";
+import type {
+  GetProductParams,
+  ListProducts,
+  ListProductsParams,
+  Product,
+} from "./types";
 
 /**
  * Retrieve a product.
@@ -9,11 +19,14 @@ import type { GetProductParams, ListProducts, ListProductsParams, Product } from
  * @param [params.include] (Optional) Related resources.
  * @returns A product object.
  */
-export function getProduct(productId: number | string, params: GetProductParams = {}) {
-	requiredCheck({ productId })
-	return $fetch<Product>({
-		path: `/v1/products/${productId}${convertIncludeToQueryString(params.include)}`,
-	})
+export function getProduct(
+  productId: number | string,
+  params: GetProductParams = {}
+) {
+  requiredCheck({ productId });
+  return $fetch<Product>({
+    path: `/v1/products/${productId}${convertIncludeToQueryString(params.include)}`,
+  });
 }
 
 /**
@@ -29,7 +42,7 @@ export function getProduct(productId: number | string, params: GetProductParams 
  * @returns A paginated list of product objects ordered by `name`.
  */
 export function listProducts(params: ListProductsParams = {}) {
-	return $fetch<ListProducts>({
-		path: `/v1/products${convertListParamsToQueryString(params)}`,
-	})
+  return $fetch<ListProducts>({
+    path: `/v1/products${convertListParamsToQueryString(params)}`,
+  });
 }

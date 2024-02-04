@@ -1,12 +1,17 @@
-import { $fetch, convertIncludeToQueryString, convertListParamsToQueryString, requiredCheck } from '../internal'
+import {
+  $fetch,
+  convertIncludeToQueryString,
+  convertListParamsToQueryString,
+  requiredCheck,
+} from "../internal";
 import type {
-	Customer,
-	GetCustomerParams,
-	ListCustomers,
-	ListCustomersParams,
-	NewCustomer,
-	UpdateCustomer,
-} from './types'
+  Customer,
+  GetCustomerParams,
+  ListCustomers,
+  ListCustomersParams,
+  NewCustomer,
+  UpdateCustomer,
+} from "./types";
 
 /**
  * Create a customer.
@@ -20,26 +25,29 @@ import type {
  * @param customer.country (Optional) The [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) two-letter country code for the customer (e.g. `US`, `GB`, etc).
  * @returns A customer object.
  */
-export function createCustomer(storeId: number | string, customer: NewCustomer) {
-	requiredCheck({ storeId })
-	return $fetch<Customer>({
-		path: '/v1/customers',
-		method: 'POST',
-		body: {
-			data: {
-				type: 'customers',
-				attributes: customer,
-				relationships: {
-					store: {
-						data: {
-							type: 'stores',
-							id: storeId.toString(),
-						},
-					},
-				},
-			},
-		},
-	})
+export function createCustomer(
+  storeId: number | string,
+  customer: NewCustomer
+) {
+  requiredCheck({ storeId });
+  return $fetch<Customer>({
+    path: "/v1/customers",
+    method: "POST",
+    body: {
+      data: {
+        type: "customers",
+        attributes: customer,
+        relationships: {
+          store: {
+            data: {
+              type: "stores",
+              id: storeId.toString(),
+            },
+          },
+        },
+      },
+    },
+  });
 }
 
 /**
@@ -55,19 +63,22 @@ export function createCustomer(storeId: number | string, customer: NewCustomer) 
  * @param customer.status (Optional) The email marketing status of the customer. Only one value: `archived`.
  * @returns A customer object.
  */
-export function updateCustomer(customerId: string | number, customer: UpdateCustomer) {
-	requiredCheck({ customerId })
-	return $fetch<Customer>({
-		path: `/v1/customers/${customerId}`,
-		method: 'PATCH',
-		body: {
-			data: {
-				type: 'customers',
-				id: customerId.toString(),
-				attributes: customer,
-			},
-		},
-	})
+export function updateCustomer(
+  customerId: string | number,
+  customer: UpdateCustomer
+) {
+  requiredCheck({ customerId });
+  return $fetch<Customer>({
+    path: `/v1/customers/${customerId}`,
+    method: "PATCH",
+    body: {
+      data: {
+        type: "customers",
+        id: customerId.toString(),
+        attributes: customer,
+      },
+    },
+  });
 }
 
 /**
@@ -77,20 +88,20 @@ export function updateCustomer(customerId: string | number, customer: UpdateCust
  * @returns A customer object.
  */
 export function archiveCustomer(customerId: string | number) {
-	requiredCheck({ customerId })
-	return $fetch<Customer>({
-		path: `/v1/customers/${customerId}`,
-		method: 'PATCH',
-		body: {
-			data: {
-				type: 'customers',
-				id: customerId.toString(),
-				attributes: {
-					status: 'archived',
-				},
-			},
-		},
-	})
+  requiredCheck({ customerId });
+  return $fetch<Customer>({
+    path: `/v1/customers/${customerId}`,
+    method: "PATCH",
+    body: {
+      data: {
+        type: "customers",
+        id: customerId.toString(),
+        attributes: {
+          status: "archived",
+        },
+      },
+    },
+  });
 }
 
 /**
@@ -101,11 +112,14 @@ export function archiveCustomer(customerId: string | number) {
  * @param [params.include] (Optional) Related resources.
  * @returns A customer object.
  */
-export function getCustomer(customerId: string | number, params: GetCustomerParams = {}) {
-	requiredCheck({ customerId })
-	return $fetch<Customer>({
-		path: `/v1/customers/${customerId}${convertIncludeToQueryString(params.include)}`,
-	})
+export function getCustomer(
+  customerId: string | number,
+  params: GetCustomerParams = {}
+) {
+  requiredCheck({ customerId });
+  return $fetch<Customer>({
+    path: `/v1/customers/${customerId}${convertIncludeToQueryString(params.include)}`,
+  });
 }
 
 /**
@@ -122,7 +136,7 @@ export function getCustomer(customerId: string | number, params: GetCustomerPara
  * @returns A paginated list of customer objects ordered by `created_at` (descending).
  */
 export function listCustomers(params: ListCustomersParams = {}) {
-	return $fetch<ListCustomers>({
-		path: `/v1/customers${convertListParamsToQueryString(params)}`,
-	})
+  return $fetch<ListCustomers>({
+    path: `/v1/customers${convertListParamsToQueryString(params)}`,
+  });
 }

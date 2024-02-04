@@ -1,5 +1,15 @@
-import { $fetch, convertIncludeToQueryString, convertListParamsToQueryString, requiredCheck } from '../internal'
-import type { GetStoreParams, ListStores, ListStoresParams, Store } from './types'
+import {
+  $fetch,
+  convertIncludeToQueryString,
+  convertListParamsToQueryString,
+  requiredCheck,
+} from "../internal";
+import type {
+  GetStoreParams,
+  ListStores,
+  ListStoresParams,
+  Store,
+} from "./types";
 
 /**
  * Retrieve a store.
@@ -9,9 +19,14 @@ import type { GetStoreParams, ListStores, ListStoresParams, Store } from './type
  * @param [params.include] (Optional) Related resources.
  * @returns A store object.
  */
-export function getStore(storeId: number | string, params: GetStoreParams = {}) {
-	requiredCheck({ storeId })
-	return $fetch<Store>({ path: `/v1/stores/${storeId}${convertIncludeToQueryString(params.include)}` })
+export function getStore(
+  storeId: number | string,
+  params: GetStoreParams = {}
+) {
+  requiredCheck({ storeId });
+  return $fetch<Store>({
+    path: `/v1/stores/${storeId}${convertIncludeToQueryString(params.include)}`,
+  });
 }
 
 /**
@@ -25,5 +40,7 @@ export function getStore(storeId: number | string, params: GetStoreParams = {}) 
  * @returns A paginated list of `store` objects ordered by name.
  */
 export function listStores(params: ListStoresParams = {}) {
-	return $fetch<ListStores>({ path: `/v1/stores${convertListParamsToQueryString(params)}` })
+  return $fetch<ListStores>({
+    path: `/v1/stores${convertListParamsToQueryString(params)}`,
+  });
 }

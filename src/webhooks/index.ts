@@ -1,11 +1,18 @@
 import {
-	$fetch,
-	convertIncludeToQueryString,
-	convertKeys,
-	convertListParamsToQueryString,
-	requiredCheck,
-} from '../internal'
-import type { GetWebhookParams, ListWebhooks, ListWebhooksParams, NewWebhook, UpdateWebhook, Webhook } from './types'
+  $fetch,
+  convertIncludeToQueryString,
+  convertKeys,
+  convertListParamsToQueryString,
+  requiredCheck,
+} from "../internal";
+import type {
+  GetWebhookParams,
+  ListWebhooks,
+  ListWebhooksParams,
+  NewWebhook,
+  UpdateWebhook,
+  Webhook,
+} from "./types";
 
 /**
  * Create a webhook.
@@ -15,33 +22,33 @@ import type { GetWebhookParams, ListWebhooks, ListWebhooksParams, NewWebhook, Up
  * @returns A webhook object.
  */
 export function createWebhook(storeId: number | string, webhook: NewWebhook) {
-	requiredCheck({ storeId })
+  requiredCheck({ storeId });
 
-	const { url, events, secret, testMode } = webhook
+  const { url, events, secret, testMode } = webhook;
 
-	return $fetch<Webhook>({
-		path: '/v1/webhooks',
-		method: 'POST',
-		body: {
-			data: {
-				type: 'webhooks',
-				attributes: convertKeys({
-					url,
-					events,
-					secret,
-					testMode,
-				}),
-				relationships: {
-					store: {
-						data: {
-							type: 'stores',
-							id: storeId.toString(),
-						},
-					},
-				},
-			},
-		},
-	})
+  return $fetch<Webhook>({
+    path: "/v1/webhooks",
+    method: "POST",
+    body: {
+      data: {
+        type: "webhooks",
+        attributes: convertKeys({
+          url,
+          events,
+          secret,
+          testMode,
+        }),
+        relationships: {
+          store: {
+            data: {
+              type: "stores",
+              id: storeId.toString(),
+            },
+          },
+        },
+      },
+    },
+  });
 }
 
 /**
@@ -52,11 +59,14 @@ export function createWebhook(storeId: number | string, webhook: NewWebhook) {
  * @param [params.include] (Optional) Related resources.
  * @returns A webhook object.
  */
-export function getWebhook(webhookId: number | string, params: GetWebhookParams = {}) {
-	requiredCheck({ webhookId })
-	return $fetch<Webhook>({
-		path: `/v1/webhooks/${webhookId}${convertIncludeToQueryString(params.include)}`,
-	})
+export function getWebhook(
+  webhookId: number | string,
+  params: GetWebhookParams = {}
+) {
+  requiredCheck({ webhookId });
+  return $fetch<Webhook>({
+    path: `/v1/webhooks/${webhookId}${convertIncludeToQueryString(params.include)}`,
+  });
 }
 
 /**
@@ -66,26 +76,29 @@ export function getWebhook(webhookId: number | string, params: GetWebhookParams 
  * @param webhook The webhook info you want to update.
  * @returns A webhook object.
  */
-export function updateWebhook(webhookId: number | string, webhook: UpdateWebhook) {
-	requiredCheck({ webhookId })
+export function updateWebhook(
+  webhookId: number | string,
+  webhook: UpdateWebhook
+) {
+  requiredCheck({ webhookId });
 
-	const { url, events, secret } = webhook
+  const { url, events, secret } = webhook;
 
-	return $fetch<Webhook>({
-		path: `/v1/webhooks/${webhookId}`,
-		method: 'PATCH',
-		body: {
-			data: {
-				id: webhookId.toString(),
-				type: 'webhooks',
-				attributes: convertKeys({
-					url,
-					events,
-					secret,
-				}),
-			},
-		},
-	})
+  return $fetch<Webhook>({
+    path: `/v1/webhooks/${webhookId}`,
+    method: "PATCH",
+    body: {
+      data: {
+        id: webhookId.toString(),
+        type: "webhooks",
+        attributes: convertKeys({
+          url,
+          events,
+          secret,
+        }),
+      },
+    },
+  });
 }
 
 /**
@@ -95,11 +108,11 @@ export function updateWebhook(webhookId: number | string, webhook: UpdateWebhook
  * @returns A `204` status code and `No Content` response on success.
  */
 export function deleteWebhook(webhookId: number | string) {
-	requiredCheck({ webhookId })
-	return $fetch<null>({
-		path: `/v1/webhooks/${webhookId}`,
-		method: 'DELETE',
-	})
+  requiredCheck({ webhookId });
+  return $fetch<null>({
+    path: `/v1/webhooks/${webhookId}`,
+    method: "DELETE",
+  });
 }
 
 /**
@@ -115,7 +128,7 @@ export function deleteWebhook(webhookId: number | string) {
  * @returns A paginated list of webhook objects ordered by `created_at`.
  */
 export function listWebhooks(params: ListWebhooksParams = {}) {
-	return $fetch<ListWebhooks>({
-		path: `/v1/webhooks${convertListParamsToQueryString(params)}`,
-	})
+  return $fetch<ListWebhooks>({
+    path: `/v1/webhooks${convertListParamsToQueryString(params)}`,
+  });
 }

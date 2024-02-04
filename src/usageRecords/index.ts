@@ -1,11 +1,16 @@
-import { $fetch, convertIncludeToQueryString, convertListParamsToQueryString, requiredCheck } from '../internal'
+import {
+  $fetch,
+  convertIncludeToQueryString,
+  convertListParamsToQueryString,
+  requiredCheck,
+} from "../internal";
 import type {
-	GetUsageRecordParams,
-	ListUsageRecords,
-	ListUsageRecordsParams,
-	NewUsageRecord,
-	UsageRecord,
-} from './types'
+  GetUsageRecordParams,
+  ListUsageRecords,
+  ListUsageRecordsParams,
+  NewUsageRecord,
+  UsageRecord,
+} from "./types";
 
 /**
  * Retrieve a usage record.
@@ -15,11 +20,14 @@ import type {
  * @param [params.include] (Optional) Related resources.
  * @returns A usage record object.
  */
-export function getUsageRecord(usageRecordId: number | string, params: GetUsageRecordParams = {}) {
-	requiredCheck({ usageRecordId })
-	return $fetch<UsageRecord>({
-		path: `/v1/usage-records/${usageRecordId}${convertIncludeToQueryString(params.include)}`,
-	})
+export function getUsageRecord(
+  usageRecordId: number | string,
+  params: GetUsageRecordParams = {}
+) {
+  requiredCheck({ usageRecordId });
+  return $fetch<UsageRecord>({
+    path: `/v1/usage-records/${usageRecordId}${convertIncludeToQueryString(params.include)}`,
+  });
 }
 
 /**
@@ -35,9 +43,9 @@ export function getUsageRecord(usageRecordId: number | string, params: GetUsageR
  * @returns A paginated list of usage record objects ordered by `created_at` (descending).
  */
 export function listUsageRecords(params: ListUsageRecordsParams = {}) {
-	return $fetch<ListUsageRecords>({
-		path: `/v1/usage-records${convertListParamsToQueryString(params)}`,
-	})
+  return $fetch<ListUsageRecords>({
+    path: `/v1/usage-records${convertListParamsToQueryString(params)}`,
+  });
 }
 
 /**
@@ -45,31 +53,32 @@ export function listUsageRecords(params: ListUsageRecordsParams = {}) {
  *
  * @param usageRecord (Required) New usage record info.
  * @param usageRecord.quantity (Required) A positive integer representing the usage to be reported.
- * @param usageRecord.action (Optional) The type of record. `increment` or `set`. Defaults to `increment` if omitted.
  * @param usageRecord.subscriptionItemId (Required) The subscription item this usage record belongs to.
+ * @param [usageRecord.action] (Optional) The type of record. `increment` or `set`. Defaults to `increment` if omitted.
  * @returns A usage record object.
  */
 export function createUsageRecord(usageRecord: NewUsageRecord) {
-	const { quantity, action = 'increment', subscriptionItemId } = usageRecord
-	return $fetch<UsageRecord>({
-		path: '/v1/usage-records',
-		method: 'POST',
-		body: {
-			data: {
-				type: 'usage-records',
-				attributes: {
-					quantity,
-					action,
-				},
-				relationships: {
-					'subscription-item': {
-						data: {
-							type: 'subscription-items',
-							id: subscriptionItemId.toString(),
-						},
-					},
-				},
-			},
-		},
-	})
+  const { quantity, action = "increment", subscriptionItemId } = usageRecord;
+  requiredCheck({ quantity, subscriptionItemId });
+  return $fetch<UsageRecord>({
+    path: "/v1/usage-records",
+    method: "POST",
+    body: {
+      data: {
+        type: "usage-records",
+        attributes: {
+          quantity,
+          action,
+        },
+        relationships: {
+          "subscription-item": {
+            data: {
+              type: "subscription-items",
+              id: subscriptionItemId.toString(),
+            },
+          },
+        },
+      },
+    },
+  });
 }

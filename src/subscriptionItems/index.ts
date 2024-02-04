@@ -1,11 +1,17 @@
-import { $fetch, convertIncludeToQueryString, convertListParamsToQueryString, requiredCheck } from '../internal'
+import {
+  $fetch,
+  convertIncludeToQueryString,
+  convertListParamsToQueryString,
+  requiredCheck,
+} from "../internal";
+
 import type {
-	GetSubscriptionItemParams,
-	ListSubscriptionItems,
-	ListSubscriptionItemsParams,
-	SubscriptionItem,
-	SubscriptionItemCurrentUsage,
-} from './types'
+  GetSubscriptionItemParams,
+  ListSubscriptionItems,
+  ListSubscriptionItemsParams,
+  SubscriptionItem,
+  SubscriptionItemCurrentUsage,
+} from "./types";
 
 /**
  * Retrieve a subscription item.
@@ -15,10 +21,13 @@ import type {
  * @param [params.include] (Optional) Related resources.
  * @returns A subscription item object.
  */
-export function getSubscriptionItem(subscriptionItemId: number | string, params: GetSubscriptionItemParams = {}) {
-	return $fetch<SubscriptionItem>({
-		path: `/v1/subscription-items/${subscriptionItemId}${convertIncludeToQueryString(params.include)}`,
-	})
+export function getSubscriptionItem(
+  subscriptionItemId: number | string,
+  params: GetSubscriptionItemParams = {}
+) {
+  return $fetch<SubscriptionItem>({
+    path: `/v1/subscription-items/${subscriptionItemId}${convertIncludeToQueryString(params.include)}`,
+  });
 }
 
 /**
@@ -29,11 +38,13 @@ export function getSubscriptionItem(subscriptionItemId: number | string, params:
  * @param subscriptionItemId The given subscription item id.
  * @returns A meta object containing usage information.
  */
-export function getSubscriptionItemCurrentUsage(subscriptionItemId: number | string) {
-	requiredCheck({ subscriptionItemId })
-	return $fetch<SubscriptionItemCurrentUsage>({
-		path: `/v1/subscription-items/${subscriptionItemId}/current-usage`,
-	})
+export function getSubscriptionItemCurrentUsage(
+  subscriptionItemId: number | string
+) {
+  requiredCheck({ subscriptionItemId });
+  return $fetch<SubscriptionItemCurrentUsage>({
+    path: `/v1/subscription-items/${subscriptionItemId}/current-usage`,
+  });
 }
 
 /**
@@ -48,34 +59,41 @@ export function getSubscriptionItemCurrentUsage(subscriptionItemId: number | str
  * @param [params.include] (Optional) Related resources.
  * @returns A paginated list of subscription item objects ordered by `created_at` (descending).
  */
-export function listSubscriptionItems(params: ListSubscriptionItemsParams = {}) {
-	return $fetch<ListSubscriptionItems>({
-		path: `/v1/subscription-items${convertListParamsToQueryString(params)}`,
-	})
+export function listSubscriptionItems(
+  params: ListSubscriptionItemsParams = {}
+) {
+  return $fetch<ListSubscriptionItems>({
+    path: `/v1/subscription-items${convertListParamsToQueryString(params)}`,
+  });
 }
 
 /**
  * Update a subscription item.
  *
- * Note: this endpoint is only used with quantity-based billing. If the related subscription's product/variant has usage-based billing enabled, this endpoint will return a `422 Unprocessable Entity` response.
+ * Note: this endpoint is only used with quantity-based billing.
+ * If the related subscription's product/variant has usage-based billing
+ * enabled, this endpoint will return a `422 Unprocessable Entity` response.
  *
  * @param subscriptionItemId The given subscription item id.
  * @param quantity The unit quantity of the subscription.
  * @returns A subscription item object.
  */
-export function updateSubscriptionItem(subscriptionItemId: string | number, quantity: number) {
-	requiredCheck({ subscriptionItemId })
-	return $fetch<SubscriptionItem>({
-		path: `/v1/subscription-items/${subscriptionItemId}`,
-		method: 'PATCH',
-		body: {
-			data: {
-				type: 'subscription-items',
-				id: subscriptionItemId.toString(),
-				attributes: {
-					quantity,
-				},
-			},
-		},
-	})
+export function updateSubscriptionItem(
+  subscriptionItemId: string | number,
+  quantity: number
+) {
+  requiredCheck({ subscriptionItemId });
+  return $fetch<SubscriptionItem>({
+    path: `/v1/subscription-items/${subscriptionItemId}`,
+    method: "PATCH",
+    body: {
+      data: {
+        type: "subscription-items",
+        id: subscriptionItemId.toString(),
+        attributes: {
+          quantity,
+        },
+      },
+    },
+  });
 }

@@ -1,5 +1,5 @@
-import { CONFIG_KEY, setKV } from '../utils'
-import type { Config } from './types'
+import { CONFIG_KEY, setKV } from "../utils";
+import type { Config } from "./types";
 
 /**
  * Lemon squeezy setup.
@@ -8,7 +8,7 @@ import type { Config } from './types'
  * @returns User configuration.
  */
 export function lemonSqueezySetup(config: Config) {
-	const { apiKey, onError } = config
-	setKV(CONFIG_KEY, { apiKey, onError })
-	return config
+  const { apiKey, onError } = config;
+  setKV(CONFIG_KEY, { apiKey, onError });
+  return config;
 }

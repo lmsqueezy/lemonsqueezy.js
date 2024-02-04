@@ -1,5 +1,6 @@
-import { API_BASE_URL, CONFIG_KEY, getKV } from '../utils'
-import type { FetchOptions, FetchResponse } from './types'
+import type { Config } from "../setup/types";
+import { API_BASE_URL, CONFIG_KEY, getKV } from "../utils";
+import type { FetchOptions, FetchResponse } from "./types";
 
 /**
  * Internal customization of fetch.
@@ -10,59 +11,66 @@ import type { FetchOptions, FetchResponse } from './types'
  * @returns Fetch response. Includes `statusCode`, `error` and `data`.
  */
 export async function $fetch<T>(options: FetchOptions, needApiKey = true) {
-	const response: FetchResponse<T> = {
-		statusCode: null,
-		data: null,
-		error: null,
-	}
-	const { apiKey, onError } = getKV(CONFIG_KEY) || {}
+  const response: FetchResponse<T> = {
+    statusCode: null,
+    data: null,
+    error: null,
+  };
+  const { apiKey, onError } = getKV<Config>(CONFIG_KEY) || {};
 
-	try {
-		if (needApiKey && !apiKey) {
-			response.error = Error(
-				'Please provide your Lemon Squeezy API key. Create a new API key: https://app.lemonsqueezy.com/settings/api',
-				{ cause: 'Missing API key' },
-			)
-			onError?.(response.error)
-			return response
-		}
+  try {
+    if (needApiKey && !apiKey) {
+      response.error = Error(
+        "Please provide your Lemon Squeezy API key. Create a new API key: https://app.lemonsqueezy.com/settings/api",
+        { cause: "Missing API key" }
+      );
+      onError?.(response.error);
+      return response;
+    }
 
-		const { path, method = 'GET', query, body } = options
-		const _options: FetchRequestInit = {
-			method,
-		}
+    const { path, method = "GET", query, body } = options;
+    const _options: FetchRequestInit = {
+      method,
+    };
 
-		// url
-		const url = new URL(`${API_BASE_URL}${path}`)
-		for (const key in query) {
-			url.searchParams.append(key, query[key])
-		}
+    // url
+    const url = new URL(`${API_BASE_URL}${path}`);
+    for (const key in query) {
+      url.searchParams.append(key, query[key]);
+    }
 
-		// headers
-		_options.headers = new Headers()
-		_options.headers.set('Accept', 'application/vnd.api+json')
-		_options.headers.set('Content-Type', 'application/vnd.api+json')
-		if (needApiKey) _options.headers.set('Authorization', `Bearer ${apiKey}`)
+    // headers
+    _options.headers = new Headers();
+    _options.headers.set("Accept", "application/vnd.api+json");
+    _options.headers.set("Content-Type", "application/vnd.api+json");
 
-		// If payload method, serialize body
-		if (['PATCH', 'POST'].includes(method)) {
-			_options.body = body ? JSON.stringify(body) : null
-		}
+    // authorization
+    if (needApiKey) {
+      _options.headers.set("Authorization", `Bearer ${apiKey}`);
+    }
 
-		const fetchResponse = await fetch(url.href, _options)
-		const data = (await fetchResponse.json()) as { error?: any; errors?: any }
-		const fetchOk = fetchResponse.ok
+    // If payload method, serialize body
+    if (["PATCH", "POST"].includes(method)) {
+      _options.body = body ? JSON.stringify(body) : null;
+    }
 
-		Object.assign(response, {
-			statusCode: fetchResponse.status,
-			// The license api returns data in the event of an error
-			data: fetchOk ? data : data.error ? data : null,
-			error: fetchOk ? null : Error(fetchResponse.statusText, { cause: data.errors || data.error }),
-		})
-	} catch (error) {
-		response.error = error as Error
-	}
+    const fetchResponse = await fetch(url.href, _options);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data = (await fetchResponse.json()) as { error?: any; errors?: any };
+    const fetchOk = fetchResponse.ok;
 
-	response.error && onError?.(response.error)
-	return response
+    Object.assign(response, {
+      statusCode: fetchResponse.status,
+      // The license api returns data in the event of an error
+      data: fetchOk ? data : data.error ? data : null,
+      error: fetchOk
+        ? null
+        : Error(fetchResponse.statusText, { cause: data.errors || data.error }),
+    });
+  } catch (error) {
+    response.error = error as Error;
+  }
+
+  response.error && onError?.(response.error);
+  return response;
 }

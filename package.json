@@ -2,78 +2,85 @@
   "name": "@lemonsqueezy/lemonsqueezy.js",
   "description": "The official Lemon Squeezy JavaScript SDK.",
   "version": "1.2.5",
-  "author": "Lemon Squeezy",
+  "author": {
+    "name": "Lemon Squeezy",
+    "email": "hello@lemonsqueezy.com",
+    "url": "https://lemonsqueezy.com"
+  },
   "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
     }
   },
+  "sideEffects": false,
   "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "homepage": "https://github.com/lmsqueezy/lemonsqueezy.js",
+  "homepage": "https://lemonsqueezy.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/lmsqueezy/lemonsqueezy.js.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "bugs": {
     "url": "https://github.com/lmsqueezy/lemonsqueezy.js/issues"
   },
   "keywords": [
     "api",
+    "sdk",
     "lemonsqueezy",
     "javascript",
     "typescript"
   ],
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
-    "dev": "bun run --watch examples/dev.ts",
-    "build": "unbuild",
+    "dev": "bun run --watch examples/index.ts",
+    "build": "tsup",
+    "coverage": "bun test --coverage",
+    "export-size": "export-size .",
+    "format": "prettier --write .",
+    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "test": "bun test",
-    "prepublishOnly": "bun run build",
-    "changeset": "changeset",
-    "version": "changeset version",
-    "version:dev": "changeset version --snapshop --no-git-tag --tag dev",
-    "release": "bun run typecheck && bun run format && bun run lint:fix && bun run build && changeset publish",
-    "release:dev": "bun run typecheck && bun run format && bun run lint:fix && bun run build && changeset publish --snapshot --no-git-tag --tag dev",
-    "format": "biome format . --write",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint . --apply",
-    "typecheck": "tsc --noEmit",
-    "up": "taze major -w",
-    "export-size": "export-size ."
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.5.3",
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
     "@commitlint/cli": "^18.6.0",
     "@commitlint/config-conventional": "^18.6.0",
-    "@heybrostudio/biome-config": "^0.0.5",
     "@types/bun": "latest",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "^8.56.0",
     "export-size": "^0.7.0",
     "lint-staged": "^15.2.1",
     "simple-git-hooks": "^2.9.0",
-    "taze": "^0.13.2",
-    "unbuild": "^2.0.0"
-  },
-  "peerDependencies": {
+    "prettier": "^3.2.4",
+    "tsup": "^8.0.1",
     "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=18"
   },
-  "simple-git-hooks": {
-    "pre-commit": "bun run lint-staged",
-    "commit-msg": "bun run commitlint --edit \"$1\""
-  },
   "lint-staged": {
-    "*": "biome lint . --apply"
+    "*": "bun lint:fix"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "bun run lint-staged"
   }
 }

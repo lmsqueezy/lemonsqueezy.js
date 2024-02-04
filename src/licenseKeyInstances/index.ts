@@ -1,10 +1,15 @@
-import { $fetch, convertIncludeToQueryString, convertListParamsToQueryString, requiredCheck } from '../internal'
+import {
+  $fetch,
+  convertIncludeToQueryString,
+  convertListParamsToQueryString,
+  requiredCheck,
+} from "../internal";
 import type {
-	GetLicenseKeyInstanceParams,
-	LicenseKeyInstance,
-	ListLicenseKeyInstances,
-	ListLicenseKeyInstancesParams,
-} from './types'
+  GetLicenseKeyInstanceParams,
+  LicenseKeyInstance,
+  ListLicenseKeyInstances,
+  ListLicenseKeyInstancesParams,
+} from "./types";
 
 /**
  * Retrieve a license key instance.
@@ -14,11 +19,14 @@ import type {
  * @param [params.include] (Optional) Related resources.
  * @returns A license key instance object.
  */
-export function getLicenseKeyInstance(licenseKeyInstanceId: number | string, params: GetLicenseKeyInstanceParams = {}) {
-	requiredCheck({ licenseKeyInstanceId })
-	return $fetch<LicenseKeyInstance>({
-		path: `/v1/license-key-instances/${licenseKeyInstanceId}${convertIncludeToQueryString(params.include)}`,
-	})
+export function getLicenseKeyInstance(
+  licenseKeyInstanceId: number | string,
+  params: GetLicenseKeyInstanceParams = {}
+) {
+  requiredCheck({ licenseKeyInstanceId });
+  return $fetch<LicenseKeyInstance>({
+    path: `/v1/license-key-instances/${licenseKeyInstanceId}${convertIncludeToQueryString(params.include)}`,
+  });
 }
 
 /**
@@ -33,8 +41,10 @@ export function getLicenseKeyInstance(licenseKeyInstanceId: number | string, par
  * @param [params.include] (Optional) Related resources.
  * @returns A paginated list of license key instance objects ordered by `id`.
  */
-export function listLicenseKeyInstances(params: ListLicenseKeyInstancesParams = {}) {
-	return $fetch<ListLicenseKeyInstances>({
-		path: `/v1/license-key-instances${convertListParamsToQueryString(params)}`,
-	})
+export function listLicenseKeyInstances(
+  params: ListLicenseKeyInstancesParams = {}
+) {
+  return $fetch<ListLicenseKeyInstances>({
+    path: `/v1/license-key-instances${convertListParamsToQueryString(params)}`,
+  });
 }

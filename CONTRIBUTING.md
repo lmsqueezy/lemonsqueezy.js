@@ -1,14 +1,55 @@
-# Contributing Guide
+# Contributing to lemonsqueezy.js
 
-Welcome to `@heybrostudio/lemonsqueezy.js` contributing guide.
+👋 Hey there! We're thrilled that you're interested in contributing to
+**lemonsqueezy.js**. Before submitting your contribution, please take a moment to read through this guide.
 
-Thank you for your contribution to this project! Any contribution you make will be amazing ✨.
+This repo is managed with [Bun](https://bun.sh/). We recommend reading the [Bun documentation](https://bun.sh/docs) to learn more about it.
 
-## Development
+## Tooling and Technologies
 
-This repo is using [Bun](https://bun.sh/). We recommend reading the [Bun documentation](https://bun.sh/docs) to learn more about [Bun](https://bun.sh/).
+We utilize a variety of tools to ensure code quality, consistency, and smooth development processes.
 
-### Setup
+- **[Bun](https://bun.sh/)**: for managing the repo and testing.
+
+- **[Prettier](https://prettier.io/)**: for code formatting. Our codebase adheres to the configuration specified in `prettier.config.js`.
+
+- **[ESLint](https://eslint.org/)**: for code linting. Make sure to check and fix any linting issues before submitting your code. Our codebase linting rules are defined in `.eslintrc.cjs`.
+
+- **[husky](https://typicode.github.io/husky/#/)**: for Git hooks. It ensures that linters, and other checks are passed before commits and pushes.
+
+- **[tsup](https://tsup.egoist.dev/)**: for bundling the library files. We bundle both ESM and CJS versions of the library.
+
+- **[Changesets](https://github.com/atlassian/changesets)**: for changelog generation and release management.
+
+## Commit Convention
+
+Our project follows the [Conventional Commits](https://www.conventionalcommits.org/) specification for commit messages.
+
+When preparing your commits for a Pull Request, ensure they adhere to our commit message format: `type(scope): description`.
+
+### Types of Commits
+
+Your commits should fall into one of the following categories:
+
+- `feat` (or `feature`): Introduces new code or functionality to the project.
+
+- `fix`: Addresses and resolves a bug. Linking to an issue if available is highly encouraged.
+
+- `refactor`: Code changes that neither fix a bug nor add a feature, but improve the existing codebase.
+
+- `docs`: Updates or additions to documentation, such as README files, usage guides, etc.
+
+- `build`: Changes affecting the build system, including dependency updates and additions.
+
+- `test`: Modifications involving tests, including adding new tests or refining existing ones.
+
+- `ci`: Adjustments to our continuous integration setup, like GitHub Actions or other CI tools.
+
+- `chore`: General maintenance and organizational tasks that don't fit other categories.
+
+For example, a commit message might look like: `feat: add activateLicense function`.
+
+## Setup
 
 Make sure you have the latest version of [Bun](https://bun.sh/) installed in your system.
 
@@ -24,16 +65,16 @@ To run the development version, you can start it locally by:
 bun run dev
 ```
 
-### Unit Test
-
-All of the test files are located inside the [test](https://github.com/heybrostudio/lemonsqueezy.js/tree/785af21a6aee8bee2745cebb0291501ffb4b9c29/test) directory. Unit testing are powered by [Bun's test](https://bun.sh/docs/cli/test).
-
-#### Configure .env
+### Configure .env
 
 - Copy `.env.example` to `.env` (`.env` has been added to `.gitignore`).
-- Configure the three environment variables (`LEMON_SQUEEZY_API_KEY`, `LEMON_SQUEEZY_STORE_ID`, `LEMON_SQUEEZY_LICENSE_KEY`) in the `.env` file.
 
-#### Run unit tests
+- Configure the three environment variables in the `.env` file.:
+  - `LEMON_SQUEEZY_API_KEY`
+  - `LEMON_SQUEEZY_STORE_ID`
+  - `LEMON_SQUEEZY_LICENSE_KEY`
+
+### Run unit tests
 
 To run all the test, you can start it locally by:
 
@@ -49,14 +90,39 @@ bun test test/<test-file>.ts
 
 ## Pull Request Guidelines
 
-- Checkout a topic branch from a base branch (e.g. `main` branch) and merge back into that branch.
-- If adding a new feature:
-	- Add the corresponding test cases to the [test](https://github.com/heybrostudio/lemonsqueezy.js/tree/785af21a6aee8bee2745cebb0291501ffb4b9c29/test) folder.
-	- Provide a compelling reason for adding this feature. Ideally, you should first open a suggestion issue and get approval before working on it.
-- If fixing a bug:
-	- If you are solving a specific issue, please add the issue number in the description of the PR.
-	- Please provide a detailed description of the bug in the PR. It is preferable to include a live demo.
-	- Add appropriate test coverage.
+### Branch Workflow
+
+- Develop in dedicated branches, not directly on the `main` branch.
+
+- Use descriptive names for your branches. Make sure the branch name adheres to the format `[type/scope]`, like `feat/button-enhancement` or `docs/update-readme`.
+
+### Adding New Features
+
+- Provide tests for new features.
+
+- Discuss new features in an issue or discussion topic before coding.
+
+### Fixing Bugs
+
+- Describe the bug in detail in your PR.
+
+- Include steps to reproduce or a live demo if possible.
+
+- Link the issue your PR fixes, using the format `fix #issue_number`.
+
+Remember, clear and detailed PRs help us efficiently review and integrate your contributions!
+
+## Creating a Pull Request (PR)
+
+1. **Fork and Clone**: Begin by forking the main repository and cloning your fork.
+
+2. **Branching**: Create a new branch off `main` using the format `[type/scope]`, like `feat/button-enhancement` or `docs/update-readme`. The `type` should align with conventional commit types.
+
+3. **Development**: Make your changes and commit them adhering to the [commit guidelines](#commit-convention). Use `bun run typecheck` to test your changes.
+
+4. **Document Changes**: Run `bun changeset` for a detailed change description. For minor updates (like CI changes), use `bun changeset add --empty`.
+
+5. **Submit PR**: Push your branch and open a PR to the `main` branch of the main repository. Ensure all tests pass and the package builds correctly.
 
 ## Project Structure
 
@@ -90,12 +156,6 @@ test
   internal/       - Unit tests for `internal` functions
   .../            - Unit Tests for other functions
 ```
-
-## Code Style
-
-This project uses [@biomejs/biome](https://github.com/biomejs/biome) for linting and formatting, using [@heybrostudio/biome-config](https://github.com/heybrostudio/biome-config) for configuration. View the [biome.json](https://github.com/heybrostudio/lemonsqueezy.js/blob/785af21a6aee8bee2745cebb0291501ffb4b9c29/biome.json) configuration file.
-
-Don't worry about the code style as long as you install the dev dependencies. Git hooks will format and fix them for you on committing.
 
 ## Thanks
 

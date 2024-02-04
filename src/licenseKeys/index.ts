@@ -1,11 +1,17 @@
 import {
-	$fetch,
-	convertIncludeToQueryString,
-	convertKeys,
-	convertListParamsToQueryString,
-	requiredCheck,
-} from '../internal'
-import type { GetLicenseKeyParams, LicenseKey, ListLicenseKeys, ListLicenseKeysParams, UpdateLicenseKey } from './types'
+  $fetch,
+  convertIncludeToQueryString,
+  convertKeys,
+  convertListParamsToQueryString,
+  requiredCheck,
+} from "../internal";
+import type {
+  GetLicenseKeyParams,
+  LicenseKey,
+  ListLicenseKeys,
+  ListLicenseKeysParams,
+  UpdateLicenseKey,
+} from "./types";
 
 /**
  * Retrieve a license key.
@@ -15,11 +21,14 @@ import type { GetLicenseKeyParams, LicenseKey, ListLicenseKeys, ListLicenseKeysP
  * @param [params.include] (Optional) Related resources.
  * @returns A license key object.
  */
-export function getLicenseKey(licenseKeyId: number | string, params: GetLicenseKeyParams = {}) {
-	requiredCheck({ licenseKeyId })
-	return $fetch<LicenseKey>({
-		path: `/v1/license-keys/${licenseKeyId}${convertIncludeToQueryString(params.include)}`,
-	})
+export function getLicenseKey(
+  licenseKeyId: number | string,
+  params: GetLicenseKeyParams = {}
+) {
+  requiredCheck({ licenseKeyId });
+  return $fetch<LicenseKey>({
+    path: `/v1/license-keys/${licenseKeyId}${convertIncludeToQueryString(params.include)}`,
+  });
 }
 
 /**
@@ -38,9 +47,9 @@ export function getLicenseKey(licenseKeyId: number | string, params: GetLicenseK
  * @returns A paginated list of license key objects ordered by `id`.
  */
 export function listLicenseKeys(params: ListLicenseKeysParams = {}) {
-	return $fetch<ListLicenseKeys>({
-		path: `/v1/license-keys${convertListParamsToQueryString(params)}`,
-	})
+  return $fetch<ListLicenseKeys>({
+    path: `/v1/license-keys${convertListParamsToQueryString(params)}`,
+  });
 }
 
 /**
@@ -52,21 +61,24 @@ export function listLicenseKeys(params: ListLicenseKeysParams = {}) {
  * @param [licenseKey.disabled] (Optional) If `true`, the license key will have "disabled" status.
  * @returns A license key object.
  */
-export function updateLicenseKey(licenseKeyId: string | number, licenseKey: UpdateLicenseKey) {
-	requiredCheck({ licenseKeyId })
+export function updateLicenseKey(
+  licenseKeyId: string | number,
+  licenseKey: UpdateLicenseKey
+) {
+  requiredCheck({ licenseKeyId });
 
-	const { activationLimit, disabled = false } = licenseKey
-	const attributes = convertKeys({ activationLimit, disabled })
+  const { activationLimit, disabled = false } = licenseKey;
+  const attributes = convertKeys({ activationLimit, disabled });
 
-	return $fetch<LicenseKey>({
-		path: `/v1/license-keys/${licenseKeyId}`,
-		method: 'PATCH',
-		body: {
-			data: {
-				type: 'license-keys',
-				id: licenseKeyId.toString(),
-				attributes,
-			},
-		},
-	})
+  return $fetch<LicenseKey>({
+    path: `/v1/license-keys/${licenseKeyId}`,
+    method: "PATCH",
+    body: {
+      data: {
+        type: "license-keys",
+        id: licenseKeyId.toString(),
+        attributes,
+      },
+    },
+  });
 }

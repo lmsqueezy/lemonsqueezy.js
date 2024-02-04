@@ -1,5 +1,15 @@
-import { $fetch, convertIncludeToQueryString, convertListParamsToQueryString, requiredCheck } from '../internal'
-import type { GetOrderItemParams, ListOrderItems, ListOrderItemsParams, OrderItem } from './types'
+import {
+  $fetch,
+  convertIncludeToQueryString,
+  convertListParamsToQueryString,
+  requiredCheck,
+} from "../internal";
+import type {
+  GetOrderItemParams,
+  ListOrderItems,
+  ListOrderItemsParams,
+  OrderItem,
+} from "./types";
 
 /**
  * Retrieve an order item.
@@ -9,11 +19,14 @@ import type { GetOrderItemParams, ListOrderItems, ListOrderItemsParams, OrderIte
  * @param [params.include] (Optional) Related resources.
  * @returns An order item object.
  */
-export function getOrderItem(orderItemId: number | string, params: GetOrderItemParams = {}) {
-	requiredCheck({ orderItemId })
-	return $fetch<OrderItem>({
-		path: `/v1/order-items/${orderItemId}${convertIncludeToQueryString(params.include)}`,
-	})
+export function getOrderItem(
+  orderItemId: number | string,
+  params: GetOrderItemParams = {}
+) {
+  requiredCheck({ orderItemId });
+  return $fetch<OrderItem>({
+    path: `/v1/order-items/${orderItemId}${convertIncludeToQueryString(params.include)}`,
+  });
 }
 
 /**
@@ -31,7 +44,7 @@ export function getOrderItem(orderItemId: number | string, params: GetOrderItemP
  * @returns A paginated list of order item objects ordered by `id`.
  */
 export function listOrderItems(params: ListOrderItemsParams = {}) {
-	return $fetch<ListOrderItems>({
-		path: `/v1/order-items${convertListParamsToQueryString(params)}`,
-	})
+  return $fetch<ListOrderItems>({
+    path: `/v1/order-items${convertListParamsToQueryString(params)}`,
+  });
 }
