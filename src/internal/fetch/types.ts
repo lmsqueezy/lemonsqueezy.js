@@ -1,11 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type ApiVersion = "v1";
 
-export type FetchResponse<T> = {
-  statusCode: number | null;
-  data: T | null;
-  error: Error | null;
-};
+export type FetchResponse<T> =
+  | {
+      statusCode: number;
+      data: T;
+      error: null;
+    }
+  | {
+      statusCode: number | null;
+      data: null;
+      error: Error;
+    };
 
 export type FetchOptions = {
   /**
