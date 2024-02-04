@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface BaseListResponse {
   meta: object;
   jsonapi: {
@@ -21,7 +22,6 @@ interface BaseApiObject {
   relationships: object;
   links: object;
 }
-
 
 interface SubscriptionAttributes {
   /**
@@ -71,11 +71,25 @@ interface SubscriptionAttributes {
   /**
    * The title-case formatted status of the subscription.
    */
-  status_formatted: "On Trial" | "Active" | "Paused" | "Unpaid" | "Cancelled" | "Expired";
+  status_formatted:
+    | "On Trial"
+    | "Active"
+    | "Paused"
+    | "Unpaid"
+    | "Cancelled"
+    | "Expired";
   /**
    * Lowercase brand of the card used to pay for the latest subscription payment.
    */
-  card_brand: "visa" | "mastercard" | "amex" | "discover" | "jcb" | "diners" | "unionpay" | null;
+  card_brand:
+    | "visa"
+    | "mastercard"
+    | "amex"
+    | "discover"
+    | "jcb"
+    | "diners"
+    | "unionpay"
+    | null;
   /**
    * The last 4 digits of the card used to pay for the latest subscription payment.
    */
@@ -90,7 +104,7 @@ interface SubscriptionAttributes {
      *  - `void` - If you can't offer your services for a period of time (for maintenance as an example), you can void invoices so your customers aren't charged
      *  - `free` - Offer your subscription services for free, whilst halting payment collection
      */
-    mode: 'void' | 'free';
+    mode: "void" | "free";
     /**
      * An ISO-8601 formatted date-time string indicating when the subscription will continue collecting payments
      */
@@ -172,7 +186,6 @@ interface SubscriptionAttributes {
   test_mode: boolean;
 }
 
-
 interface SubscriptionObject extends BaseApiObject {
   attributes: SubscriptionAttributes;
 }
@@ -184,7 +197,6 @@ export interface SubscriptionsResponse extends BaseListResponse {
 export interface SubscriptionResponse extends BaseIndividualResponse {
   data: SubscriptionObject;
 }
-
 
 interface StoreAttributes {
   /**
@@ -261,7 +273,6 @@ export interface StoreResponse extends BaseIndividualResponse {
   data: StoreObject;
 }
 
-
 interface CustomerAttributes {
   /**
    * The ID of the store this customer belongs to.
@@ -278,7 +289,13 @@ interface CustomerAttributes {
   /**
    * The email marketing status of the customer.
    */
-  status: "subscribed" | "unsubscribed" | "archived" | "requires_verification" | "invalid_email" | "bounced";
+  status:
+    | "subscribed"
+    | "unsubscribed"
+    | "archived"
+    | "requires_verification"
+    | "invalid_email"
+    | "bounced";
   /**
    * The city of the customer.
    */
@@ -302,7 +319,13 @@ interface CustomerAttributes {
   /**
    * The formatted status of the customer.
    */
-  status_formatted: "Subscribed" | "Unsubscribed" | "Archived" | "Requires Verification" | "Invalid Email" | "Bounced";
+  status_formatted:
+    | "Subscribed"
+    | "Unsubscribed"
+    | "Archived"
+    | "Requires Verification"
+    | "Invalid Email"
+    | "Bounced";
   /**
    * The formatted country of the customer.
    */
@@ -350,7 +373,6 @@ export interface CustomerResponse extends BaseIndividualResponse {
   data: CustomerObject;
 }
 
-
 interface UserAttributes {
   /**
    * The name of the user.
@@ -389,7 +411,6 @@ interface UserObject extends BaseApiObject {
 export interface UserResponse extends BaseIndividualResponse {
   data: UserObject;
 }
-
 
 interface ProductAttributes {
   /**
@@ -473,7 +494,6 @@ export interface ProductsResponse extends BaseListResponse {
 export interface ProductResponse extends BaseIndividualResponse {
   data: ProductObject;
 }
-
 
 interface VariantAttributes {
   /**
@@ -593,7 +613,6 @@ export interface VariantsResponse extends BaseListResponse {
 export interface VariantResponse extends BaseIndividualResponse {
   data: VariantObject;
 }
-
 
 interface CheckoutProductOptions {
   /**
@@ -764,7 +783,7 @@ interface CheckoutPreview {
   /**
    * A human-readable string representing the total price of the checkout in the store currency.
    */
-  total_formatted:  string;
+  total_formatted: string;
 }
 
 interface CheckoutAttributes {
@@ -829,7 +848,6 @@ export interface CheckoutsResponse extends BaseListResponse {
 export interface CheckoutResponse extends BaseIndividualResponse {
   data: CheckoutObject;
 }
-
 
 interface OrderAttributes {
   /**
@@ -1013,7 +1031,6 @@ export interface OrderResponse extends BaseIndividualResponse {
   data: OrderObject;
 }
 
-
 interface FileAttributes {
   /**
    * The ID of the variant this file belongs to.
@@ -1081,7 +1098,6 @@ export interface FileResponse extends BaseIndividualResponse {
   data: FileObject;
 }
 
-
 interface SubscriptionInvoiceAttributes {
   /**
    * The ID of the Store this subscription invoice belongs to.
@@ -1110,7 +1126,15 @@ interface SubscriptionInvoiceAttributes {
   /**
    * Lowercase brand of the card used to pay for the invoice.
    */
-  card_brand: "visa" | "mastercard" | "amex" | "discover" | "jcb" | "diners" | "unionpay" | null;
+  card_brand:
+    | "visa"
+    | "mastercard"
+    | "amex"
+    | "discover"
+    | "jcb"
+    | "diners"
+    | "unionpay"
+    | null;
   /**
    * The last 4 digits of the card used to pay for the invoice.
    */
@@ -1222,7 +1246,6 @@ export interface SubscriptionInvoiceResponse extends BaseIndividualResponse {
   data: SubscriptionInvoiceObject;
 }
 
-
 interface SubscriptionItemAttributes {
   /**
    * The ID of the Subscription this subscription item belongs to.
@@ -1262,7 +1285,6 @@ export interface SubscriptionItemResponse extends BaseIndividualResponse {
   data: SubscriptionItemObject;
 }
 
-
 export interface SubscriptionItemUsageResponse {
   jsonapi: {
     version: "1.0";
@@ -1288,9 +1310,8 @@ export interface SubscriptionItemUsageResponse {
      * The interval count of the subscription's variant.
      */
     interval_quantity: number;
-  }
+  };
 }
-
 
 interface UsageRecordAttributes {
   /**
@@ -1326,7 +1347,6 @@ export interface UsageRecordsResponse extends BaseListResponse {
 export interface UsageRecordResponse extends BaseIndividualResponse {
   data: UsageRecordObject;
 }
-
 
 interface DiscountAttributes {
   /**
@@ -1411,7 +1431,6 @@ export interface DiscountResponse extends BaseIndividualResponse {
   data: DiscountObject;
 }
 
-
 interface DiscountRedemptionAttributes {
   /**
    * The ID of the discount this redemption belongs to.
@@ -1462,7 +1481,6 @@ export interface DiscountRedemptionsResponse extends BaseListResponse {
 export interface DiscountRedemptionResponse extends BaseIndividualResponse {
   data: DiscountRedemptionObject;
 }
-
 
 interface LicenseKeyAttributes {
   /**
@@ -1546,7 +1564,6 @@ export interface LicenseKeysResponse extends BaseListResponse {
 export interface LicenseKeyResponse extends BaseIndividualResponse {
   data: LicenseKeyObject;
 }
-
 
 interface LicenseKeyInstanceAttributes {
   /**

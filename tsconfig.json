@@ -1,15 +1,24 @@
 {
   "compilerOptions": {
+    "lib": ["ESNext"],
+
     "allowJs": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "noUncheckedIndexedAccess": true,
+    "moduleDetection": "force",
+    "target": "ESNext",
+
+    /* Bundler mode */
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "verbatimModuleSyntax": true,
+
+    /* Linting */
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ESNext"
   },
-  "include": ["./src/**/*.ts"]
 }

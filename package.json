@@ -2,45 +2,86 @@
   "name": "@lemonsqueezy/lemonsqueezy.js",
   "description": "The official Lemon Squeezy JavaScript SDK.",
   "version": "1.2.5",
-  "author": "Lemon Squeezy",
+  "author": {
+    "name": "Lemon Squeezy",
+    "email": "hello@lemonsqueezy.com",
+    "url": "https://lemonsqueezy.com"
+  },
   "license": "MIT",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "homepage": "https://github.com/lmsqueezy/lemonsqueezy.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://lemonsqueezy.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/lmsqueezy/lemonsqueezy.js.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "bugs": {
     "url": "https://github.com/lmsqueezy/lemonsqueezy.js/issues"
   },
   "keywords": [
     "api",
+    "sdk",
     "lemonsqueezy",
     "javascript",
     "typescript"
   ],
   "files": [
-    "./dist/*",
+    "dist",
     "README.md"
   ],
   "scripts": {
+    "dev": "bun run --watch examples/index.ts",
     "build": "tsup",
-    "dev": "tsup --watch",
-    "prepublishOnly": "npm run build",
-    "changeset": "changeset",
-    "version": "changeset version",
-    "version:dev": "changeset version --snapshop --no-git-tag --tag dev",
-    "release": "npm run build && changeset publish",
-    "release:dev": "npm run build && changeset publish --snapshot --no-git-tag --tag dev"
+    "coverage": "bun test --coverage",
+    "export-size": "export-size .",
+    "format": "prettier --write .",
+    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
-    "@types/node": "^20.10.6",
-    "prettier": "^3.1.1",
+    "@commitlint/cli": "^18.6.0",
+    "@commitlint/config-conventional": "^18.6.0",
+    "@types/bun": "latest",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "^8.56.0",
+    "export-size": "^0.7.0",
+    "lint-staged": "^15.2.1",
+    "simple-git-hooks": "^2.9.0",
+    "prettier": "^3.2.4",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
   },
-  "type": "module"
+  "engines": {
+    "node": ">=18"
+  },
+  "lint-staged": {
+    "*": "bun lint:fix && bun run format"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "bun run lint-staged",
+    "commit-msg": "bun run commitlint --edit $1"
+  }
 }

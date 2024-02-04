@@ -1,4 +1,4 @@
-import { WebhookEvent } from "./api";
+import type { WebhookEvent } from "./api";
 
 /**
  * A union of all possible API versions available.
@@ -50,7 +50,7 @@ export interface GetStoreOptions {
   /**
    * The ID of the store to retrieve
    */
-  id: string;
+  id: string | number;
   /**
    * List of record types to include
    */
@@ -289,7 +289,9 @@ export interface GetSubscriptionsOptions extends PaginatedOptions {
   /**
    * List of record types to include
    */
-  include?: Array<"store" | "customer" | "order" | "order-item" | "product" | "variant">;
+  include?: Array<
+    "store" | "customer" | "order" | "order-item" | "product" | "variant"
+  >;
   /**
    * Filter subscriptions by store
    */
@@ -313,7 +315,14 @@ export interface GetSubscriptionsOptions extends PaginatedOptions {
   /**
    * Filter subscriptions by status
    */
-  status?: "on_trial" | "active" | "paused" | "past_due" | "unpaid" | "cancelled" | "expired";
+  status?:
+    | "on_trial"
+    | "active"
+    | "paused"
+    | "past_due"
+    | "unpaid"
+    | "cancelled"
+    | "expired";
 }
 
 export interface GetSubscriptionOptions {
@@ -324,9 +333,10 @@ export interface GetSubscriptionOptions {
   /**
    * List of record types to include
    */
-  include?: Array<"store" | "customer" | "order" | "order-item" | "product" | "variant">;
+  include?: Array<
+    "store" | "customer" | "order" | "order-item" | "product" | "variant"
+  >;
 }
-
 
 export interface BaseUpdateSubscriptionOptions {
   /**
@@ -335,7 +345,8 @@ export interface BaseUpdateSubscriptionOptions {
   id: number;
 }
 
-export interface UpdateSubscriptionOptions extends BaseUpdateSubscriptionOptions {
+export interface UpdateSubscriptionOptions
+  extends BaseUpdateSubscriptionOptions {
   /**
    * The ID of the product (required when changing plans)
    */
@@ -377,7 +388,8 @@ export interface UpdateSubscriptionAttributes {
   invoice_immediately?: boolean;
 }
 
-export interface PauseSubscriptionOptions extends BaseUpdateSubscriptionOptions {
+export interface PauseSubscriptionOptions
+  extends BaseUpdateSubscriptionOptions {
   /**
    * Type of pause
    *
@@ -757,7 +769,6 @@ export interface GetWebhookOptions {
    */
   include?: Array<"store">;
 }
-
 
 export interface CreateWebhookOptions {
   /**
