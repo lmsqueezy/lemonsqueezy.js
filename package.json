@@ -78,9 +78,10 @@
     "node": ">=18"
   },
   "lint-staged": {
-    "*": "bun lint:fix"
+    "*": "bun lint:fix && bun run format"
   },
   "simple-git-hooks": {
-    "pre-commit": "bun run lint-staged"
+    "pre-commit": "bun run lint-staged",
+    "commit-msg": "bun run commitlint --edit $1"
   }
 }
