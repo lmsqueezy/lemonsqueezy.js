@@ -26,7 +26,7 @@ jobs:
         run: bun install
 
       - name: Build the package
-        run: bun build
+        run: bun run build
 
       - name: Publish to NPM
         id: changesets
