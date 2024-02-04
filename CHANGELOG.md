@@ -1,5 +1,56 @@
 # @lemonsqueezy/lemonsqueezy.js
 
+## 2.0.0
+
+### Major Changes
+
+- [#48](https://github.com/lmsqueezy/lemonsqueezy.js/pull/48) [`fd20741`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/fd20741b496a37d54981be5485ca9218126fc25a) Thanks [@keyding](https://github.com/keyding)! - BREAKING CHANGE: Completely rewritten the JS SDK for full type-safety and tree-shakeability.
+
+  ## Notes:
+
+  - **Bun**: Transitioned to Bun for repo management.
+  - **Type-safe**: Written in TypeScript and documented with TSDoc.
+  - **Tree-shakeable**: Use only functions that you need.
+  - **Improved docs**: Added detailed Wiki pages on how to use the new SDK functions.
+  - **Deprecate old SDK classes and methods**: The deprecated methods and the LemonSqueezy class will be removed with the next major release.
+  - **Unit tests**: Introduces comprehensive unit tests for all functions.
+  - **Improved repo management**: Transitioned to Bun, adopted Conventional Commits convention, husky, Prettier, ESLint and other tools for better repo management.
+
+  ## Fixes:
+
+  This release fixes the following issues.
+
+  - #35
+  - #29
+  - #28
+  - #25
+  - #22
+  - #19
+
+  ## How to upgrade
+
+  Use the new setup function to initialize the SDK with your API key.
+
+  ```tsx
+  lemonSqueezySetup({ apiKey });
+  ```
+
+  Import functions from the SDK and use them in your application.
+
+  ```tsx
+  const { data, error, statusCode } = await getAuthenticatedUser();
+  ```
+
+  For more information, see [API Reference](https://docs.lemonsqueezy.com/api) and [Functions Usage Wiki](https://github.com/lmsqueezy/lemonsqueezy.js/wiki).
+
+  ## Credits
+
+  🎉 A massive thanks to @heybrostudio for their awesome work and contributions that led to this release.
+
+### Patch Changes
+
+- [#50](https://github.com/lmsqueezy/lemonsqueezy.js/pull/50) [`655fe01`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/655fe014597c2bc838a70ff36acd9cbdd1df9180) Thanks [@brankoconjic](https://github.com/brankoconjic)! - update dependencies
+
 ## 1.2.5
 
 ### Patch Changes
