@@ -11,7 +11,7 @@ This is the official JavaScript SDK for [Lemon Squeezy](https://lemonsqueezy.com
 
 - Read [API Reference](https://docs.lemonsqueezy.com/api) to understand how the Lemon Squeezy API works.
 
-- Visit [Wiki page](https://docs.lemonsqueezy.com/api-reference) for function usage.
+- Visit [Wiki page](https://github.com/lmsqueezy/lemonsqueezy.js/wiki) for function usage.
 
 ## Features
 
@@ -61,7 +61,7 @@ const { data, error, statusCode } = await getAuthenticatedUser();
 console.log({ data, error, statusCode });
 ```
 
-For more functions usage, see [Wiki](https://github.com/lemonsqueezy/lemonsqueezy.js/wiki).
+For more functions usage, see [Wiki](https://github.com/lmsqueezy/lemonsqueezy.js/wiki).
 
 ## Bundle size
 
