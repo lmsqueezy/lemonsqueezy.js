@@ -136,4 +136,4 @@ Do not use this package directly in the browser, as this will expose your API ke
 
 ## Contributing
 
-See the [Contributing Guide](https://github.com/lemonsqueezy/lemonsqueezy.js/blob/main/CONTRIBUTING.md).
+See the [Contributing Guide](https://github.com/lmsqueezy/lemonsqueezy.js/blob/main/CONTRIBUTING.md).
