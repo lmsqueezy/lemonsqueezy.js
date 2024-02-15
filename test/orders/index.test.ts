@@ -240,6 +240,7 @@ describe("Retrieve an order", () => {
     expect(attributes).toBeDefined();
     expect(relationships).toBeDefined();
 
+    // attributes
     const {
       store_id,
       customer_id,
@@ -249,21 +250,27 @@ describe("Retrieve an order", () => {
       user_email,
       currency,
       currency_rate,
-      subtotal,
-      discount_total,
-      tax,
-      subtotal_usd,
-      tax_usd,
-      total_usd,
       tax_name,
       tax_rate,
+      tax_inclusive,
       status,
       status_formatted,
       refunded,
       refunded_at,
+      subtotal,
+      discount_total,
+      tax,
+      setup_fee,
+      total,
+      subtotal_usd,
+      discount_total_usd,
+      tax_usd,
+      setup_fee_usd,
+      total_usd,
       subtotal_formatted,
       discount_total_formatted,
       tax_formatted,
+      setup_fee_formatted,
       total_formatted,
       first_order_item,
       urls,
@@ -271,9 +278,8 @@ describe("Retrieve an order", () => {
       updated_at,
       test_mode,
     } = attributes;
-    expect(store_id).toEqual(Number(storeId));
-    expect(urls.receipt).toBeDefined();
-    for (const item of [
+    const items = [
+      store_id,
       customer_id,
       identifier,
       order_number,
@@ -281,31 +287,42 @@ describe("Retrieve an order", () => {
       user_email,
       currency,
       currency_rate,
-      subtotal,
-      discount_total,
-      tax,
-      subtotal_usd,
-      tax_usd,
-      total_usd,
       tax_name,
       tax_rate,
+      tax_inclusive,
       status,
       status_formatted,
       refunded,
       refunded_at,
+      subtotal,
+      discount_total,
+      tax,
+      setup_fee,
+      total,
+      subtotal_usd,
+      discount_total_usd,
+      tax_usd,
+      setup_fee_usd,
+      total_usd,
       subtotal_formatted,
       discount_total_formatted,
       tax_formatted,
+      setup_fee_formatted,
       total_formatted,
       first_order_item,
       urls,
       created_at,
       updated_at,
       test_mode,
-    ]) {
+    ];
+    expect(store_id).toEqual(Number(storeId));
+    expect(urls.receipt).toBeDefined();
+    expect(Object.keys(attributes).length).toEqual(items.length);
+    for (const item of items) {
       expect(item).toBeDefined();
     }
 
+    // first_order_item
     const {
       id: firstOrderItemId,
       order_id,
@@ -320,7 +337,7 @@ describe("Retrieve an order", () => {
       updated_at: updatedAt,
       test_mode: testMode,
     } = first_order_item;
-    for (const item of [
+    const firstOrderItems = [
       firstOrderItemId,
       order_id,
       product_id,
@@ -333,10 +350,15 @@ describe("Retrieve an order", () => {
       createdAt,
       updatedAt,
       testMode,
-    ]) {
+    ];
+    expect(Object.keys(first_order_item).length).toEqual(
+      firstOrderItems.length
+    );
+    for (const item of firstOrderItems) {
       expect(item).toBeDefined();
     }
 
+    // relationships
     const {
       store,
       customer,
@@ -345,14 +367,16 @@ describe("Retrieve an order", () => {
       "license-keys": licenseKeys,
       "discount-redemptions": discountRedemptions,
     } = relationships;
-    for (const item of [
+    const relationshipItems = [
       store,
       customer,
       orderItems,
       subscriptions,
       licenseKeys,
       discountRedemptions,
-    ]) {
+    ];
+    expect(Object.keys(relationships).length).toEqual(relationshipItems.length);
+    for (const item of relationshipItems) {
       expect(item.links).toBeDefined();
     }
   });
@@ -379,6 +403,7 @@ describe("Retrieve an order", () => {
     expect(attributes).toBeDefined();
     expect(relationships).toBeDefined();
 
+    // attributes
     const {
       store_id,
       customer_id,
@@ -388,21 +413,27 @@ describe("Retrieve an order", () => {
       user_email,
       currency,
       currency_rate,
-      subtotal,
-      discount_total,
-      tax,
-      subtotal_usd,
-      tax_usd,
-      total_usd,
       tax_name,
       tax_rate,
+      tax_inclusive,
       status,
       status_formatted,
       refunded,
       refunded_at,
+      subtotal,
+      discount_total,
+      tax,
+      setup_fee,
+      total,
+      subtotal_usd,
+      discount_total_usd,
+      tax_usd,
+      setup_fee_usd,
+      total_usd,
       subtotal_formatted,
       discount_total_formatted,
       tax_formatted,
+      setup_fee_formatted,
       total_formatted,
       first_order_item,
       urls,
@@ -410,9 +441,8 @@ describe("Retrieve an order", () => {
       updated_at,
       test_mode,
     } = attributes;
-    expect(store_id).toEqual(Number(storeId));
-    expect(urls.receipt).toBeDefined();
-    for (const item of [
+    const items = [
+      store_id,
       customer_id,
       identifier,
       order_number,
@@ -420,31 +450,42 @@ describe("Retrieve an order", () => {
       user_email,
       currency,
       currency_rate,
-      subtotal,
-      discount_total,
-      tax,
-      subtotal_usd,
-      tax_usd,
-      total_usd,
       tax_name,
       tax_rate,
+      tax_inclusive,
       status,
       status_formatted,
       refunded,
       refunded_at,
+      subtotal,
+      discount_total,
+      tax,
+      setup_fee,
+      total,
+      subtotal_usd,
+      discount_total_usd,
+      tax_usd,
+      setup_fee_usd,
+      total_usd,
       subtotal_formatted,
       discount_total_formatted,
       tax_formatted,
+      setup_fee_formatted,
       total_formatted,
       first_order_item,
       urls,
       created_at,
       updated_at,
       test_mode,
-    ]) {
+    ];
+    expect(store_id).toEqual(Number(storeId));
+    expect(urls.receipt).toBeDefined();
+    expect(Object.keys(attributes).length).toEqual(items.length);
+    for (const item of items) {
       expect(item).toBeDefined();
     }
 
+    // first_order_item
     const {
       id: firstOrderItemId,
       order_id,
@@ -459,7 +500,7 @@ describe("Retrieve an order", () => {
       updated_at: updatedAt,
       test_mode: testMode,
     } = first_order_item;
-    for (const item of [
+    const firstOrderItems = [
       firstOrderItemId,
       order_id,
       product_id,
@@ -472,10 +513,15 @@ describe("Retrieve an order", () => {
       createdAt,
       updatedAt,
       testMode,
-    ]) {
+    ];
+    expect(Object.keys(first_order_item).length).toEqual(
+      firstOrderItems.length
+    );
+    for (const item of firstOrderItems) {
       expect(item).toBeDefined();
     }
 
+    // relationships
     const {
       store,
       customer,
@@ -484,14 +530,16 @@ describe("Retrieve an order", () => {
       "license-keys": licenseKeys,
       "discount-redemptions": discountRedemptions,
     } = relationships;
-    for (const item of [
+    const relationshipItems = [
       store,
       customer,
       orderItems,
       subscriptions,
       licenseKeys,
       discountRedemptions,
-    ]) {
+    ];
+    expect(Object.keys(relationships).length).toEqual(relationshipItems.length);
+    for (const item of relationshipItems) {
       expect(item.links).toBeDefined();
     }
   });

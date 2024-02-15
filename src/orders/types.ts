@@ -101,6 +101,10 @@ type Attributes = {
    */
   subtotal: number;
   /**
+   * A positive integer in cents representing the setup fee of the order in the order currency.
+   */
+  setup_fee: number;
+  /**
    * A positive integer in cents representing the total discount value applied to the order in the order currency.
    */
   discount_total: number;
@@ -116,6 +120,10 @@ type Attributes = {
    * A positive integer in cents representing the subtotal of the order in USD.
    */
   subtotal_usd: number;
+  /**
+   * A positive integer in cents representing the setup fee of the order in USD.
+   */
+  setup_fee_usd: number;
   /**
    * A positive integer in cents representing the total discount value applied to the order in USD.
    */
@@ -136,6 +144,10 @@ type Attributes = {
    * If tax is applied to the order, this will be the rate of tax as a decimal percentage.
    */
   tax_rate: string;
+  /**
+   * A boolean indicating if the order was created with tax inclusive or exclusive pricing.
+   */
+  tax_inclusive: boolean;
   /**
    * The status of the order. One of
    *
@@ -161,6 +173,10 @@ type Attributes = {
    * A human-readable string representing the subtotal of the order in the order currency (e.g. `$9.99`).
    */
   subtotal_formatted: string;
+  /**
+   * A human-readable string representing the setup fee of the order in the order currency (e.g. $9.99).
+   */
+  setup_fee_formatted: string;
   /**
    * A human-readable string representing the total discount value applied to the order in the order currency (e.g. `$9.99`).
    */
