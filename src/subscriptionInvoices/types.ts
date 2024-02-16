@@ -107,6 +107,10 @@ type Attributes = {
    */
   tax: number;
   /**
+   * A boolean indicating if the order was created with tax inclusive or exclusive pricing.
+   */
+  tax_inclusive: boolean;
+  /**
    * A positive integer in cents representing the total cost of the invoice in the invoice currency.
    */
   total: number;
