@@ -14,7 +14,8 @@ export async function $fetch<T>(options: FetchOptions, needApiKey = true) {
   const response: FetchResponse<T> = {
     statusCode: null,
     data: null,
-    error: null,
+    // We use `null as unknown as Error` because `FetchResponse` doesn't allow both `data` and `error` to be `null`.
+    error: null as unknown as Error,
   };
   const { apiKey, onError } = getKV<Config>(CONFIG_KEY) || {};
 
