@@ -3,6 +3,7 @@ import {
   convertIncludeToQueryString,
   convertListParamsToQueryString,
   requiredCheck,
+  convertKeys,
 } from "../internal";
 
 import type {
@@ -11,6 +12,7 @@ import type {
   ListSubscriptionItemsParams,
   SubscriptionItem,
   SubscriptionItemCurrentUsage,
+  UpdateSubscriptionItem,
 } from "./types";
 
 /**
@@ -76,13 +78,78 @@ export function listSubscriptionItems(
  *
  * @param subscriptionItemId The given subscription item id.
  * @param quantity The unit quantity of the subscription.
+ * @deprecated It will be removed with the next major version. Use the 'updateSubscriptionItem' parameter instead.
  * @returns A subscription item object.
  */
 export function updateSubscriptionItem(
   subscriptionItemId: string | number,
   quantity: number
+): ReturnType<typeof _updateSubscriptionItem>;
+
+/**
+ * Update a subscription item.
+ *
+ * Note: this endpoint is only used with quantity-based billing.
+ * If the related subscription's product/variant has usage-based billing
+ * enabled, this endpoint will return a `422 Unprocessable Entity` response.
+ *
+ * @param subscriptionItemId The given subscription item id.
+ * @param updateSubscriptionItem (Required) Update subscription item info.
+ * @param updateSubscriptionItem.quantity (Required) The unit quantity of the subscription.
+ * @param [updateSubscriptionItem.invoiceImmediately] (Optional) If `true`, any updates to the subscription will be charged immediately. A new prorated invoice will be generated and payment attempted. Defaults to `false`. Note that this will be overridden by the `disable_prorations` option if used.
+ * @param [updateSubscriptionItem.disableProrations] (Optional) If `true`, no proration will be charged and the customer will simply be charged the new price at the next renewal. Defaults to `false`. Note that this will override the `invoice_immediately` option if used.
+ * @returns A subscription item object.
+ */
+export function updateSubscriptionItem(
+  subscriptionItemId: string | number,
+  updateSubscriptionItem: UpdateSubscriptionItem
+): ReturnType<typeof _updateSubscriptionItem>;
+
+/**
+ * Update a subscription item.
+ *
+ * Note: this endpoint is only used with quantity-based billing.
+ * If the related subscription's product/variant has usage-based billing
+ * enabled, this endpoint will return a `422 Unprocessable Entity` response.
+ *
+ * @param subscriptionItemId The given subscription item id.
+ * @param updateSubscriptionItem (Required) Update subscription item info.
+ * @param updateSubscriptionItem.quantity (Required) The unit quantity of the subscription.
+ * @param [updateSubscriptionItem.invoiceImmediately] (Optional) If `true`, any updates to the subscription will be charged immediately. A new prorated invoice will be generated and payment attempted. Defaults to `false`. Note that this will be overridden by the `disable_prorations` option if used.
+ * @param [updateSubscriptionItem.disableProrations] (Optional) If `true`, no proration will be charged and the customer will simply be charged the new price at the next renewal. Defaults to `false`. Note that this will override the `invoice_immediately` option if used.
+ * @returns A subscription item object.
+ */
+export function updateSubscriptionItem(
+  subscriptionItemId: string | number,
+  updateSubscriptionItem: number | UpdateSubscriptionItem
+) {
+  return _updateSubscriptionItem(subscriptionItemId, updateSubscriptionItem);
+}
+
+async function _updateSubscriptionItem(
+  subscriptionItemId: string | number,
+  updateSubscriptionItem: number | UpdateSubscriptionItem
 ) {
   requiredCheck({ subscriptionItemId });
+
+  let attributes;
+  if (typeof updateSubscriptionItem === "number") {
+    attributes = {
+      quantity: updateSubscriptionItem,
+    };
+  } else {
+    const {
+      quantity,
+      invoiceImmediately = false,
+      disableProrations = false,
+    } = updateSubscriptionItem;
+    attributes = convertKeys({
+      quantity,
+      invoiceImmediately,
+      disableProrations,
+    });
+  }
+
   return $fetch<SubscriptionItem>({
     path: `/v1/subscription-items/${subscriptionItemId}`,
     method: "PATCH",
@@ -90,9 +157,7 @@ export function updateSubscriptionItem(
       data: {
         type: "subscription-items",
         id: subscriptionItemId.toString(),
-        attributes: {
-          quantity,
-        },
+        attributes,
       },
     },
   });
