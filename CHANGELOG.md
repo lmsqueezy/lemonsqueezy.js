@@ -1,5 +1,11 @@
 # @lemonsqueezy/lemonsqueezy.js
 
+## 2.1.0
+
+### Minor Changes
+
+- [#58](https://github.com/lmsqueezy/lemonsqueezy.js/pull/58) [`5bc530a`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/5bc530a47c0be08f2b8b759dbce1deff4c15a874) Thanks [@keyding](https://github.com/keyding)! - Added `tax_inclusive` parameter to Order objects and Subscription invoice objects
+
 ## 2.0.0
 
 ### Major Changes
