@@ -195,6 +195,7 @@ type Attributes = {
   urls: {
     update_payment_method: string;
     customer_portal: string;
+    customer_portal_update_subscription: string;
   };
   /**
    * An [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted date-time string indicating the end of the current billing cycle, and when the next invoice will be issued. This also applies to `past_due` subscriptions; `renews_at` will reflect the next renewal charge attempt.
