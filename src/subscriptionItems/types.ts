@@ -71,3 +71,20 @@ export type ListSubscriptionItems = LemonSqueezyResponse<
   Pick<Meta, "page">,
   Pick<Links, "first" | "last">
 >;
+export type UpdateSubscriptionItem = {
+  /**
+   * The unit quantity of the subscription.
+   */
+  quantity: number;
+  /**
+   * If `true`, any updates to the subscription will be charged immediately. A new prorated invoice will be generated and payment attempted. Defaults to `false`. Note that this will be overridden by the `disable_prorations` option if used.
+   *
+   * [Read about proration in the Developer Guide.](https://docs.lemonsqueezy.com/guides/developer-guide/managing-subscriptions#handling-proration)
+   */
+  invoiceImmediately?: boolean;
+  /**
+   * If `true`, no proration will be charged and the customer will simply be charged the new price at the next renewal. Defaults to `false`. Note that this will override the `invoice_immediately` option if used.
+   * [Read about proration in the Developer Guide.](https://docs.lemonsqueezy.com/guides/developer-guide/managing-subscriptions#handling-proration)
+   */
+  disableProrations?: boolean;
+};

@@ -301,7 +301,7 @@ describe(`Retrieve a subscription item's current usage`, () => {
 describe("Update a subscription item", () => {
   it("Throw an error about a parameter that must be provided", async () => {
     try {
-      await updateSubscriptionItem("", {} as any);
+      await updateSubscriptionItem("", 10);
     } catch (error) {
       expect((error as Error).message).toMatch(
         "Please provide the required parameter:"
@@ -315,6 +315,7 @@ describe("Update a subscription item", () => {
       statusCode,
       data: _data,
     } = await updateSubscriptionItem(noUsageBasedSubscriptionItemId, 10);
+
     expect(statusCode).toEqual(200);
     expect(error).toBeNull();
     expect(_data).toBeDefined();
@@ -348,6 +349,62 @@ describe("Update a subscription item", () => {
       updated_at,
     ];
     expect(quantity).toEqual(10);
+    expect(Object.keys(attributes).length).toEqual(items.length);
+    for (const item of items) expect(item).toBeDefined();
+
+    const {
+      subscription,
+      price,
+      "usage-records": usageRecords,
+    } = relationships;
+    const relationshipItems = [subscription, price, usageRecords];
+    expect(Object.keys(relationships).length).toEqual(relationshipItems.length);
+    for (const item of relationshipItems) expect(item.links).toBeDefined();
+  });
+
+  it("Should return a updated subscription item object with `invoice_immediately` is `true`", async () => {
+    const {
+      error,
+      statusCode,
+      data: _data,
+    } = await updateSubscriptionItem(noUsageBasedSubscriptionItemId, {
+      quantity: 20,
+      invoiceImmediately: true,
+    });
+
+    expect(statusCode).toEqual(200);
+    expect(error).toBeNull();
+    expect(_data).toBeDefined();
+
+    const { links, data } = _data!;
+    expect(data).toBeDefined();
+    expect(links.self).toEqual(
+      `${API_BASE_URL}${PATH}${noUsageBasedSubscriptionItemId}`
+    );
+
+    const { id, type, attributes, relationships } = data;
+    expect(id).toEqual(noUsageBasedSubscriptionItemId.toString());
+    expect(type).toEqual(DATA_TYPE);
+    expect(attributes).toBeDefined();
+    expect(relationships).toBeDefined();
+
+    const {
+      subscription_id,
+      price_id,
+      quantity,
+      is_usage_based,
+      created_at,
+      updated_at,
+    } = attributes;
+    const items = [
+      subscription_id,
+      price_id,
+      quantity,
+      is_usage_based,
+      created_at,
+      updated_at,
+    ];
+    expect(quantity).toEqual(20);
     expect(Object.keys(attributes).length).toEqual(items.length);
     for (const item of items) expect(item).toBeDefined();
 

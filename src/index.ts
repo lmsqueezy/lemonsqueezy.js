@@ -122,6 +122,7 @@ export type {
   ListSubscriptionItems,
   GetSubscriptionItemParams,
   ListSubscriptionItemsParams,
+  UpdateSubscriptionItem,
 } from "./subscriptionItems/types";
 export {
   getSubscriptionItem,
