@@ -1,5 +1,13 @@
 # @lemonsqueezy/lemonsqueezy.js
 
+## 2.2.0
+
+### Minor Changes
+
+- [#61](https://github.com/lmsqueezy/lemonsqueezy.js/pull/61) [`93381d9`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/93381d9f59435497499dcf4aa2a8f47528efadc7) Thanks [@keyding](https://github.com/keyding)! - Added `invoice_immediately` and `disable_prorations` parameters to `Subscription` item update object.
+
+- [#65](https://github.com/lmsqueezy/lemonsqueezy.js/pull/65) [`27cbaf4`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/27cbaf401338c88b027729cc23a54c8aa2981922) Thanks [@keyding](https://github.com/keyding)! - Added `urls.customer_portal_update_subscription` parameter to Subscription objects.
+
 ## 2.1.0
 
 ### Minor Changes
