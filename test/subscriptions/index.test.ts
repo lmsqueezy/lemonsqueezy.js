@@ -335,8 +335,19 @@ describe("Retrieve a subscription", () => {
       for (const item of firstItems) expect(item).toBeDefined();
     } else expect(first_subscription_item).toBeNull();
 
-    expect(urls.update_payment_method).toBeString();
-    expect(urls.customer_portal).toBeString();
+    // urls
+    const {
+      update_payment_method,
+      customer_portal,
+      customer_portal_update_subscription,
+    } = urls;
+    const urlItems = [
+      update_payment_method,
+      customer_portal,
+      customer_portal_update_subscription,
+    ];
+    expect(Object.keys(urls).length).toEqual(urlItems.length);
+    for (const item of urlItems) expect(item).toBeString();
 
     const {
       store,
@@ -466,8 +477,19 @@ describe("Retrieve a subscription", () => {
       for (const item of firstItems) expect(item).toBeDefined();
     } else expect(first_subscription_item).toBeNull();
 
-    expect(urls.update_payment_method).toBeString();
-    expect(urls.customer_portal).toBeString();
+    // urls
+    const {
+      update_payment_method,
+      customer_portal,
+      customer_portal_update_subscription,
+    } = urls;
+    const urlItems = [
+      update_payment_method,
+      customer_portal,
+      customer_portal_update_subscription,
+    ];
+    expect(Object.keys(urls).length).toEqual(urlItems.length);
+    for (const item of urlItems) expect(item).toBeString();
 
     const {
       store,
