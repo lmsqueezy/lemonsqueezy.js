@@ -1,10 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type ApiVersion = "v1";
 
-export type FetchResponse<T> = {
-  statusCode: number | null;
-  data: T | null;
-  error: Error | null;
+export type JSONAPIError = {
+  id?: string;
+  links?: {
+    about?: string;
+    type?: string;
+  };
+  status?: string;
+  code?: string;
+  title: string;
+  detail?: string;
+  source?: {
+    pointer?: string;
+    parameter?: string;
+  };
+  meta?: Record<string, any>;
+};
+
+export type FetchResponse<T> =
+  | {
+      statusCode: number;
+      data: T;
+      error: null;
+    }
+  | {
+      statusCode: number | null;
+      data: null;
+      error: Error;
+    };
+
+export type FetchDataWithError = {
+  errors?: JSONAPIError[];
+  error?: string;
+  message?: string;
 };
 
 export type FetchOptions = {

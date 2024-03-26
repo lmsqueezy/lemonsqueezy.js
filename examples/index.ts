@@ -10,4 +10,10 @@ lemonSqueezySetup({
 
 // Get authenticated user
 const { data, error, statusCode } = await getAuthenticatedUser();
-console.log({ data, error, statusCode });
+
+if (error) {
+  console.log(error.cause);
+} else {
+  console.log({ data, error, statusCode });
+  console.log(data.data.attributes.email);
+}

@@ -18,8 +18,9 @@ beforeAll(async () => {
   lemonSqueezySetup({
     apiKey: import.meta.env.LEMON_SQUEEZY_API_KEY,
   });
-  const { data } = await listVariants();
-  variantId = data!.data[0].id;
+  const { error, data } = await listVariants();
+  if (error) return;
+  variantId = data.data[0].id;
 });
 
 describe("Create a checkout", () => {
