@@ -27,6 +27,7 @@ export function getSubscriptionItem(
   subscriptionItemId: number | string,
   params: GetSubscriptionItemParams = {}
 ) {
+  requiredCheck({ subscriptionItemId });
   return $fetch<SubscriptionItem>({
     path: `/v1/subscription-items/${subscriptionItemId}${convertIncludeToQueryString(params.include)}`,
   });
