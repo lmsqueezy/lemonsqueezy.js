@@ -294,6 +294,10 @@ export type UpdateSubscription = Partial<{
    */
   cancelled: boolean;
   /**
+   * An [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted date-time string indicating when the subscription's free trial should end.
+   */
+  trialEndsAt: string | null;
+  /**
    * - Use an integer representing a day of the month (`21` equals `21st day of the month`) to change the day on which subscription invoice payments are collected.
    * - Use `null` or `0` to reset the billing anchor to the current date. Doing this will also remove an active trial.
    *

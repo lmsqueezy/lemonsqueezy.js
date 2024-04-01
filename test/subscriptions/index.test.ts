@@ -30,6 +30,7 @@ describe("List all subscriptions", () => {
     expect(_data).toBeDefined();
 
     const { meta, links, data } = _data!;
+
     expect(meta.page).toBeDefined();
     expect(links.first).toBeString();
     expect(links.last).toBeString();
@@ -607,6 +608,44 @@ describe("Update a subscription", () => {
 
     const { cancelled } = attributes;
     expect(cancelled).toBeFalse();
+  });
+
+  it("The subscription should be changed to trial_ends_at", async () => {
+    function formatISO8601(isoString: string) {
+      const date = new Date(isoString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const seconds = String(date.getSeconds()).padStart(2, "0");
+
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+    const trialEndsAt = new Date("2024-04-25").toISOString();
+    const {
+      statusCode,
+      error,
+      data: _data,
+    } = await updateSubscription(subscriptionId, {
+      trialEndsAt,
+    });
+
+    expect(statusCode).toEqual(200);
+    expect(error).toBeNull();
+    expect(_data).toBeDefined();
+
+    const { data, links } = _data!;
+    expect(data).toBeDefined();
+    expect(links.self).toEqual(`${API_BASE_URL}${PATH}${subscriptionId}`);
+
+    const { id, type, attributes } = data;
+    expect(id).toEqual(subscriptionId.toString());
+    expect(type).toBe(DATA_TYPE);
+    expect(attributes).toBeDefined();
+
+    const { trial_ends_at } = attributes;
+    expect(formatISO8601(trial_ends_at!)).toEqual(formatISO8601(trialEndsAt));
   });
 
   it("The payment should be changed to pause", async () => {
