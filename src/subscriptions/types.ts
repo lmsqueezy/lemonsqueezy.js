@@ -288,7 +288,7 @@ export type UpdateSubscription = Partial<{
   pause: {
     mode: "void" | "free";
     resumesAt?: string | null;
-  };
+  } | null;
   /**
    * Set as `true` to cancel the subscription. You can resume a subscription (before the `ends_at` date) by setting this to `false`.
    */
