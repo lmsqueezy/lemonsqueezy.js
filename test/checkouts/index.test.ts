@@ -485,7 +485,7 @@ describe("Create a checkout", () => {
   });
 });
 
-describe.skip("Retrieve a checkout", () => {
+describe("Retrieve a checkout", () => {
   it("Throw an error about a parameter that must be provided", async () => {
     try {
       await getCheckout("");
@@ -865,7 +865,7 @@ describe.skip("Retrieve a checkout", () => {
   });
 });
 
-describe.skip("List all checkouts", () => {
+describe("List all checkouts", () => {
   it("Should return a paginated list of checkouts", async () => {
     const { error, data: _data, statusCode } = await listCheckouts();
     expect(error).toBeNull();
