@@ -58,6 +58,7 @@ export function listLicenseKeys(params: ListLicenseKeysParams = {}) {
  * @param licenseKeyId The license key id.
  * @param licenseKey (Optional) Values to be updated.
  * @param [licenseKey.activationLimit] (Optional) The activation limit of this license key. Assign `null` to set the activation limit to "unlimited".
+ * @param [licenseKey.expiresAt] (Optional) An [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted date-time string indicating when the license key expires. Can be `null` if the license key is perpetual.
  * @param [licenseKey.disabled] (Optional) If `true`, the license key will have "disabled" status.
  * @returns A license key object.
  */
@@ -67,8 +68,8 @@ export function updateLicenseKey(
 ) {
   requiredCheck({ licenseKeyId });
 
-  const { activationLimit, disabled = false } = licenseKey;
-  const attributes = convertKeys({ activationLimit, disabled });
+  const { activationLimit, disabled = false, expiresAt } = licenseKey;
+  const attributes = convertKeys({ activationLimit, disabled, expiresAt });
 
   return $fetch<LicenseKey>({
     path: `/v1/license-keys/${licenseKeyId}`,
