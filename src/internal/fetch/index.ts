@@ -1,6 +1,11 @@
 import type { Config } from "../setup/types";
 import { API_BASE_URL, CONFIG_KEY, getKV } from "../utils";
-import type { FetchOptions, FetchResponse } from "./types";
+import type {
+  FetchOptions,
+  FetchResponse,
+  FetchDataWithError,
+  JSONAPIError,
+} from "./types";
 
 /**
  * Internal customization of fetch.
@@ -11,21 +16,21 @@ import type { FetchOptions, FetchResponse } from "./types";
  * @returns Fetch response. Includes `statusCode`, `error` and `data`.
  */
 export async function $fetch<T>(options: FetchOptions, needApiKey = true) {
-  const response: FetchResponse<T> = {
+  const response = {
     statusCode: null,
     data: null,
-    error: null,
+    error: Error(),
   };
   const { apiKey, onError } = getKV<Config>(CONFIG_KEY) || {};
 
   try {
     if (needApiKey && !apiKey) {
-      response.error = Error(
+      response.error = createLemonError(
         "Please provide your Lemon Squeezy API key. Create a new API key: https://app.lemonsqueezy.com/settings/api",
-        { cause: "Missing API key" }
+        "Missing API key"
       );
       onError?.(response.error);
-      return response;
+      return response as FetchResponse<T>;
     }
 
     const { path, method = "GET", query, body } = options;
@@ -55,22 +60,40 @@ export async function $fetch<T>(options: FetchOptions, needApiKey = true) {
     }
 
     const fetchResponse = await fetch(url.href, _options);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data = (await fetchResponse.json()) as { error?: any; errors?: any };
+    const data = await fetchResponse.json();
     const fetchOk = fetchResponse.ok;
+    const fetchStatus = fetchResponse.status;
 
-    Object.assign(response, {
-      statusCode: fetchResponse.status,
-      // The license api returns data in the event of an error
-      data: fetchOk ? data : data.error ? data : null,
-      error: fetchOk
-        ? null
-        : Error(fetchResponse.statusText, { cause: data.errors || data.error }),
-    });
+    if (fetchOk) {
+      Object.assign(response, {
+        statusCode: fetchStatus,
+        data: data as T,
+        error: null,
+      });
+    } else {
+      const { errors, error, message } = data as FetchDataWithError;
+      const _error = errors || error || message || "unknown cause";
+
+      Object.assign(response, {
+        statusCode: fetchStatus,
+        data: null,
+        error: createLemonError(fetchResponse.statusText, _error),
+      });
+    }
   } catch (error) {
-    response.error = error as Error;
+    Object.assign(response, { error: error as Error });
   }
 
   response.error && onError?.(response.error);
-  return response;
+  return response as FetchResponse<T>;
+}
+
+function createLemonError(
+  message: string,
+  cause: string | JSONAPIError[] = "unknown"
+) {
+  const error = new Error(message);
+  error.name = "Lemon Squeezy Error";
+  error.cause = cause;
+  return error;
 }
