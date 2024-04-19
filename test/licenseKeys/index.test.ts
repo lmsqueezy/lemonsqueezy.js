@@ -446,13 +446,14 @@ describe("Update a license key", () => {
     }
   });
 
-  it("Should return a license key object with activation_limit is 5", async () => {
+  it("Should return a license key object with activation_limit is 5 and disabled is false", async () => {
     const newActivationLimit = 5;
     const {
       statusCode,
       error,
       data: _data,
     } = await updateLicenseKey(licenseKeyId, {
+      disabled: false,
       activationLimit: newActivationLimit,
     });
     expect(statusCode).toEqual(200);
@@ -515,6 +516,188 @@ describe("Update a license key", () => {
     expect(order_item_id).toEqual(Number(orderItemId));
     expect(product_id).toEqual(Number(productId));
     expect(activation_limit).toEqual(newActivationLimit);
+
+    const {
+      store,
+      customer,
+      order,
+      "order-item": orderItem,
+      product,
+      "license-key-instances": licenseKeyInstances,
+    } = relationships;
+    const relationshipItems = [
+      store,
+      customer,
+      order,
+      orderItem,
+      product,
+      licenseKeyInstances,
+    ];
+    for (const item of relationshipItems) expect(item).toBeDefined();
+    expect(Object.keys(relationships).length).toEqual(relationshipItems.length);
+  });
+
+  it("Should return a license key object with expires_at is null", async () => {
+    const {
+      statusCode,
+      error,
+      data: _data,
+    } = await updateLicenseKey(licenseKeyId, {
+      expiresAt: null,
+    });
+    expect(statusCode).toEqual(200);
+    expect(error).toBeNull();
+    expect(_data).toBeDefined();
+
+    const { data, links } = _data!;
+    expect(links.self).toEqual(`${API_BASE_URL}${PATH}${licenseKeyId}`);
+
+    const { type, id, attributes, relationships } = data;
+    expect(type).toEqual(DATA_TYPE);
+    expect(id).toEqual(licenseKeyId.toString());
+    expect(attributes).toBeDefined();
+    expect(relationships).toBeDefined();
+
+    const {
+      store_id,
+      customer_id,
+      order_id,
+      order_item_id,
+      product_id,
+      status,
+      key,
+      user_name,
+      user_email,
+      key_short,
+      activation_limit,
+      instances_count,
+      disabled,
+      status_formatted,
+      expires_at,
+      created_at,
+      updated_at,
+      test_mode,
+    } = attributes;
+    const items = [
+      store_id,
+      customer_id,
+      order_id,
+      order_item_id,
+      product_id,
+      status,
+      key,
+      user_name,
+      user_email,
+      key_short,
+      activation_limit,
+      instances_count,
+      disabled,
+      status_formatted,
+      expires_at,
+      created_at,
+      updated_at,
+      test_mode,
+    ];
+    for (const item of items) expect(item).toBeDefined();
+    expect(Object.keys(attributes).length).toEqual(items.length);
+    expect(store_id).toEqual(Number(storeId));
+    expect(order_id).toEqual(Number(orderId));
+    expect(order_item_id).toEqual(Number(orderItemId));
+    expect(product_id).toEqual(Number(productId));
+    expect(expires_at).toBeNull();
+
+    const {
+      store,
+      customer,
+      order,
+      "order-item": orderItem,
+      product,
+      "license-key-instances": licenseKeyInstances,
+    } = relationships;
+    const relationshipItems = [
+      store,
+      customer,
+      order,
+      orderItem,
+      product,
+      licenseKeyInstances,
+    ];
+    for (const item of relationshipItems) expect(item).toBeDefined();
+    expect(Object.keys(relationships).length).toEqual(relationshipItems.length);
+  });
+
+  it("Should return a license key object with expires_at is 2024-05-26", async () => {
+    const date = new Date(new Date().getTime() + 86400000)
+      .toISOString()
+      .split("T")[0];
+    const expiresAt = `${date}T00:00:00.000000Z`;
+    const {
+      statusCode,
+      error,
+      data: _data,
+    } = await updateLicenseKey(licenseKeyId, {
+      expiresAt,
+    });
+    expect(statusCode).toEqual(200);
+    expect(error).toBeNull();
+    expect(_data).toBeDefined();
+
+    const { data, links } = _data!;
+    expect(links.self).toEqual(`${API_BASE_URL}${PATH}${licenseKeyId}`);
+
+    const { type, id, attributes, relationships } = data;
+    expect(type).toEqual(DATA_TYPE);
+    expect(id).toEqual(licenseKeyId.toString());
+    expect(attributes).toBeDefined();
+    expect(relationships).toBeDefined();
+
+    const {
+      store_id,
+      customer_id,
+      order_id,
+      order_item_id,
+      product_id,
+      status,
+      key,
+      user_name,
+      user_email,
+      key_short,
+      activation_limit,
+      instances_count,
+      disabled,
+      status_formatted,
+      expires_at,
+      created_at,
+      updated_at,
+      test_mode,
+    } = attributes;
+    const items = [
+      store_id,
+      customer_id,
+      order_id,
+      order_item_id,
+      product_id,
+      status,
+      key,
+      user_name,
+      user_email,
+      key_short,
+      activation_limit,
+      instances_count,
+      disabled,
+      status_formatted,
+      expires_at,
+      created_at,
+      updated_at,
+      test_mode,
+    ];
+    for (const item of items) expect(item).toBeDefined();
+    expect(Object.keys(attributes).length).toEqual(items.length);
+    expect(store_id).toEqual(Number(storeId));
+    expect(order_id).toEqual(Number(orderId));
+    expect(order_item_id).toEqual(Number(orderItemId));
+    expect(product_id).toEqual(Number(productId));
+    expect(expires_at).toEqual(expiresAt);
 
     const {
       store,

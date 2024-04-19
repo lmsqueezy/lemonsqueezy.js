@@ -135,6 +135,10 @@ export type UpdateLicenseKey = {
    */
   activationLimit?: number | null;
   /**
+   * An [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted date-time string indicating when the license key expires. Can be `null` if the license key is perpetual.
+   */
+  expiresAt?: string | null;
+  /**
    * If `true`, the license key will have "disabled" status.
    */
   disabled?: boolean;
