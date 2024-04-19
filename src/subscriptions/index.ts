@@ -50,6 +50,7 @@ export function updateSubscription(
     invoiceImmediately,
     disableProrations,
     pause,
+    trialEndsAt,
   } = updateSubscription;
 
   const attributes = convertKeys({
@@ -59,6 +60,7 @@ export function updateSubscription(
     invoiceImmediately,
     disableProrations,
     pause,
+    trialEndsAt,
   });
 
   return $fetch<Subscription>({

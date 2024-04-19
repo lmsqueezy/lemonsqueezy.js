@@ -82,6 +82,10 @@ type CheckoutOptions = {
    * If `false`, hide the discount code field
    */
   discount: boolean;
+  /**
+   *  If `true`, remove the free trial
+   */
+  skip_trial: boolean;
   quantity: number;
   /**
    * If `true`, use the dark theme
@@ -413,6 +417,10 @@ export type NewCheckout = {
      *  If `false`, hide the discount code field
      */
     discount?: boolean;
+    /**
+     *  If `true`, remove the free trial
+     */
+    skipTrial?: boolean;
     /**
      * If `true`, use the dark theme
      */
