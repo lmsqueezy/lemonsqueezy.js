@@ -76,7 +76,7 @@ type Attributes = {
   /**
    * The ID of the customer this subscription belongs to.
    */
-  customer_id: number;
+  customer_id: number | null;
   /**
    * The ID of the order associated with this subscription.
    */
