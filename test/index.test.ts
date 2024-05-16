@@ -4,9 +4,6 @@ import * as exports from "../src";
 describe("Export", () => {
   it("Should return all exported", () => {
     const shouldBeExports = [
-      // LemonSqueezy deprecated class
-      "LemonSqueezy",
-
       // Setup
       "lemonSqueezySetup",
 

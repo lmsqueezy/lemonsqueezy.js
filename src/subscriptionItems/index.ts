@@ -78,23 +78,6 @@ export function listSubscriptionItems(
  * enabled, this endpoint will return a `422 Unprocessable Entity` response.
  *
  * @param subscriptionItemId The given subscription item id.
- * @param quantity The unit quantity of the subscription.
- * @deprecated It will be removed with the next major version. Use the 'updateSubscriptionItem' parameter instead.
- * @returns A subscription item object.
- */
-export function updateSubscriptionItem(
-  subscriptionItemId: string | number,
-  quantity: number
-): ReturnType<typeof _updateSubscriptionItem>;
-
-/**
- * Update a subscription item.
- *
- * Note: this endpoint is only used with quantity-based billing.
- * If the related subscription's product/variant has usage-based billing
- * enabled, this endpoint will return a `422 Unprocessable Entity` response.
- *
- * @param subscriptionItemId The given subscription item id.
  * @param updateSubscriptionItem (Required) Update subscription item info.
  * @param updateSubscriptionItem.quantity (Required) The unit quantity of the subscription.
  * @param [updateSubscriptionItem.invoiceImmediately] (Optional) If `true`, any updates to the subscription will be charged immediately. A new prorated invoice will be generated and payment attempted. Defaults to `false`. Note that this will be overridden by the `disable_prorations` option if used.

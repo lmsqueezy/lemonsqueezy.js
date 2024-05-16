@@ -1,5 +1,3 @@
-export { LemonSqueezy } from "./_deprecated";
-
 // Setup
 export { lemonSqueezySetup } from "./internal";
 export type { Flatten } from "./types";

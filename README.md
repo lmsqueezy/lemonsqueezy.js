@@ -70,70 +70,69 @@ For more functions usage, see [Wiki](https://github.com/lmsqueezy/lemonsqueezy.j
   <summary>Click to view</summary>
 
 | export                          | min+brotli |
-| :------------------------------ | ---------: |
-| LemonSqueezy (deprecated)       |    1.87 kB |
-| createDiscount                  |      928 B |
-| createCheckout                  |      821 B |
-| listWebhooks                    |      770 B |
-| listSubscriptionInvoices        |      767 B |
-| listDiscountRedemptions         |      766 B |
-| updateSubscription              |      766 B |
-| listLicenseKeyInstances         |      765 B |
-| listSubscriptionItems           |      765 B |
-| listLicenseKeys                 |      764 B |
-| listOrderItems                  |      764 B |
-| listUsageRecords                |      764 B |
-| listCheckouts                   |      763 B |
-| listFiles                       |      762 B |
-| listOrders                      |      762 B |
-| listPrices                      |      762 B |
-| listProducts                    |      762 B |
-| listStores                      |      762 B |
-| listSubscriptions               |      762 B |
-| listCustomers                   |      761 B |
-| listDiscounts                   |      761 B |
-| listVariants                    |      759 B |
-| createWebhook                   |      744 B |
-| updateLicenseKey                |      737 B |
-| updateWebhook                   |      728 B |
-| deactivateLicense               |      699 B |
-| validateLicense                 |      699 B |
-| activateLicense                 |      698 B |
-| createUsageRecord               |      652 B |
-| getLicenseKeyInstance           |      640 B |
-| getDiscountRedemption           |      639 B |
-| getSubscriptionInvoice          |      636 B |
-| getLicenseKey                   |      634 B |
-| getOrderItem                    |      633 B |
-| getUsageRecord                  |      632 B |
-| getWebhook                      |      632 B |
-| getCheckout                     |      629 B |
-| getSubscription                 |      629 B |
-| getStore                        |      628 B |
-| getCustomer                     |      627 B |
-| getDiscount                     |      627 B |
-| getFile                         |      627 B |
-| getOrder                        |      627 B |
-| getPrice                        |      627 B |
-| getProduct                      |      627 B |
-| getVariant                      |      627 B |
-| updateSubscriptionItem          |      621 B |
-| createCustomer                  |      616 B |
-| archiveCustomer                 |      615 B |
-| updateCustomer                  |      609 B |
-| getSubscriptionItemCurrentUsage |      592 B |
-| cancelSubscription              |      587 B |
-| deleteWebhook                   |      587 B |
-| deleteDiscount                  |      585 B |
-| getSubscriptionItem             |      583 B |
-| getAuthenticatedUser            |      529 B |
-| lemonSqueezySetup               |      106 B |
+| ------------------------------- | ---------- |
+| createDiscount                  | 995 B      |
+| createCheckout                  | 900 B      |
+| updateSubscriptionItem          | 849 B      |
+| updateSubscription              | 841 B      |
+| listSubscriptionItems           | 833 B      |
+| listSubscriptions               | 831 B      |
+| listWebhooks                    | 831 B      |
+| listLicenseKeyInstances         | 830 B      |
+| updateLicenseKey                | 827 B      |
+| listUsageRecords                | 824 B      |
+| listDiscountRedemptions         | 822 B      |
+| listCustomers                   | 820 B      |
+| listDiscounts                   | 820 B      |
+| listProducts                    | 819 B      |
+| listSubscriptionInvoices        | 819 B      |
+| listVariants                    | 819 B      |
+| listOrderItems                  | 818 B      |
+| listFiles                       | 817 B      |
+| listLicenseKeys                 | 817 B      |
+| listOrders                      | 817 B      |
+| listStores                      | 817 B      |
+| listCheckouts                   | 816 B      |
+| listPrices                      | 816 B      |
+| createWebhook                   | 808 B      |
+| updateWebhook                   | 793 B      |
+| deactivateLicense               | 764 B      |
+| validateLicense                 | 763 B      |
+| activateLicense                 | 762 B      |
+| createUsageRecord               | 728 B      |
+| getLicenseKeyInstance           | 706 B      |
+| getSubscriptionInvoice          | 702 B      |
+| getDiscountRedemption           | 701 B      |
+| getSubscriptionItem             | 700 B      |
+| getOrderItem                    | 699 B      |
+| getWebhook                      | 699 B      |
+| getCheckout                     | 697 B      |
+| getFile                         | 697 B      |
+| getLicenseKey                   | 697 B      |
+| getUsageRecord                  | 697 B      |
+| getCustomer                     | 695 B      |
+| getStore                        | 695 B      |
+| getSubscription                 | 695 B      |
+| getOrder                        | 693 B      |
+| getPrice                        | 693 B      |
+| getProduct                      | 693 B      |
+| getDiscount                     | 692 B      |
+| getVariant                      | 692 B      |
+| archiveCustomer                 | 683 B      |
+| updateCustomer                  | 683 B      |
+| createCustomer                  | 680 B      |
+| deleteWebhook                   | 663 B      |
+| cancelSubscription              | 658 B      |
+| deleteDiscount                  | 655 B      |
+| getSubscriptionItemCurrentUsage | 651 B      |
+| getAuthenticatedUser            | 598 B      |
+| lemonSqueezySetup               | 106 B      |
 
 </details>
 
 ## Notes
 
-Do not use this package directly in the browser, as this will expose your API key. This would give anyone full API access to your Lemon Squeezy account and store(s). For more information, [see more](https://docs.lemonsqueezy.com/api#authentication).
+Do not use this package directly in the browser, as this will expose your API key. This would give anyone full API access to your Lemon Squeezy account and store(s). For more information [see more](https://docs.lemonsqueezy.com/api#authentication).
 
 ## Contributing
 
