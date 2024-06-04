@@ -8,6 +8,9 @@ type MetaPage = {
   to: number;
   total: number;
 };
+type MetaUrls = {
+  download_invoice: string;
+};
 
 export type Meta = {
   test_mode: boolean;
@@ -18,4 +21,5 @@ export type Meta = {
   quantity: number;
   interval_unit: IntervalUnit;
   interval_quantity: number;
+  urls: MetaUrls;
 };
