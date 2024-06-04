@@ -54,6 +54,7 @@ describe("Export", () => {
       // Subscriptions Invoices
       "getSubscriptionInvoice",
       "listSubscriptionInvoices",
+      "generateSubscriptionInvoice",
 
       // Subscriptions Items
       "getSubscriptionItem",
