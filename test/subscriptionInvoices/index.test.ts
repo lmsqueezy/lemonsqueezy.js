@@ -3,6 +3,7 @@ import {
   getSubscriptionInvoice,
   lemonSqueezySetup,
   listSubscriptionInvoices,
+  generateSubscriptionInvoice,
 } from "../../src";
 import { API_BASE_URL } from "../../src/internal";
 
@@ -143,7 +144,7 @@ describe("List all subscription invoices", () => {
     ).toEqual(data.length);
   });
 
-  it("Should return a paginated list of subscription invoices  with page_number = 1 and page_size = 5", async () => {
+  it("Should return a paginated list of subscription invoices with page_number = 1 and page_size = 5", async () => {
     const {
       error,
       data: _data,
@@ -174,12 +175,13 @@ describe("List all subscription invoices", () => {
 });
 
 describe("Retrieve a subscription invoice", () => {
-  it("Throw an error about a parameter that must be provided", async () => {
+  it("Should throw an error when `subscriptionInvoiceId` parameter is not provided", async () => {
     try {
       await getSubscriptionInvoice("");
     } catch (error) {
+      expect(error).toBeInstanceOf(Error);
       expect((error as Error).message).toMatch(
-        "Please provide the required parameter:"
+        "Please provide the required parameter: subscriptionInvoiceId."
       );
     }
   });
@@ -304,7 +306,7 @@ describe("Retrieve a subscription invoice", () => {
     );
     expect(included).toBeArray();
     expect(
-      !!included?.filter((item) => item.type === "subscriptions")
+      Boolean(included?.filter((item) => item.type === "subscriptions"))
     ).toBeTrue();
 
     const { type, id, attributes, relationships } = data;
@@ -390,5 +392,71 @@ describe("Retrieve a subscription invoice", () => {
       relationshipItems.length
     );
     for (const item of relationshipItems) expect(item.links).toBeDefined();
+  });
+});
+
+describe("Generate subscription invoice", () => {
+  it("Throw an error about a parameter that must be provided", async () => {
+    try {
+      await generateSubscriptionInvoice("");
+    } catch (error) {
+      expect((error as Error).message).toMatch(
+        "Please provide the required parameter:"
+      );
+    }
+  });
+
+  it("Should returns a link with the given subscription invoice id", async () => {
+    const {
+      statusCode,
+      error,
+      data: _data,
+    } = await generateSubscriptionInvoice(subscriptionInvoiceId);
+    expect(statusCode).toEqual(200);
+    expect(error).toBeNull();
+    expect(_data).toBeDefined();
+
+    const { meta } = _data!;
+    expect(meta).toBeDefined();
+    expect(meta.urls).toBeDefined();
+    expect(meta.urls.download_invoice).toStartWith(
+      "https://app.lemonsqueezy.com/my-orders/"
+    );
+  });
+
+  it("Should returns a link with the given subscription invoice id and params", async () => {
+    const params = {
+      name: "John Doe",
+      address: "123 Main St",
+      city: "Anytown",
+      state: "CA",
+      country: "US",
+      zipCode: 12345,
+      notes: "Thank you for your business!",
+    };
+    const {
+      statusCode,
+      error,
+      data: _data,
+    } = await generateSubscriptionInvoice(subscriptionInvoiceId, params);
+    expect(statusCode).toEqual(200);
+    expect(error).toBeNull();
+    expect(_data).toBeDefined();
+
+    const { meta } = _data!;
+    expect(meta).toBeDefined();
+    expect(meta.urls).toBeDefined();
+    expect(meta.urls.download_invoice);
+
+    const invoiceUrl = new URL(meta.urls.download_invoice);
+    const searchParams = invoiceUrl.searchParams;
+
+    expect(searchParams.get("name")).toEqual(params.name);
+    expect(searchParams.get("address")).toEqual(params.address);
+    expect(searchParams.get("city")).toEqual(params.city);
+    expect(searchParams.get("state")).toEqual(params.state);
+    expect(searchParams.get("country")).toEqual(params.country);
+    expect(searchParams.get("zip_code")).toEqual(params.zipCode.toString());
+    expect(searchParams.get("notes")).toEqual(params.notes);
   });
 });

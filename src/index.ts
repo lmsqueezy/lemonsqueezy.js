@@ -107,12 +107,15 @@ export {
 export type {
   SubscriptionInvoice,
   ListSubscriptionInvoices,
+  GenerateSubscriptionInvoice,
   GetSubscriptionInvoiceParams,
   ListSubscriptionInvoicesParams,
+  GenerateSubscriptionInvoiceParams,
 } from "./subscriptionInvoices/types";
 export {
   getSubscriptionInvoice,
   listSubscriptionInvoices,
+  generateSubscriptionInvoice,
 } from "./subscriptionInvoices";
 
 // Subscription Items

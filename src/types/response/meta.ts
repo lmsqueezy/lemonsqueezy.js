@@ -1,5 +1,9 @@
 import type { IntervalUnit } from "../index";
 
+type MetaUrls = {
+  download_invoice: string;
+};
+
 type MetaPage = {
   currentPage: number;
   from: number;
@@ -7,9 +11,6 @@ type MetaPage = {
   perPage: number;
   to: number;
   total: number;
-};
-type MetaUrls = {
-  download_invoice: string;
 };
 
 export type Meta = {

@@ -3,12 +3,15 @@ import {
   convertIncludeToQueryString,
   convertListParamsToQueryString,
   requiredCheck,
+  convertKeys,
 } from "../internal";
 import type {
   GetSubscriptionInvoiceParams,
   ListSubscriptionInvoices,
   ListSubscriptionInvoicesParams,
   SubscriptionInvoice,
+  GenerateSubscriptionInvoiceParams,
+  GenerateSubscriptionInvoice,
 } from "./types";
 
 /**
@@ -49,5 +52,36 @@ export function listSubscriptionInvoices(
 ) {
   return $fetch<ListSubscriptionInvoices>({
     path: `/v1/subscription-invoices${convertListParamsToQueryString(params)}`,
+  });
+}
+
+/**
+ * Generate subscription invoice.
+ *
+ * @param subscriptionInvoiceId The given subscription invoice id.
+ * @param [params] (Optional) Then given parameters.
+ * @param [params.name] (Optional) The full name of the customer.
+ * @param [params.address] (Optional) The street address of the customer.
+ * @param [params.city] (Optional) The city of the customer.
+ * @param [params.state] (Optional) The state of the customer.
+ * @param [params.zipCode] (Optional) The ZIP code of the customer.
+ * @param [params.country] (Optional) The country of the customer.
+ * @param [params.notes] (Optional) Any additional notes to include on the invoice.
+ * @returns A link to download the generated invoice.
+ */
+export function generateSubscriptionInvoice(
+  subscriptionInvoiceId: number | string,
+  params: GenerateSubscriptionInvoiceParams = {}
+) {
+  requiredCheck({ subscriptionInvoiceId });
+  const searchParams = convertKeys(params);
+  const queryString = new URLSearchParams(
+    searchParams as Record<string, any>
+  ).toString();
+  const query = queryString ? `?${queryString}` : "";
+
+  return $fetch<GenerateSubscriptionInvoice>({
+    path: `/v1/subscription-invoices/${subscriptionInvoiceId}/generate-invoice${query}`,
+    method: "POST",
   });
 }

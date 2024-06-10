@@ -12,7 +12,6 @@
 This is the official JavaScript SDK for [Lemon Squeezy](https://lemonsqueezy.com), helping make it easy to incorporate billing into your JavaScript application.
 
 - Read [API Reference](https://docs.lemonsqueezy.com/api) to understand how the Lemon Squeezy API works.
-
 - Visit [Wiki page](https://github.com/lmsqueezy/lemonsqueezy.js/wiki) for function usage.
 
 ## Features
@@ -139,6 +138,6 @@ Do not use this package directly in the browser, as this will expose your API ke
 
 See the [Contributing Guide](https://github.com/lmsqueezy/lemonsqueezy.js/blob/main/CONTRIBUTING.md).
 
-
 ## License
+
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flmsqueezy%2Flemonsqueezy.js.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Flmsqueezy%2Flemonsqueezy.js?ref=badge_large)
