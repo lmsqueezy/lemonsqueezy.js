@@ -42,7 +42,7 @@ describe("List all subscription invoices", () => {
     subscriptionId = subscription_id;
   });
 
-  it.skip("Should return a paginated list of subscription invoices with related resources", async () => {
+  it("Should return a paginated list of subscription invoices with related resources", async () => {
     const {
       statusCode,
       error,
@@ -62,7 +62,7 @@ describe("List all subscription invoices", () => {
     expect(!!included?.filter((item) => item.type === "stores")).toBeTrue();
   });
 
-  it.skip("Should return a paginated list of subscription invoices filtered by store id", async () => {
+  it("Should return a paginated list of subscription invoices filtered by store id", async () => {
     const {
       statusCode,
       error,
@@ -81,7 +81,7 @@ describe("List all subscription invoices", () => {
     ).toEqual(data.length);
   });
 
-  it.skip("Should return a paginated list of subscription invoices filtered by invoice status", async () => {
+  it("Should return a paginated list of subscription invoices filtered by invoice status", async () => {
     const {
       statusCode,
       error,
@@ -102,7 +102,7 @@ describe("List all subscription invoices", () => {
     ).toEqual(data.length);
   });
 
-  it.skip("Should return a paginated list of subscription invoices filtered by invoice refunded", async () => {
+  it("Should return a paginated list of subscription invoices filtered by invoice refunded", async () => {
     const {
       statusCode,
       error,
@@ -123,7 +123,7 @@ describe("List all subscription invoices", () => {
     ).toEqual(data.length);
   });
 
-  it.skip("Should return a paginated list of subscription invoices filtered by subscription id", async () => {
+  it("Should return a paginated list of subscription invoices filtered by subscription id", async () => {
     const {
       statusCode,
       error,
@@ -144,7 +144,7 @@ describe("List all subscription invoices", () => {
     ).toEqual(data.length);
   });
 
-  it.skip("Should return a paginated list of subscription invoices  with page_number = 1 and page_size = 5", async () => {
+  it("Should return a paginated list of subscription invoices with page_number = 1 and page_size = 5", async () => {
     const {
       error,
       data: _data,
@@ -174,13 +174,14 @@ describe("List all subscription invoices", () => {
   });
 });
 
-describe.skip("Retrieve a subscription invoice", () => {
-  it("Throw an error about a parameter that must be provided", async () => {
+describe("Retrieve a subscription invoice", () => {
+  it("Should throw an error when `subscriptionInvoiceId` parameter is not provided", async () => {
     try {
       await getSubscriptionInvoice("");
     } catch (error) {
+      expect(error).toBeInstanceOf(Error);
       expect((error as Error).message).toMatch(
-        "Please provide the required parameter:"
+        "Please provide the required parameter: subscriptionInvoiceId."
       );
     }
   });
@@ -305,7 +306,7 @@ describe.skip("Retrieve a subscription invoice", () => {
     );
     expect(included).toBeArray();
     expect(
-      !!included?.filter((item) => item.type === "subscriptions")
+      Boolean(included?.filter((item) => item.type === "subscriptions"))
     ).toBeTrue();
 
     const { type, id, attributes, relationships } = data;
