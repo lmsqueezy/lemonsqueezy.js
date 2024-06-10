@@ -55,20 +55,23 @@ export function createDiscount(discount: NewDiscount) {
     testMode,
   });
 
-  const relationships = {
+  const relationships: Record<string, any> = {
     store: {
       data: {
         type: "stores",
         id: storeId.toString(),
       },
     },
-    variants: {
+  };
+
+  if (variantIds && variantIds.length > 0) {
+    relationships.variants = {
       data: variantIds.map((id) => ({
         type: "variants",
         id: id.toString(),
       })),
-    },
-  };
+    };
+  }
 
   return $fetch<Discount>({
     path: "/v1/discounts",
