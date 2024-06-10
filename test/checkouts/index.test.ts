@@ -87,7 +87,6 @@ describe("Create a checkout", () => {
     expect(Object.keys(attributes).length).toEqual(items.length);
     expect(store_id).toEqual(Number(storeId));
     expect(variant_id).toEqual(Number(variantId));
-    console.log("url", url);
 
     // product_options
     const {
