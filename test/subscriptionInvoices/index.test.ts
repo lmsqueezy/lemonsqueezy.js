@@ -421,12 +421,11 @@ describe("Generate subscription invoice", () => {
     expect(meta.urls.download_invoice).toStartWith(
       "https://app.lemonsqueezy.com/my-orders/"
     );
-    // console.log(meta.urls.download_invoice)
   });
 
   it("Should returns a link with the given subscription invoice id and params", async () => {
     const params = {
-      name: "Caven Ding",
+      name: "John Doe",
       address: "123 Main St",
       city: "Anytown",
       state: "CA",
@@ -447,7 +446,6 @@ describe("Generate subscription invoice", () => {
     expect(meta).toBeDefined();
     expect(meta.urls).toBeDefined();
     expect(meta.urls.download_invoice);
-    // console.log(meta.urls.download_invoice)
 
     const invoiceUrl = new URL(meta.urls.download_invoice);
     const searchParams = invoiceUrl.searchParams;
