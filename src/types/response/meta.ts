@@ -12,9 +12,6 @@ type MetaPage = {
   to: number;
   total: number;
 };
-type MetaUrls = {
-  download_invoice: string;
-};
 
 export type Meta = {
   test_mode: boolean;
