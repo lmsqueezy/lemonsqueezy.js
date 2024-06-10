@@ -12,7 +12,6 @@
 This is the official JavaScript SDK for [Lemon Squeezy](https://lemonsqueezy.com), helping make it easy to incorporate billing into your JavaScript application.
 
 - Read [API Reference](https://docs.lemonsqueezy.com/api) to understand how the Lemon Squeezy API works.
-
 - Visit [Wiki page](https://github.com/lmsqueezy/lemonsqueezy.js/wiki) for function usage.
 
 ## Features
