@@ -40,6 +40,7 @@ describe("Export", () => {
       // Orders
       "getOrder",
       "listOrders",
+      "generateOrderInvoice",
 
       // Order Items
       "getOrderItem",

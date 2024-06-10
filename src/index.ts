@@ -72,10 +72,12 @@ export { getFile, listFiles } from "./files";
 export type {
   Order,
   ListOrders,
+  OrderInvoice,
   GetOrderParams,
   ListOrdersParams,
+  GenerateOrderInvoiceParams,
 } from "./orders/types";
-export { getOrder, listOrders } from "./orders";
+export { getOrder, listOrders, generateOrderInvoice } from "./orders";
 
 // Order Items
 export type {
