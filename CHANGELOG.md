@@ -1,5 +1,17 @@
 # @lemonsqueezy/lemonsqueezy.js
 
+## 3.1.0
+
+### Minor Changes
+
+- [#94](https://github.com/lmsqueezy/lemonsqueezy.js/pull/94) [`bea7295`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/bea7295eb51a31bc0a6b62c1d34dd920f19d7fdd) Thanks [@keyding](https://github.com/keyding)! - Add `generateOrderInvoice` and `generateSubscriptionInvoice`
+
+### Patch Changes
+
+- [#94](https://github.com/lmsqueezy/lemonsqueezy.js/pull/94) [`bea7295`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/bea7295eb51a31bc0a6b62c1d34dd920f19d7fdd) Thanks [@keyding](https://github.com/keyding)! - Improve tests
+
+- [`c3f802e`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/c3f802ee1e9f9ab3e0b75ec4b9d04d84c7961747) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Fix `createDiscount` function so that `variantIds` is not required unless `limitedToProducts` is true
+
 ## 3.0.0
 
 ### Major Changes
