@@ -4,13 +4,14 @@
 [![Functions usage](https://img.shields.io/badge/Wiki-%237c3aed)](https://github.com/lmsqueezy/lemonsqueezy.js/wiki)
 [![APIs Count](https://img.shields.io/badge/56_Functions-%232563eb)](https://github.com/lmsqueezy/lemonsqueezy.js/wiki)
 [![Weekly downloads](https://img.shields.io/npm/dw/@lemonsqueezy/lemonsqueezy.js)](https://www.npmjs.com/package/@lemonsqueezy/lemonsqueezy.js)
+![NPM Downloads](https://img.shields.io/npm/d18m/%40lemonsqueezy%2Flemonsqueezy.js)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flmsqueezy%2Flemonsqueezy.js.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Flmsqueezy%2Flemonsqueezy.js?ref=badge_shield)
 
 ## Introduction
 
 This is the official JavaScript SDK for [Lemon Squeezy](https://lemonsqueezy.com), helping make it easy to incorporate billing into your JavaScript application.
 
 - Read [API Reference](https://docs.lemonsqueezy.com/api) to understand how the Lemon Squeezy API works.
-
 - Visit [Wiki page](https://github.com/lmsqueezy/lemonsqueezy.js/wiki) for function usage.
 
 ## Features
@@ -68,72 +69,77 @@ For more functions usage, see [Wiki](https://github.com/lmsqueezy/lemonsqueezy.j
 <details>
   <summary>Click to view</summary>
 
-| export                          | min+brotli |
-| :------------------------------ | ---------: |
-| LemonSqueezy (deprecated)       |    1.87 kB |
-| createDiscount                  |      928 B |
-| createCheckout                  |      821 B |
-| listWebhooks                    |      770 B |
-| listSubscriptionInvoices        |      767 B |
-| listDiscountRedemptions         |      766 B |
-| updateSubscription              |      766 B |
-| listLicenseKeyInstances         |      765 B |
-| listSubscriptionItems           |      765 B |
-| listLicenseKeys                 |      764 B |
-| listOrderItems                  |      764 B |
-| listUsageRecords                |      764 B |
-| listCheckouts                   |      763 B |
-| listFiles                       |      762 B |
-| listOrders                      |      762 B |
-| listPrices                      |      762 B |
-| listProducts                    |      762 B |
-| listStores                      |      762 B |
-| listSubscriptions               |      762 B |
-| listCustomers                   |      761 B |
-| listDiscounts                   |      761 B |
-| listVariants                    |      759 B |
-| createWebhook                   |      744 B |
-| updateLicenseKey                |      737 B |
-| updateWebhook                   |      728 B |
-| deactivateLicense               |      699 B |
-| validateLicense                 |      699 B |
-| activateLicense                 |      698 B |
-| createUsageRecord               |      652 B |
-| getLicenseKeyInstance           |      640 B |
-| getDiscountRedemption           |      639 B |
-| getSubscriptionInvoice          |      636 B |
-| getLicenseKey                   |      634 B |
-| getOrderItem                    |      633 B |
-| getUsageRecord                  |      632 B |
-| getWebhook                      |      632 B |
-| getCheckout                     |      629 B |
-| getSubscription                 |      629 B |
-| getStore                        |      628 B |
-| getCustomer                     |      627 B |
-| getDiscount                     |      627 B |
-| getFile                         |      627 B |
-| getOrder                        |      627 B |
-| getPrice                        |      627 B |
-| getProduct                      |      627 B |
-| getVariant                      |      627 B |
-| updateSubscriptionItem          |      621 B |
-| createCustomer                  |      616 B |
-| archiveCustomer                 |      615 B |
-| updateCustomer                  |      609 B |
-| getSubscriptionItemCurrentUsage |      592 B |
-| cancelSubscription              |      587 B |
-| deleteWebhook                   |      587 B |
-| deleteDiscount                  |      585 B |
-| getSubscriptionItem             |      583 B |
-| getAuthenticatedUser            |      529 B |
-| lemonSqueezySetup               |      106 B |
+| Export                          | min+brotli |
+| ------------------------------- | ---------- |
+| createDiscount                  | 991 B      |
+| createCheckout                  | 895 B      |
+| updateSubscriptionItem          | 849 B      |
+| updateSubscription              | 841 B      |
+| listWebhooks                    | 831 B      |
+| listDiscountRedemptions         | 821 B      |
+| listLicenseKeyInstances         | 820 B      |
+| listSubscriptionInvoices        | 818 B      |
+| listLicenseKeys                 | 817 B      |
+| listOrderItems                  | 817 B      |
+| listSubscriptionItems           | 817 B      |
+| listCheckouts                   | 814 B      |
+| listDiscounts                   | 814 B      |
+| listSubscriptions               | 814 B      |
+| listUsageRecords                | 814 B      |
+| listVariants                    | 814 B      |
+| listCustomers                   | 813 B      |
+| listFiles                       | 813 B      |
+| listOrders                      | 813 B      |
+| listPrices                      | 813 B      |
+| listProducts                    | 813 B      |
+| listStores                      | 813 B      |
+| updateLicenseKey                | 813 B      |
+| createWebhook                   | 808 B      |
+| updateWebhook                   | 793 B      |
+| generateSubscriptionInvoice     | 789 B      |
+| generateOrderInvoice            | 783 B      |
+| activateLicense                 | 770 B      |
+| validateLicense                 | 770 B      |
+| deactivateLicense               | 764 B      |
+| createUsageRecord               | 724 B      |
+| getLicenseKeyInstance           | 714 B      |
+| getSubscriptionInvoice          | 702 B      |
+| getDiscountRedemption           | 700 B      |
+| getSubscriptionItem             | 700 B      |
+| getUsageRecord                  | 700 B      |
+| getOrderItem                    | 699 B      |
+| getLicenseKey                   | 698 B      |
+| getOrder                        | 697 B      |
+| getPrice                        | 697 B      |
+| getStore                        | 697 B      |
+| getCheckout                     | 696 B      |
+| getCustomer                     | 696 B      |
+| getFile                         | 696 B      |
+| getProduct                      | 694 B      |
+| getWebhook                      | 694 B      |
+| getDiscount                     | 693 B      |
+| getSubscription                 | 693 B      |
+| getVariant                      | 693 B      |
+| updateCustomer                  | 684 B      |
+| archiveCustomer                 | 683 B      |
+| createCustomer                  | 678 B      |
+| cancelSubscription              | 660 B      |
+| deleteDiscount                  | 658 B      |
+| deleteWebhook                   | 653 B      |
+| getSubscriptionItemCurrentUsage | 651 B      |
+| getAuthenticatedUser            | 598 B      |
+| lemonSqueezySetup               | 106 B      |
 
 </details>
 
 ## Notes
 
-Do not use this package directly in the browser, as this will expose your API key. This would give anyone full API access to your Lemon Squeezy account and store(s). For more information, [see more](https://docs.lemonsqueezy.com/api#authentication).
+Do not use this package directly in the browser, as this will expose your API key. This would give anyone full API access to your Lemon Squeezy account and store(s). For more information [see more](https://docs.lemonsqueezy.com/api#authentication).
 
 ## Contributing
 
 See the [Contributing Guide](https://github.com/lmsqueezy/lemonsqueezy.js/blob/main/CONTRIBUTING.md).
+
+## License
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flmsqueezy%2Flemonsqueezy.js.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Flmsqueezy%2Flemonsqueezy.js?ref=badge_large)

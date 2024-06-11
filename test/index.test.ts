@@ -4,9 +4,6 @@ import * as exports from "../src";
 describe("Export", () => {
   it("Should return all exported", () => {
     const shouldBeExports = [
-      // LemonSqueezy deprecated class
-      "LemonSqueezy",
-
       // Setup
       "lemonSqueezySetup",
 
@@ -43,6 +40,7 @@ describe("Export", () => {
       // Orders
       "getOrder",
       "listOrders",
+      "generateOrderInvoice",
 
       // Order Items
       "getOrderItem",
@@ -57,6 +55,7 @@ describe("Export", () => {
       // Subscriptions Invoices
       "getSubscriptionInvoice",
       "listSubscriptionInvoices",
+      "generateSubscriptionInvoice",
 
       // Subscriptions Items
       "getSubscriptionItem",

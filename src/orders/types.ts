@@ -246,6 +246,36 @@ export type ListOrdersParams = Params<
   GetOrderParams["include"],
   { storeId?: string | number; userEmail?: string }
 >;
+export type GenerateOrderInvoiceParams = {
+  /**
+   * Optional. The full name of the customer.
+   */
+  name?: string;
+  /**
+   * Optional. The street address of the customer.
+   */
+  address?: string;
+  /**
+   * Optional. The city of the customer.
+   */
+  city?: string;
+  /**
+   * Optional. The state of the customer.
+   */
+  state?: string;
+  /**
+   * Optional. The ZIP code of the customer.
+   */
+  zipCode?: number;
+  /**
+   * Optional. The country of the customer.
+   */
+  country?: string;
+  /**
+   * Optional. Any additional notes to include on the invoice.
+   */
+  notes?: string;
+};
 export type Order = Omit<
   LemonSqueezyResponse<OrderData, unknown, Pick<Links, "self">>,
   "meta"
@@ -254,4 +284,8 @@ export type ListOrders = LemonSqueezyResponse<
   OrderData[],
   Pick<Meta, "page">,
   Pick<Links, "first" | "last">
+>;
+export type OrderInvoice = Pick<
+  LemonSqueezyResponse<unknown, Pick<Meta, "urls">, unknown>,
+  "meta" | "jsonapi"
 >;

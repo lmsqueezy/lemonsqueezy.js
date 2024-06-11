@@ -37,7 +37,9 @@ describe("List all subscription items", () => {
     const { id, attributes } = data.find(
       (item) => item.attributes.is_usage_based
     )!;
+
     const { subscription_id, price_id } = attributes;
+
     subscriptionItemId = id;
     noUsageBasedSubscriptionItemId = data.find(
       (item) => !item.attributes.is_usage_based
@@ -301,7 +303,9 @@ describe(`Retrieve a subscription item's current usage`, () => {
 describe("Update a subscription item", () => {
   it("Throw an error about a parameter that must be provided", async () => {
     try {
-      await updateSubscriptionItem("", 10);
+      await updateSubscriptionItem("", {
+        quantity: 10,
+      });
     } catch (error) {
       expect((error as Error).message).toMatch(
         "Please provide the required parameter:"
@@ -314,7 +318,9 @@ describe("Update a subscription item", () => {
       error,
       statusCode,
       data: _data,
-    } = await updateSubscriptionItem(noUsageBasedSubscriptionItemId, 10);
+    } = await updateSubscriptionItem(noUsageBasedSubscriptionItemId, {
+      quantity: 10,
+    });
 
     expect(statusCode).toEqual(200);
     expect(error).toBeNull();
@@ -362,7 +368,7 @@ describe("Update a subscription item", () => {
     for (const item of relationshipItems) expect(item.links).toBeDefined();
   });
 
-  it("Should return a updated subscription item object with `invoice_immediately` is `true`", async () => {
+  it("Should return an updated subscription item object with `invoice_immediately` is `true`", async () => {
     const {
       error,
       statusCode,

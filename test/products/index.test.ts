@@ -12,7 +12,13 @@ beforeAll(() => {
 
 describe("List all products", () => {
   it("Should return a paginated list of products", async () => {
-    const { statusCode, error, data: _data } = await listProducts();
+    const {
+      statusCode,
+      error,
+      data: _data,
+    } = await listProducts({
+      filter: { storeId: STORE_ID },
+    });
     expect(statusCode).toEqual(200);
     expect(error).toBeNull();
     expect(_data).toBeDefined();
@@ -131,6 +137,7 @@ describe("Retrieve a product", () => {
     expect(_data).toBeDefined();
 
     const { data, links } = _data!;
+
     expect(data).toBeDefined();
     expect(links).toBeDefined();
     expect(links.self).toEqual(`${API_BASE_URL}/v1/${DATA_TYPE}/${productId}`);
@@ -152,6 +159,8 @@ describe("Retrieve a product", () => {
       large_thumb_url,
       price,
       price_formatted,
+      from_price_formatted,
+      to_price_formatted,
       from_price,
       to_price,
       pay_what_you_want,
@@ -160,6 +169,7 @@ describe("Retrieve a product", () => {
       updated_at,
       test_mode,
     } = attributes;
+
     const items = [
       store_id,
       name,
@@ -171,6 +181,8 @@ describe("Retrieve a product", () => {
       large_thumb_url,
       price,
       price_formatted,
+      from_price_formatted,
+      to_price_formatted,
       from_price,
       to_price,
       pay_what_you_want,
@@ -179,6 +191,7 @@ describe("Retrieve a product", () => {
       updated_at,
       test_mode,
     ];
+
     for (const item of items) expect(item).toBeDefined();
     expect(store_id).toEqual(Number(STORE_ID));
     expect(status).toEqual("published");
@@ -225,6 +238,8 @@ describe("Retrieve a product", () => {
       price_formatted,
       from_price,
       to_price,
+      from_price_formatted,
+      to_price_formatted,
       pay_what_you_want,
       buy_now_url,
       created_at,
@@ -244,6 +259,8 @@ describe("Retrieve a product", () => {
       price_formatted,
       from_price,
       to_price,
+      from_price_formatted,
+      to_price_formatted,
       pay_what_you_want,
       buy_now_url,
       created_at,

@@ -96,15 +96,12 @@ export type ListDiscountsParams = Params<
   GetDiscountParams["include"],
   { storeId?: string | number }
 >;
-export type NewDiscount = {
+
+type NewDiscountBase = {
   /**
    * The store id this discount belongs to.
    */
   storeId: number | string;
-  /**
-   * If `isLimitedToProducts` is `true`, the variant(s) the discount belongs to (this is not required otherwise).
-   */
-  variantIds: Array<number | string>;
   /**
    * The name of the discount.
    */
@@ -127,15 +124,11 @@ export type NewDiscount = {
    */
   amountType: AmountType;
   /**
-   * Set this to true if the discount should only be applied to certain products/variants. See details in the Relationships section below.
-   */
-  isLimitedToProducts?: boolean;
-  /**
    * Set this to `true` if the discount should only be redeemed a limited number of times. See `maxRedemptions` below.
    */
   isLimitedRedemptions?: boolean;
   /**
-   * If `isLimitedToProducts` is `true`, this is the maximum number of redemptions.
+   * If `isLimitedRedemptions` is `true`, this is the maximum number of redemptions.
    */
   maxRedemptions?: number;
   /**
@@ -170,10 +163,37 @@ export type NewDiscount = {
    */
   testMode?: boolean;
 };
+
+type NewDiscountWithVariants = NewDiscountBase & {
+  /**
+   * Set this to true if the discount should only be applied to certain products/variants. See details in the Relationships section below.
+   */
+  isLimitedToProducts: true;
+
+  /**
+   * If `isLimitedToProducts` is `true`, the variant(s) the discount belongs to (this is not required otherwise).
+   */
+  variantIds: Array<number | string>;
+};
+
+type NewDiscountWithoutVariants = NewDiscountBase & {
+  /**
+   * Set this to true if the discount should only be applied to certain products/variants. See details in the Relationships section below.
+   */
+  isLimitedToProducts?: false;
+  /**
+   * Not required.
+   */
+  variantIds?: Array<number | string>;
+};
+
+export type NewDiscount = NewDiscountWithVariants | NewDiscountWithoutVariants;
+
 export type Discount = Omit<
   LemonSqueezyResponse<DiscountData, unknown, Pick<Links, "self">>,
   "meta"
 >;
+
 export type ListDiscounts = LemonSqueezyResponse<
   DiscountData[],
   Pick<Meta, "page">,

@@ -1,5 +1,3 @@
-export { LemonSqueezy } from "./_deprecated";
-
 // Setup
 export { lemonSqueezySetup } from "./internal";
 export type { Flatten } from "./types";
@@ -74,10 +72,12 @@ export { getFile, listFiles } from "./files";
 export type {
   Order,
   ListOrders,
+  OrderInvoice,
   GetOrderParams,
   ListOrdersParams,
+  GenerateOrderInvoiceParams,
 } from "./orders/types";
-export { getOrder, listOrders } from "./orders";
+export { getOrder, listOrders, generateOrderInvoice } from "./orders";
 
 // Order Items
 export type {
@@ -107,12 +107,15 @@ export {
 export type {
   SubscriptionInvoice,
   ListSubscriptionInvoices,
+  GenerateSubscriptionInvoice,
   GetSubscriptionInvoiceParams,
   ListSubscriptionInvoicesParams,
+  GenerateSubscriptionInvoiceParams,
 } from "./subscriptionInvoices/types";
 export {
   getSubscriptionInvoice,
   listSubscriptionInvoices,
+  generateSubscriptionInvoice,
 } from "./subscriptionInvoices";
 
 // Subscription Items

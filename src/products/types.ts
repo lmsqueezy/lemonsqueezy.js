@@ -52,6 +52,14 @@ type Attributes = {
    * If this product has multiple variants, this will be a positive integer in cents representing the price of the cheapest variant. Otherwise, it will be `null`.
    */
   from_price: number | null;
+  /*
+   * A human-readable string representing the price of the cheapest variant of the product (e.g. `$9.99`).
+   */
+  from_price_formatted: string | null;
+  /**
+   * If this product has multiple variants, this will be a positive integer in cents representing the price of the most expensive variant. Otherwise, it will be `null`.
+   */
+  to_price_formatted: string | null;
   /**
    * If this product has multiple variants, this will be a positive integer in cents representing the price of the most expensive variant. Otherwise, it will be `null`.
    */

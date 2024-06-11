@@ -1,5 +1,44 @@
 # @lemonsqueezy/lemonsqueezy.js
 
+## 3.1.0
+
+### Minor Changes
+
+- [#94](https://github.com/lmsqueezy/lemonsqueezy.js/pull/94) [`bea7295`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/bea7295eb51a31bc0a6b62c1d34dd920f19d7fdd) Thanks [@keyding](https://github.com/keyding)! - Add `generateOrderInvoice` and `generateSubscriptionInvoice`
+
+### Patch Changes
+
+- [#94](https://github.com/lmsqueezy/lemonsqueezy.js/pull/94) [`bea7295`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/bea7295eb51a31bc0a6b62c1d34dd920f19d7fdd) Thanks [@keyding](https://github.com/keyding)! - Improve tests
+
+- [`c3f802e`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/c3f802ee1e9f9ab3e0b75ec4b9d04d84c7961747) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Fix `createDiscount` function so that `variantIds` is not required unless `limitedToProducts` is true
+
+## 3.0.0
+
+### Major Changes
+
+- [`59fdd9c`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/59fdd9c7304577b576b4094795d9148301593cf5) Thanks [@brankoconjic](https://github.com/brankoconjic)! - ### Breaking Change
+
+  The deprecated `LemonSqueezy` class, all its methods and related types from the library SDK (the `_deprecated` folder) have been removed.
+
+  The class has been deprecated for some time and is no longer needed. Removing this to clean up the codebase and reduce maintenance overhead.
+
+  If you were using any deprecated modules, you need to update your imports to use the new modules provided in the library. Visit [Wiki page](https://github.com/lmsqueezy/lemonsqueezy.js/wiki) for function usage.
+
+### Patch Changes
+
+- [`a7e8feb`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/a7e8feb11d4eba432f9e4ea40adeda85e2dc57b0) Thanks [@brankoconjic](https://github.com/brankoconjic)! - update dependencies
+
+- [#81](https://github.com/lmsqueezy/lemonsqueezy.js/pull/81) [`218d2ef`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/218d2ef6a0adfead41938ba4cfffa6d3efbdd758) Thanks [@keyding](https://github.com/keyding)! - Add `expiresAt` to `updateLicenseKey` function
+
+- [#76](https://github.com/lmsqueezy/lemonsqueezy.js/pull/76) [`09fdd1a`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/09fdd1ad50f228ee30e7bb0085fdb656b6c15950) Thanks [@kldzj](https://github.com/kldzj)! - Made `UpdateSubscription`.`pause` nullable
+
+- [#74](https://github.com/lmsqueezy/lemonsqueezy.js/pull/74) [`13c5ff0`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/13c5ff0e0c2e115fa7e004eeabdeabee32bbafe1) Thanks [@keyding](https://github.com/keyding)! - Improve API response types.
+
+- [`c507272`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/c50727294b162acf6bc8b20d105c01e5e9e9d508) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Add `from_price_formatted` and `to_price_formatted` attributes to the product object
+
+- [#75](https://github.com/lmsqueezy/lemonsqueezy.js/pull/75) [`b4d071a`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/b4d071af6f63de7d9dd3761281abf1a0c9934276) Thanks [@keyding](https://github.com/keyding)! - Add `trial_ends_at` for `updateSubscription` function;
+  Add `skip_trial` for `checkoutOptions` in the `createCheckout` function;
+
 ## 2.2.0
 
 ### Minor Changes
