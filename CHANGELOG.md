@@ -1,5 +1,11 @@
 # @lemonsqueezy/lemonsqueezy.js
 
+## 3.1.1
+
+### Patch Changes
+
+- [#86](https://github.com/lmsqueezy/lemonsqueezy.js/pull/86) [`2e9beae`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/2e9beae1c86c3ec521a442246bffec1694189824) Thanks [@keyding](https://github.com/keyding)! - Add subscription `status` type `incomplete`
+
 ## 3.1.0
 
 ### Minor Changes
