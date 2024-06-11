@@ -1,7 +1,7 @@
 {
   "name": "@lemonsqueezy/lemonsqueezy.js",
   "description": "The official Lemon Squeezy JavaScript SDK.",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "author": {
     "name": "Lemon Squeezy",
     "email": "hello@lemonsqueezy.com",
