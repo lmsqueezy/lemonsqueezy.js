@@ -1,5 +1,11 @@
 # @lemonsqueezy/lemonsqueezy.js
 
+## 3.1.2
+
+### Patch Changes
+
+- [#101](https://github.com/lmsqueezy/lemonsqueezy.js/pull/101) [`ae1b6a7`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/ae1b6a72e1fc544f595596da313c4c8ce38fe259) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Revert "Add subscription `status` type `incomplete`"
+
 ## 3.1.1
 
 ### Patch Changes
