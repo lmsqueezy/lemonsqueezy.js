@@ -15,7 +15,7 @@ type SubscriptionStatus =
   | "unpaid"
   | "cancelled"
   | "expired"
-  | "incomplete";
+  | "cancelled";
 type CardBrand =
   | "visa"
   | "mastercard"
