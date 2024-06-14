@@ -76,7 +76,7 @@ export async function $fetch<T>(options: FetchOptions, needApiKey = true) {
 
       Object.assign(response, {
         statusCode: fetchStatus,
-        data: null,
+        data,
         error: createLemonError(fetchResponse.statusText, _error),
       });
     }

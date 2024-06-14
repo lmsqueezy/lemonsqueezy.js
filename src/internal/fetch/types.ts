@@ -26,7 +26,7 @@ export type FetchResponse<T> =
     }
   | {
       statusCode: number | null;
-      data: null;
+      data: T | null;
       error: Error;
     };
 
