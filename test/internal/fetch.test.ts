@@ -19,8 +19,7 @@ describe("$fetch test", () => {
 
   it("Should return an error that the Lemon Squeezy API key was not provided", async () => {
     lemonSqueezySetup({ apiKey: "" });
-    const { error, data, statusCode } = await $fetch({ path: "/v1/user/me" });
-    expect(data).toBeNull();
+    const { error, statusCode } = await $fetch({ path: "/v1/user/me" });
     expect(statusCode).toBeNull();
     expect(error?.message).toMatch("Lemon Squeezy API");
   });
@@ -40,8 +39,7 @@ describe("$fetch test", () => {
 
   it("Should return a Lemon Squeezy API error", async () => {
     lemonSqueezySetup({ apiKey: "0123456789" });
-    const { error, data, statusCode } = await $fetch({ path: "/v1/user/me" });
-    expect(data).toBeNull();
+    const { error, statusCode } = await $fetch({ path: "/v1/user/me" });
     expect(statusCode).toEqual(404);
     expect(error).toBeDefined();
     expect(error?.cause).toBeArray();

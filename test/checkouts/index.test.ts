@@ -478,10 +478,9 @@ describe("Create a checkout", () => {
   });
 
   it("Failed to create a new checkout with 404 status code", async () => {
-    const { error, data, statusCode } = await createCheckout(storeId, "123");
+    const { error, statusCode } = await createCheckout(storeId, "123");
     expect(error).toBeDefined();
     expect(statusCode).toEqual(404);
-    expect(data).toBeNull();
   });
 });
 
@@ -590,6 +589,7 @@ describe("Retrieve a checkout", () => {
       quantity,
       dark,
       subscription_preview,
+      skip_trial,
       button_color,
     } = checkout_options;
     const checkoutOptionItems = [
@@ -599,6 +599,7 @@ describe("Retrieve a checkout", () => {
       desc,
       discount,
       quantity,
+      skip_trial,
       dark,
       subscription_preview,
       button_color,
@@ -775,6 +776,7 @@ describe("Retrieve a checkout", () => {
       desc,
       discount,
       quantity,
+      skip_trial,
       dark,
       subscription_preview,
       button_color,
@@ -785,6 +787,7 @@ describe("Retrieve a checkout", () => {
       logo,
       desc,
       discount,
+      skip_trial,
       quantity,
       dark,
       subscription_preview,

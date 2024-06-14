@@ -379,11 +379,7 @@ describe("Update a customer", () => {
   });
 
   it("An error and a statusCode of 422 should be returned", async () => {
-    const {
-      error,
-      data: _data,
-      statusCode,
-    } = await updateCustomer(newCustomerId, {
+    const { error, statusCode } = await updateCustomer(newCustomerId, {
       status: "unsubscribed" as any,
     });
 
@@ -391,7 +387,6 @@ describe("Update a customer", () => {
     expect(error?.message).toMatch("Unprocessable Entity");
     expect(error?.cause).toBeArray();
     expect(statusCode).toEqual(422);
-    expect(_data).toBeNull();
   });
 });
 

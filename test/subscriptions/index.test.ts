@@ -37,7 +37,12 @@ describe("List all subscriptions", () => {
     expect(data).toBeArray();
     expect(data[0]).toBeDefined();
 
-    const { id, attributes } = data[0];
+    // Get active subscription
+    const activeSubscription = data.find((d) => {
+      d.attributes.status === "active";
+    });
+
+    const { id, attributes } = activeSubscription ?? data[0];
     const {
       store_id,
       order_id,
@@ -46,6 +51,7 @@ describe("List all subscriptions", () => {
       variant_id,
       user_email,
     } = attributes;
+
     subscriptionId = id;
     storeId = store_id;
     orderId = order_id;
@@ -565,9 +571,7 @@ describe("Update a subscription", () => {
       statusCode,
       error,
       data: _data,
-    } = await updateSubscription(subscriptionId, {
-      cancelled: true,
-    });
+    } = await cancelSubscription(subscriptionId);
     expect(statusCode).toEqual(200);
     expect(error).toBeNull();
     expect(_data).toBeDefined();
@@ -613,16 +617,9 @@ describe("Update a subscription", () => {
   it("The subscription should be changed to trial_ends_at", async () => {
     function formatISO8601(isoString: string) {
       const date = new Date(isoString);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      const seconds = String(date.getSeconds()).padStart(2, "0");
-
-      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      return date.toISOString().replace("T", " ").substring(0, 19);
     }
-    const trialEndsAt = new Date("2024-04-25").toISOString();
+    const trialEndsAt = new Date("3/4/2025").toISOString();
     const {
       statusCode,
       error,

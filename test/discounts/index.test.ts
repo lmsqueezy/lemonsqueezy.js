@@ -5,7 +5,6 @@ import {
   getDiscount,
   lemonSqueezySetup,
   listDiscounts,
-  listVariants,
 } from "../../src";
 import type { NewDiscount } from "../../src/discounts/types";
 import { API_BASE_URL, generateDiscount } from "../../src/internal";
@@ -14,12 +13,9 @@ const DATA_TYPE = "discounts";
 const PATH = "/v1/discounts/";
 const storeId = import.meta.env.LEMON_SQUEEZY_STORE_ID!;
 let discountId: number | string;
-let variantIds: Array<number | string>;
 
 beforeAll(async () => {
   lemonSqueezySetup({ apiKey: import.meta.env.LEMON_SQUEEZY_API_KEY });
-  const { data } = await listVariants();
-  variantIds = data?.data.map((item) => item.id) ?? [];
 });
 
 describe("Create a discount", () => {
@@ -29,7 +25,6 @@ describe("Create a discount", () => {
       amount: 50,
       amountType: "percent",
       storeId,
-      variantIds,
     };
     const {
       statusCode,
@@ -115,7 +110,6 @@ describe("Create a discount", () => {
       amount: 20,
       amountType: "percent",
       storeId,
-      variantIds,
     };
     const {
       statusCode,
