@@ -1,5 +1,19 @@
 # @lemonsqueezy/lemonsqueezy.js
 
+## 3.2.0
+
+### Minor Changes
+
+- [#103](https://github.com/lmsqueezy/lemonsqueezy.js/pull/103) [`94ebe0a`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/94ebe0a0ce192aa513dbe9fb4b7f1dc29a59fd08) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Add `links` attribute to Variants
+
+- [`13d4f6f`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/13d4f6ff99e7bce6ba3747b0859774036eb4a448) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Fix fetch types: allow `data` on `error` since it is valid and expected in some cases (`validateLicense`) for example.
+
+### Patch Changes
+
+- [`262ac74`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/262ac74d2efef181f09ade6c44ad988f929fe729) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Improve and fix tests
+
+- [`e231ce9`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/e231ce94e23067f681171613557c4d11fb53c8ee) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Fix broken `license` test case. If a license is disabled it cannot be activated.
+
 ## 3.1.2
 
 ### Patch Changes
