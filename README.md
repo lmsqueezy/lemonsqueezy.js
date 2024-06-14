@@ -2,14 +2,14 @@
 
 [![NPM version](https://img.shields.io/npm/v/%40lemonsqueezy%2Flemonsqueezy.js?label=&color=%230d9488)](https://www.npmjs.com/package/@lemonsqueezy/lemonsqueezy.js)
 [![Functions usage](https://img.shields.io/badge/Wiki-%237c3aed)](https://github.com/lmsqueezy/lemonsqueezy.js/wiki)
-[![APIs Count](https://img.shields.io/badge/56_Functions-%232563eb)](https://github.com/lmsqueezy/lemonsqueezy.js/wiki)
+[![APIs Count](https://img.shields.io/badge/57_Functions-%232563eb)](https://github.com/lmsqueezy/lemonsqueezy.js/wiki)
 [![Weekly downloads](https://img.shields.io/npm/dw/@lemonsqueezy/lemonsqueezy.js)](https://www.npmjs.com/package/@lemonsqueezy/lemonsqueezy.js)
 ![NPM Downloads](https://img.shields.io/npm/d18m/%40lemonsqueezy%2Flemonsqueezy.js)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flmsqueezy%2Flemonsqueezy.js.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Flmsqueezy%2Flemonsqueezy.js?ref=badge_shield)
 
 ## Introduction
 
-This is the official JavaScript SDK for [Lemon Squeezy](https://lemonsqueezy.com), helping make it easy to incorporate billing into your JavaScript application.
+This is the official JavaScript SDK for [Lemon Squeezy](https://lemonsqueezy.com), making it easy to incorporate billing into your JavaScript application.
 
 - Read [API Reference](https://docs.lemonsqueezy.com/api) to understand how the Lemon Squeezy API works.
 - Visit [Wiki page](https://github.com/lmsqueezy/lemonsqueezy.js/wiki) for function usage.
@@ -17,7 +17,7 @@ This is the official JavaScript SDK for [Lemon Squeezy](https://lemonsqueezy.com
 ## Features
 
 - Type-safe: Written in [TypeScript](https://www.typescriptlang.org/) and documented with [TSDoc](https://github.com/microsoft/tsdoc).
-- Tree-shakeable: Use only functions that you need. See [bundle size](#bundle-size).
+- Tree-shakeable: Use only the functions you need. See [bundle size](#bundle-size).
 
 ## Installation
 
@@ -44,9 +44,13 @@ Create a new API key from [Settings > API](https://app.lemonsqueezy.com/settings
 
 Add this API key into your project, for example as `LEMONSQUEEZY_API_KEY` in your `.env` file.
 
+> [!CAUTION]
+>
+> Do not use this package directly in the browser, as this will expose your API key. This would give anyone full API access to your Lemon Squeezy account and store(s). For more information [see here](https://docs.lemonsqueezy.com/api#authentication).
+
 ### Using the API in test mode
 
-You can build and test a full API integration with Lemon Squeezy using test mode.
+You can build and test a full API integration with Lemon Squeezy using [Test Mode](https://docs.lemonsqueezy.com/help/getting-started/test-mode).
 
 Any API keys created in test mode will interact with your test mode store data.
 
@@ -55,11 +59,22 @@ When you are ready to go live with your integration, make sure to create an API 
 ## Usage
 
 ```tsx
-lemonSqueezySetup({ apiKey });
+import { getAuthenticatedUser, lemonSqueezySetup } from "@lemonsqueezy/lemonsqueezy.js";
 
-const { data, error, statusCode } = await getAuthenticatedUser();
+const apiKey = import.meta.env.LEMON_SQUEEZY_API_KEY;
 
-console.log({ data, error, statusCode });
+lemonSqueezySetup({
+  apiKey,
+  onError: (error) => console.error("Error!", error),
+});
+
+const { data, error } = await getAuthenticatedUser();
+
+if (error) {
+  console.log(error.message);
+} else {
+  console.log(data);
+}
 ```
 
 For more functions usage, see [Wiki](https://github.com/lmsqueezy/lemonsqueezy.js/wiki).
@@ -131,10 +146,6 @@ For more functions usage, see [Wiki](https://github.com/lmsqueezy/lemonsqueezy.j
 | lemonSqueezySetup               | 106 B      |
 
 </details>
-
-## Notes
-
-Do not use this package directly in the browser, as this will expose your API key. This would give anyone full API access to your Lemon Squeezy account and store(s). For more information [see more](https://docs.lemonsqueezy.com/api#authentication).
 
 ## Contributing
 
