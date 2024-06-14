@@ -59,7 +59,10 @@ When you are ready to go live with your integration, make sure to create an API 
 ## Usage
 
 ```tsx
-import { getAuthenticatedUser, lemonSqueezySetup } from "@lemonsqueezy/lemonsqueezy.js";
+import {
+  getAuthenticatedUser,
+  lemonSqueezySetup,
+} from "@lemonsqueezy/lemonsqueezy.js";
 
 const apiKey = import.meta.env.LEMON_SQUEEZY_API_KEY;
 
