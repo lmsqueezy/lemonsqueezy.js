@@ -21,6 +21,9 @@ beforeAll(async () => {
 
 describe("Activate a license key", () => {
   it("Should return a response", async () => {
+    // Before running, enable the license
+    await updateLicenseKey(licenseKeyId, { disabled: false });
+
     const {
       statusCode,
       error: _error,
