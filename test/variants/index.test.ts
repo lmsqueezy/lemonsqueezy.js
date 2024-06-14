@@ -155,8 +155,8 @@ describe("Retrieve a variant", () => {
     expect(error).toBeNull();
     expect(_data).toBeDefined();
 
-    const { links, data } = _data!;
-    expect(links.self).toEqual(`${API_BASE_URL}${PATH}${variantId}`);
+    const { links: dataLinks, data } = _data!;
+    expect(dataLinks.self).toEqual(`${API_BASE_URL}${PATH}${variantId}`);
     expect(data).toBeDefined();
 
     const { id, type, attributes, relationships } = data;
@@ -170,6 +170,7 @@ describe("Retrieve a variant", () => {
       name,
       slug,
       description,
+      links,
       has_license_keys,
       license_activation_limit,
       is_license_limit_unlimited,
@@ -200,6 +201,7 @@ describe("Retrieve a variant", () => {
       name,
       slug,
       description,
+      links,
       has_license_keys,
       license_activation_limit,
       is_license_limit_unlimited,
@@ -247,8 +249,8 @@ describe("Retrieve a variant", () => {
     expect(error).toBeNull();
     expect(_data).toBeDefined();
 
-    const { links, data, included } = _data!;
-    expect(links.self).toEqual(`${API_BASE_URL}${PATH}${variantId}`);
+    const { links: dataLinks, data, included } = _data!;
+    expect(dataLinks.self).toEqual(`${API_BASE_URL}${PATH}${variantId}`);
     expect(data).toBeDefined();
     expect(included).toBeArray();
     expect(!!included?.filter((item) => item.type === "products")).toBeTrue();
@@ -265,6 +267,7 @@ describe("Retrieve a variant", () => {
       slug,
       description,
       has_license_keys,
+      links,
       license_activation_limit,
       is_license_limit_unlimited,
       license_length_value,
@@ -294,6 +297,7 @@ describe("Retrieve a variant", () => {
       name,
       slug,
       description,
+      links,
       has_license_keys,
       license_activation_limit,
       is_license_limit_unlimited,

@@ -1,4 +1,4 @@
-import { getAuthenticatedUser, lemonSqueezySetup } from "../src/index.js";
+import { lemonSqueezySetup, listVariants } from "../src/index.js";
 
 const apiKey = import.meta.env.LEMON_SQUEEZY_API_KEY;
 
@@ -9,11 +9,10 @@ lemonSqueezySetup({
 });
 
 // Get authenticated user
-const { data, error, statusCode } = await getAuthenticatedUser();
+const { data, error } = await listVariants();
 
 if (error) {
   console.log(error.cause);
 } else {
-  console.log({ data, error, statusCode });
-  console.log(data.data.attributes.email);
+  console.log(JSON.stringify({ data: data.data }, null, 2));
 }

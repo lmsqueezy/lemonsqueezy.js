@@ -113,6 +113,23 @@ type Attributes = {
    */
   is_license_length_unlimited: boolean;
   /**
+   * An array of the link objects.
+   * `title` – The title of the link
+   * `url` – The URL of the link
+   *
+   * @see {@link https://docs.lemonsqueezy.com/help/products/adding-products#links}
+   */
+  links: Array<{
+    /**
+     * The title of the link
+     */
+    title: string;
+    /**
+     * The URL of the link
+     */
+    url: string;
+  }>;
+  /**
    * An integer representing the order of this variant when displayed on the checkout.
    */
   sort: number;
