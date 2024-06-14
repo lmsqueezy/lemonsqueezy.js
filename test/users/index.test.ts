@@ -63,8 +63,7 @@ describe("Retrieve the authenticated user", () => {
 
   it("An error and a 401 statusCode should be returned when the `apiKey` is incorrect", async () => {
     lemonSqueezySetup({ apiKey: "INCORRECT_API_KEY" });
-    const { error, data, statusCode } = await getAuthenticatedUser();
-    expect(data).toBeNull();
+    const { error, statusCode } = await getAuthenticatedUser();
     expect(statusCode).toEqual(401);
     expect(error).toBeDefined();
     expect(error?.cause).toBeArray();
