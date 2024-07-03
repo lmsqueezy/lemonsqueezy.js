@@ -85,7 +85,7 @@ type Attributes = {
    */
   test_mode: boolean;
 };
-type ProductData = Data<Attributes, Pick<Relationships, "store" | "variants">>;
+export type ProductData = Data<Attributes, Pick<Relationships, "store" | "variants">>;
 
 export type GetProductParams = Pick<
   Params<(keyof ProductData["relationships"])[]>,
