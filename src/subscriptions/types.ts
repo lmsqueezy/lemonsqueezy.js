@@ -202,7 +202,7 @@ type Attributes = {
    */
   renews_at: string;
   /**
-   * f the subscription has as `status` of `cancelled` or `expired`, this will be an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted date-time string indicating when the subscription expires (or expired). For all other `status` values, this will be `null`.
+   * If the subscription has as `status` of `cancelled` or `expired`, this will be an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formatted date-time string indicating when the subscription expires (or expired). For all other `status` values, this will be `null`.
    */
   ends_at: string | null;
   /**
