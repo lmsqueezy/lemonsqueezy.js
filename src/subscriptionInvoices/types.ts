@@ -114,6 +114,22 @@ type Attributes = {
    * A positive integer in cents representing the total cost of the invoice in the invoice currency.
    */
   total: number;
+
+  /**
+   * A positive integer in cents representing the refunded amount of the invoice in the invoice currency.
+   */
+  refunded_amount: number;
+
+  /**
+   * A positive integer in cents representing the refunded amount of the invoice in USD.
+   */
+  refunded_amount_usd: number;
+
+  /**
+   * A human-readable string representing the refunded amount of the invoice in the invoice currency (e.g. $9.99).
+   */
+  refunded_amount_formatted: string;
+
   /**
    * A positive integer in cents representing the subtotal of the invoice in USD.
    */

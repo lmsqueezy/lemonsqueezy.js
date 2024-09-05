@@ -85,3 +85,30 @@ export function generateSubscriptionInvoice(
     method: "POST",
   });
 }
+
+/**
+ * Issues a partial refund for the subscription invoice.
+ *
+ * @param subscriptionInvoiceId The subscription invoice id.
+ * @param amount The amount in cents that you want to refund for a subscription invoice.
+ */
+export function issueSubscriptionInvoiceRefund(
+  subscriptionInvoiceId: number | string,
+  amount: number
+) {
+  requiredCheck({ subscriptionInvoiceId, amount });
+
+  const attributes = { amount };
+
+  return $fetch<SubscriptionInvoice>({
+    path: `/v1/subscription-invoices/${subscriptionInvoiceId}/refund`,
+    method: "POST",
+    body: {
+      data: {
+        type: "subscription-invoices",
+        id: subscriptionInvoiceId.toString(),
+        attributes: convertKeys(attributes),
+      },
+    },
+  });
+}

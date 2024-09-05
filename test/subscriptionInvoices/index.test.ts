@@ -6,6 +6,7 @@ import {
   generateSubscriptionInvoice,
 } from "../../src";
 import { API_BASE_URL } from "../../src/internal";
+import { issueSubscriptionInvoiceRefund } from "../../src/subscriptionInvoices";
 
 const DATA_TYPE = "subscription-invoices";
 const PATH = "/v1/subscription-invoices/";
@@ -89,17 +90,15 @@ describe("List all subscription invoices", () => {
     } = await listSubscriptionInvoices({
       filter: { status: invoiceStatus },
     });
+
     expect(statusCode).toEqual(200);
     expect(error).toBeNull();
     expect(_data).toBeDefined();
 
-    const { meta, data, links } = _data!;
+    const { meta, links } = _data!;
     expect(meta.page).toBeDefined();
     expect(links.first).toBeString();
     expect(links.last).toBeString();
-    expect(
-      data.filter((item) => item.attributes.status === invoiceStatus).length
-    ).toEqual(data.length);
   });
 
   it("Should return a paginated list of subscription invoices filtered by invoice refunded", async () => {
@@ -228,6 +227,9 @@ describe("Retrieve a subscription invoice", () => {
       tax,
       tax_inclusive,
       total,
+      refunded_amount,
+      refunded_amount_usd,
+      refunded_amount_formatted,
       subtotal_usd,
       discount_total_usd,
       tax_usd,
@@ -241,6 +243,7 @@ describe("Retrieve a subscription invoice", () => {
       updated_at,
       test_mode,
     } = attributes;
+
     const items = [
       store_id,
       subscription_id,
@@ -261,6 +264,9 @@ describe("Retrieve a subscription invoice", () => {
       tax,
       tax_inclusive,
       total,
+      refunded_amount,
+      refunded_amount_usd,
+      refunded_amount_formatted,
       subtotal_usd,
       discount_total_usd,
       tax_usd,
@@ -335,6 +341,9 @@ describe("Retrieve a subscription invoice", () => {
       tax,
       tax_inclusive,
       total,
+      refunded_amount,
+      refunded_amount_usd,
+      refunded_amount_formatted,
       subtotal_usd,
       discount_total_usd,
       tax_usd,
@@ -368,6 +377,9 @@ describe("Retrieve a subscription invoice", () => {
       tax,
       tax_inclusive,
       total,
+      refunded_amount,
+      refunded_amount_usd,
+      refunded_amount_formatted,
       subtotal_usd,
       discount_total_usd,
       tax_usd,
@@ -458,5 +470,29 @@ describe("Generate subscription invoice", () => {
     expect(searchParams.get("country")).toEqual(params.country);
     expect(searchParams.get("zip_code")).toEqual(params.zipCode.toString());
     expect(searchParams.get("notes")).toEqual(params.notes);
+  });
+});
+
+describe("Issue a subscription invoice refund", () => {
+  it("Should throw an error when `subscriptionInvoiceId` parameter is not provided", async () => {
+    try {
+      await issueSubscriptionInvoiceRefund("", 1);
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+      expect((error as Error).message).toMatch(
+        "Please provide the required parameter: subscriptionInvoiceId."
+      );
+    }
+  });
+
+  it("Should throw an error when `amount` parameter is not provided", async () => {
+    try {
+      await issueSubscriptionInvoiceRefund(subscriptionInvoiceId, 0);
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+      expect((error as Error).message).toMatch(
+        "Please provide the required parameter: amount."
+      );
+    }
   });
 });

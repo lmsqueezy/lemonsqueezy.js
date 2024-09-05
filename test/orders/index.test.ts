@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from "bun:test";
+import { test, beforeAll, describe, expect, it } from "bun:test";
 import {
   getOrder,
   lemonSqueezySetup,
@@ -6,12 +6,14 @@ import {
   generateOrderInvoice,
 } from "../../src";
 import { API_BASE_URL } from "../../src/internal";
+import { issueOrderRefund } from "../../src/orders";
 
 const DATA_TYPE = "orders";
 const PATH = "/v1/orders/";
 let storeId: any;
 let orderId: any;
 let userEmail: any;
+let refundableOrderId: any;
 
 beforeAll(() => {
   lemonSqueezySetup({ apiKey: import.meta.env.LEMON_SQUEEZY_API_KEY });
@@ -35,6 +37,17 @@ describe("List all orders", () => {
       expect(item).toBeNumber();
     }
 
+    // Find refundable order
+    const foundOrder = data.find((order) => {
+      const total = order.attributes.total;
+      const refundedAmount = order.attributes.refunded_amount;
+      return total > 0 && total + refundedAmount < 1;
+    });
+
+    if (foundOrder) {
+      refundableOrderId = foundOrder.id;
+    }
+
     const {
       store,
       customer,
@@ -43,6 +56,7 @@ describe("List all orders", () => {
       "license-keys": licenseKeys,
       "discount-redemptions": discountRedemptions,
     } = data[0].relationships;
+
     for (const item of [
       store,
       customer,
@@ -628,4 +642,41 @@ describe("Generate order invoice", () => {
     expect(searchParams.get("zip_code")).toEqual(params.zipCode.toString());
     expect(searchParams.get("notes")).toEqual(params.notes);
   });
+});
+
+describe("Issue order refund", () => {
+  it("Should throw an error when `orderId` parameter is not provided", async () => {
+    try {
+      await issueOrderRefund("", 1);
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+      expect((error as Error).message).toMatch(
+        "Please provide the required parameter: orderId."
+      );
+    }
+  });
+
+  it("Should throw an error when `amount` parameter is not provided", async () => {
+    try {
+      await issueOrderRefund(orderId, 0);
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+      expect((error as Error).message).toMatch(
+        "Please provide the required parameter: amount."
+      );
+    }
+  });
+
+  test.skipIf(!refundableOrderId)(
+    "Should issue a refund for a qualifying order",
+    async () => {
+      const { statusCode, error, data } = await issueOrderRefund(
+        refundableOrderId,
+        1
+      );
+      expect(statusCode).toEqual(200);
+      expect(error).toBeNull();
+      expect(data).toBeDefined();
+    }
+  );
 });

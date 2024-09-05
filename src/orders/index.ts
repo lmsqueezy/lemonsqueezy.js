@@ -84,12 +84,12 @@ export function generateOrderInvoice(
 }
 
 /**
- * Issues a partial refund. The amount is in dollar cents and must be less than the total amount of the order.
+ * Issues a partial refund of the order.
  *
- * @param orderId The given order id.
- * @param amount The amount in cents to refund.
+ * @param orderId The order id.
+ * @param amount The amount in cents to refund. Must be less than the total amount of the order.
  */
-export function issueRefund(orderId: number | string, amount: number) {
+export function issueOrderRefund(orderId: number | string, amount: number) {
   requiredCheck({ orderId, amount });
 
   const attributes = { amount };
