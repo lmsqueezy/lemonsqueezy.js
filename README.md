@@ -2,7 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/%40lemonsqueezy%2Flemonsqueezy.js?label=&color=%230d9488)](https://www.npmjs.com/package/@lemonsqueezy/lemonsqueezy.js)
 [![Functions usage](https://img.shields.io/badge/Wiki-%237c3aed)](https://github.com/lmsqueezy/lemonsqueezy.js/wiki)
-[![APIs Count](https://img.shields.io/badge/57_Functions-%232563eb)](https://github.com/lmsqueezy/lemonsqueezy.js/wiki)
+[![APIs Count](https://img.shields.io/badge/59_Functions-%232563eb)](https://github.com/lmsqueezy/lemonsqueezy.js/wiki)
 [![Weekly downloads](https://img.shields.io/npm/dw/@lemonsqueezy/lemonsqueezy.js)](https://www.npmjs.com/package/@lemonsqueezy/lemonsqueezy.js)
 ![NPM Downloads](https://img.shields.io/npm/d18m/%40lemonsqueezy%2Flemonsqueezy.js)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flmsqueezy%2Flemonsqueezy.js.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Flmsqueezy%2Flemonsqueezy.js?ref=badge_shield)
@@ -86,66 +86,68 @@ For more functions usage, see [Wiki](https://github.com/lmsqueezy/lemonsqueezy.j
 
 <details>
   <summary>Click to view</summary>
-
+  
 | Export                          | min+brotli |
 | ------------------------------- | ---------- |
-| createDiscount                  | 991 B      |
-| createCheckout                  | 895 B      |
-| updateSubscriptionItem          | 849 B      |
-| updateSubscription              | 841 B      |
-| listWebhooks                    | 831 B      |
-| listDiscountRedemptions         | 821 B      |
-| listLicenseKeyInstances         | 820 B      |
-| listSubscriptionInvoices        | 818 B      |
-| listLicenseKeys                 | 817 B      |
-| listOrderItems                  | 817 B      |
-| listSubscriptionItems           | 817 B      |
-| listCheckouts                   | 814 B      |
-| listDiscounts                   | 814 B      |
-| listSubscriptions               | 814 B      |
+| createDiscount                  | 1.01 kB    |
+| createCheckout                  | 888 B      |
+| updateSubscriptionItem          | 856 B      |
+| updateSubscription              | 838 B      |
+| listCheckouts                   | 824 B      |
+| listDiscountRedemptions         | 819 B      |
+| listLicenseKeyInstances         | 818 B      |
+| listSubscriptionInvoices        | 816 B      |
+| listLicenseKeys                 | 815 B      |
+| listOrderItems                  | 815 B      |
+| listSubscriptionItems           | 815 B      |
 | listUsageRecords                | 814 B      |
-| listVariants                    | 814 B      |
-| listCustomers                   | 813 B      |
-| listFiles                       | 813 B      |
-| listOrders                      | 813 B      |
-| listPrices                      | 813 B      |
-| listProducts                    | 813 B      |
-| listStores                      | 813 B      |
-| updateLicenseKey                | 813 B      |
-| createWebhook                   | 808 B      |
-| updateWebhook                   | 793 B      |
-| generateSubscriptionInvoice     | 789 B      |
-| generateOrderInvoice            | 783 B      |
-| activateLicense                 | 770 B      |
-| validateLicense                 | 770 B      |
-| deactivateLicense               | 764 B      |
+| listSubscriptions               | 812 B      |
+| listWebhooks                    | 812 B      |
+| listCustomers                   | 811 B      |
+| listDiscounts                   | 811 B      |
+| listFiles                       | 811 B      |
+| listOrders                      | 811 B      |
+| listPrices                      | 811 B      |
+| listProducts                    | 811 B      |
+| listStores                      | 811 B      |
+| listVariants                    | 811 B      |
+| updateLicenseKey                | 811 B      |
+| createWebhook                   | 806 B      |
+| issueSubscriptionInvoiceRefund  | 796 B      |
+| issueOrderRefund                | 795 B      |
+| updateWebhook                   | 792 B      |
+| generateSubscriptionInvoice     | 787 B      |
+| generateOrderInvoice            | 785 B      |
+| validateLicense                 | 761 B      |
+| activateLicense                 | 760 B      |
+| deactivateLicense               | 759 B      |
 | createUsageRecord               | 724 B      |
-| getLicenseKeyInstance           | 714 B      |
-| getSubscriptionInvoice          | 702 B      |
-| getDiscountRedemption           | 700 B      |
-| getSubscriptionItem             | 700 B      |
-| getUsageRecord                  | 700 B      |
-| getOrderItem                    | 699 B      |
-| getLicenseKey                   | 698 B      |
-| getOrder                        | 697 B      |
-| getPrice                        | 697 B      |
-| getStore                        | 697 B      |
-| getCheckout                     | 696 B      |
-| getCustomer                     | 696 B      |
-| getFile                         | 696 B      |
-| getProduct                      | 694 B      |
-| getWebhook                      | 694 B      |
-| getDiscount                     | 693 B      |
-| getSubscription                 | 693 B      |
-| getVariant                      | 693 B      |
-| updateCustomer                  | 684 B      |
-| archiveCustomer                 | 683 B      |
-| createCustomer                  | 678 B      |
-| cancelSubscription              | 660 B      |
-| deleteDiscount                  | 658 B      |
-| deleteWebhook                   | 653 B      |
-| getSubscriptionItemCurrentUsage | 651 B      |
-| getAuthenticatedUser            | 598 B      |
+| getDiscountRedemption           | 702 B      |
+| getLicenseKeyInstance           | 702 B      |
+| getSubscriptionInvoice          | 699 B      |
+| getSubscriptionItem             | 698 B      |
+| getUsageRecord                  | 698 B      |
+| getOrderItem                    | 697 B      |
+| getWebhook                      | 697 B      |
+| getLicenseKey                   | 695 B      |
+| getCheckout                     | 694 B      |
+| getStore                        | 694 B      |
+| getSubscription                 | 694 B      |
+| getCustomer                     | 692 B      |
+| getFile                         | 692 B      |
+| getOrder                        | 692 B      |
+| getPrice                        | 692 B      |
+| getDiscount                     | 691 B      |
+| getProduct                      | 691 B      |
+| archiveCustomer                 | 690 B      |
+| getVariant                      | 690 B      |
+| createCustomer                  | 686 B      |
+| updateCustomer                  | 682 B      |
+| deleteWebhook                   | 660 B      |
+| cancelSubscription              | 658 B      |
+| deleteDiscount                  | 656 B      |
+| getSubscriptionItemCurrentUsage | 650 B      |
+| getAuthenticatedUser            | 595 B      |
 | lemonSqueezySetup               | 106 B      |
 
 </details>

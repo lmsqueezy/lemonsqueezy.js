@@ -77,7 +77,12 @@ export type {
   ListOrdersParams,
   GenerateOrderInvoiceParams,
 } from "./orders/types";
-export { getOrder, listOrders, generateOrderInvoice } from "./orders";
+export {
+  getOrder,
+  listOrders,
+  generateOrderInvoice,
+  issueOrderRefund,
+} from "./orders";
 
 // Order Items
 export type {
@@ -116,6 +121,7 @@ export {
   getSubscriptionInvoice,
   listSubscriptionInvoices,
   generateSubscriptionInvoice,
+  issueSubscriptionInvoiceRefund,
 } from "./subscriptionInvoices";
 
 // Subscription Items

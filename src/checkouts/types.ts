@@ -88,17 +88,69 @@ type CheckoutOptions = {
   skip_trial: boolean;
   quantity: number;
   /**
-   * If `true`, use the dark theme
-   */
-  dark: boolean;
-  /**
    * If `false`, hide the "You will be charged..." subscription preview text
    */
   subscription_preview: boolean;
+
   /**
-   * A custom hex color to use for the checkout button. Text within the button will be either white or dark depending on the brightness of your button color.
+   * A custom hex color to use for the background of the checkout page.
+   */
+  background_color: string;
+
+  /**
+   * A custom hex color to use for the headings of the checkout page.
+   */
+  headings_color: string;
+
+  /**
+   * A custom hex color to use for the primary text of the checkout page.
+   */
+  primary_text_color: string;
+
+  /**
+   * A custom hex color to use for the secondary text color of the checkout page.
+   */
+  secondary_text_color: string;
+
+  /**
+   * A custom hex color to use for the links on the checkout page.
+   */
+  links_color: string;
+
+  /**
+   * A custom hex color to use for the borders on the checkout page.
+   */
+  borders_color: string;
+
+  /**
+   * A custom hex color to use for the checkboxes on the checkout page.
+   */
+  checkbox_color: string;
+
+  /**
+   * A custom hex color to indicate an active state on the checkout page.
+   */
+  active_state_color: string;
+
+  /**
+   * A custom hex color to use for the checkout button.
    */
   button_color: string;
+
+  /**
+   * A custom hex color to use for the text within the checkout button.
+   */
+  button_text_color: string;
+
+  /**
+   * A custom hex color to use for the terms and privacy text on the checkout page. Used only on embedded checkouts.
+   */
+  terms_privacy_color: string;
+
+  /**
+   * `Deprecated` If `true`, use the dark theme. Use color options
+   */
+  dark: boolean;
 };
 type CheckoutData = {
   /**
@@ -242,9 +294,19 @@ type Attributes = {
    * - `logo` - If `false`, hide the store logo
    * - `desc` - If `false`, hide the product description
    * - `discount` - If `false`, hide the discount code field
-   * - `dark` - If `true`, use the dark theme
    * - `subscription_preview` - If `false`, hide the "You will be charged..." subscription preview text
-   * - `button_color` - A custom hex color to use for the checkout button. Text within the button will be either white or dark depending on the brightness of your button color.
+   * - `background_color` - A custom hex color to use for the background of the checkout page.
+   * - `headings_color` - A custom hex color to use for the headings of the checkout page.
+   * - `primary_text_color` - A custom hex color to use for the primary text of the checkout page.
+   * - `secondary_text_color` - A custom hex color to use for the secondary text color of the checkout page.
+   * - `links_color` - A custom hex color to use for the links on the checkout page.
+   * - `borders_color` - A custom hex color to use for the borders on the checkout page.
+   * - `checkbox_color` - A custom hex color to use for the checkboxes on the checkout page.
+   * - `active_state_color` - A custom hex color to indicate an active state on the checkout page.
+   * - `button_color` - A custom hex color to use for the checkout button.
+   * - `button_text_color` - A custom hex color to use for the text within the checkout button.
+   * - `terms_privacy_color` - A custom hex color to use for the terms and privacy text on the checkout page. Used only on embedded checkouts.
+   * - `dark` - Deprecated. If `true`, use the dark theme. Use color options instead.
    */
   checkout_options: CheckoutOptions;
   /**
@@ -392,9 +454,19 @@ export type NewCheckout = {
    * - `logo` - If `false`, hide the store logo
    * - `desc` - If `false`, hide the product description
    * - `discount` - If `false`, hide the discount code field
-   * - `dark` - If `true`, use the dark theme
    * - `subscription_preview` - If `false`, hide the "You will be charged..." subscription preview text
-   * - `buttonColor` - A custom hex color to use for the checkout button. Text within the button will be either white or dark depending on the brightness of your button color.
+   * - `background_color` - A custom hex color to use for the background of the checkout page.
+   * - `headings_color` - A custom hex color to use for the headings of the checkout page.
+   * - `primary_text_color` - A custom hex color to use for the primary text of the checkout page.
+   * - `secondary_text_color` - A custom hex color to use for the secondary text color of the checkout page.
+   * - `links_color` - A custom hex color to use for the links on the checkout page.
+   * - `borders_color` - A custom hex color to use for the borders on the checkout page.
+   * - `checkbox_color` - A custom hex color to use for the checkboxes on the checkout page.
+   * - `active_state_color` - A custom hex color to indicate an active state on the checkout page.
+   * - `button_color` - A custom hex color to use for the checkout button.
+   * - `button_text_color` - A custom hex color to use for the text within the checkout button.
+   * - `terms_privacy_color` - A custom hex color to use for the terms and privacy text on the checkout page. Used only on embedded checkouts.
+   * - `dark` - Deprecated. If `true`, use the dark theme. Use color options instead.
    */
   checkoutOptions?: {
     /**
@@ -422,17 +494,69 @@ export type NewCheckout = {
      */
     skipTrial?: boolean;
     /**
-     * If `true`, use the dark theme
-     */
-    dark?: boolean;
-    /**
      * If `false`, hide the "You will be charged..." subscription preview text
      */
     subscriptionPreview?: boolean;
+
     /**
-     * A custom hex color to use for the checkout button
+     * A custom hex color to use for the background of the checkout page.
+     */
+    backgroundColor?: string;
+
+    /**
+     * A custom hex color to use for the headings of the checkout page.
+     */
+    headingsColor?: string;
+
+    /**
+     * A custom hex color to use for the primary text of the checkout page.
+     */
+    primaryTextColor?: string;
+
+    /**
+     * A custom hex color to use for the secondary text color of the checkout page.
+     */
+    secondaryTextColor?: string;
+
+    /**
+     * A custom hex color to use for the links on the checkout page.
+     */
+    linksColor?: string;
+
+    /**
+     * A custom hex color to use for the borders on the checkout page.
+     */
+    bordersColor?: string;
+
+    /**
+     * A custom hex color to use for the checkboxes on the checkout page.
+     */
+    checkboxColor?: string;
+
+    /**
+     * A custom hex color to indicate an active state on the checkout page.
+     */
+    activeStateColor?: string;
+
+    /**
+     * A custom hex color to use for the checkout button.
      */
     buttonColor?: string;
+
+    /**
+     * A custom hex color to use for the text within the checkout button.
+     */
+    buttonTextColor?: string;
+
+    /**
+     * A custom hex color to use for the terms and privacy text on the checkout page. Used only if `embed` is set to `true`.
+     */
+    termsPrivacyColor?: string;
+
+    /**
+     * `Deprecated` If `true`, use the dark theme. Use color options
+     */
+    dark?: boolean;
   };
   /**
    * An object containing any [prefill](https://docs.lemonsqueezy.com/help/checkout/prefilling-checkout-fields) or [custom data](https://docs.lemonsqueezy.com/help/checkout/passing-custom-data) to be used in the checkout. Possible options include:

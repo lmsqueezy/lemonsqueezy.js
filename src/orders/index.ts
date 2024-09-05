@@ -27,6 +27,7 @@ export function getOrder(
   params: GetOrderParams = {}
 ) {
   requiredCheck({ orderId });
+
   return $fetch<Order>({
     path: `/v1/orders/${orderId}${convertIncludeToQueryString(params.include)}`,
   });
@@ -55,7 +56,7 @@ export function listOrders(params: ListOrdersParams = {}) {
  * Generate order invoice.
  *
  * @param orderId The given order id.
- * @param [params] (Optional) Then given parameters.
+ * @param [params] (Optional) The given parameters.
  * @param [params.name] (Optional) The full name of the customer.
  * @param [params.address] (Optional) The street address of the customer.
  * @param [params.city] (Optional) The city of the customer.
@@ -79,5 +80,29 @@ export function generateOrderInvoice(
   return $fetch<OrderInvoice>({
     path: `/v1/orders/${orderId}/generate-invoice${query}`,
     method: "POST",
+  });
+}
+
+/**
+ * Issues a partial refund of the order.
+ *
+ * @param orderId The order id.
+ * @param amount The amount in cents to refund. Must be less than the total amount of the order.
+ */
+export function issueOrderRefund(orderId: number | string, amount: number) {
+  requiredCheck({ orderId, amount });
+
+  const attributes = { amount };
+
+  return $fetch<Order>({
+    path: `/v1/orders/${orderId}/refund`,
+    method: "POST",
+    body: {
+      data: {
+        type: "orders",
+        id: orderId.toString(),
+        attributes: convertKeys(attributes),
+      },
+    },
   });
 }

@@ -69,6 +69,7 @@ describe("Create a checkout", () => {
       test_mode,
       url,
     } = attributes;
+
     const items = [
       store_id,
       variant_id,
@@ -83,7 +84,9 @@ describe("Create a checkout", () => {
       test_mode,
       url,
     ];
+
     for (const item of items) expect(item).toBeDefined();
+
     expect(Object.keys(attributes).length).toEqual(items.length);
     expect(store_id).toEqual(Number(storeId));
     expect(variant_id).toEqual(Number(variantId));
@@ -102,6 +105,7 @@ describe("Create a checkout", () => {
       confirmation_message,
       confirmation_button_text,
     } = product_options;
+
     const productOptionItems = [
       name,
       description,
@@ -115,12 +119,15 @@ describe("Create a checkout", () => {
       confirmation_message,
       confirmation_button_text,
     ];
+
     for (const item of productOptionItems) expect(item).toBeDefined();
+
     expect(Object.keys(product_options).length).toEqual(
       productOptionItems.length
     );
 
     // checkout_options
+
     const {
       embed,
       media: checkoutOptionMedia,
@@ -129,10 +136,9 @@ describe("Create a checkout", () => {
       discount,
       skip_trial,
       quantity,
-      dark,
       subscription_preview,
-      button_color,
     } = checkout_options;
+
     const checkoutOptionItems = [
       embed,
       checkoutOptionMedia,
@@ -141,11 +147,11 @@ describe("Create a checkout", () => {
       discount,
       skip_trial,
       quantity,
-      dark,
       subscription_preview,
-      button_color,
     ];
+
     for (const item of checkoutOptionItems) expect(item).toBeDefined();
+
     expect(Object.keys(checkout_options).length).toEqual(
       checkoutOptionItems.length
     );
@@ -160,6 +166,7 @@ describe("Create a checkout", () => {
       custom,
       variant_quantities,
     } = checkout_data;
+
     const checkoutDataItems = [
       email,
       checkoutDataName,
@@ -169,7 +176,9 @@ describe("Create a checkout", () => {
       custom,
       variant_quantities,
     ];
+
     for (const item of checkoutDataItems) expect(item).toBeDefined();
+
     expect(Object.keys(checkout_data).length).toEqual(checkoutDataItems.length);
 
     // preview
@@ -190,6 +199,7 @@ describe("Create a checkout", () => {
         tax_formatted,
         total_formatted,
       } = preview;
+
       const previewItems = [
         currency,
         currency_rate,
@@ -206,9 +216,10 @@ describe("Create a checkout", () => {
         tax_formatted,
         total_formatted,
       ];
+
       for (const item of previewItems) expect(item).toBeDefined();
+
       expect(Object.keys(preview).length).toEqual(previewItems.length);
-    } else {
     }
 
     const { variant, store } = relationships;
@@ -224,15 +235,14 @@ describe("Create a checkout", () => {
   it("A new checkout should be created with the given store id, variant id and new checkout info", async () => {
     // NewCheckout
     const newCheckout = {
-      // customPrice: 1,
       productOptions: {
         name: "New Checkout Test",
-        description: "a new checkout test",
-        media: ["https://google.com"],
-        redirectUrl: "https://google.com",
+        description: "This is a new checkout",
+        media: ["https://lemonsqueezy.com"],
+        redirectUrl: "https://lemonsqueezy.com",
         receiptButtonText: "Text Receipt",
         receiptLinkUrl: "https://lemonsqueezy.com",
-        receiptThankYouNote: "Thanks to lemonsqueezy",
+        receiptThankYouNote: "That was easy peasy Lemon Squeezy!",
         enabledVariants: [Number(variantId)],
         confirmationTitle: "Thank you for your support",
         confirmationMessage: "Thank you for subscribing and have a great day",
@@ -243,24 +253,23 @@ describe("Create a checkout", () => {
         media: true,
         logo: true,
         desc: true,
-        dark: true,
         skipTrial: true,
         discount: false,
-        buttonColor: "#ccc",
         subscriptionPreview: true,
+        buttonColor: "#ff6838",
+        backgroundColor: "#e0e0e0",
       },
       checkoutData: {
-        email: "tita0x00@gmail.com",
-        name: "Lemon Squeezy Test",
+        email: "johndoe@example.com",
+        name: "John Example Doe",
         billingAddress: {
           country: "US",
         },
         taxNumber: "12345",
-        // discountCode: 'Q3MJI5MG',
         custom: {
           userId: "1234567890",
-          userName: "Mrs.A",
-          nickName: "AAA",
+          userName: "johndoe",
+          nickName: "JD",
         },
         variantQuantities: [],
       },
@@ -268,6 +277,7 @@ describe("Create a checkout", () => {
       preview: true,
       testMode: true,
     };
+
     const {
       error,
       data: _data,
@@ -302,6 +312,7 @@ describe("Create a checkout", () => {
       test_mode,
       url,
     } = attributes;
+
     const items = [
       store_id,
       variant_id,
@@ -316,11 +327,13 @@ describe("Create a checkout", () => {
       test_mode,
       url,
     ];
+
     for (const item of items) expect(item).toBeDefined();
     expect(Object.keys(attributes).length).toEqual(items.length);
     expect(store_id).toEqual(Number(storeId));
     expect(variant_id).toEqual(Number(variantId));
-    console.log("url", url);
+
+    console.log("Checkout url", url);
 
     // product_options
     const {
@@ -336,6 +349,7 @@ describe("Create a checkout", () => {
       confirmation_message,
       confirmation_button_text,
     } = product_options;
+
     const productOptionItems = [
       name,
       description,
@@ -349,6 +363,7 @@ describe("Create a checkout", () => {
       confirmation_message,
       confirmation_button_text,
     ];
+
     for (const item of productOptionItems) expect(item).toBeDefined();
     expect(Object.keys(product_options).length).toEqual(
       productOptionItems.length
@@ -372,10 +387,11 @@ describe("Create a checkout", () => {
       discount,
       skip_trial,
       quantity,
-      dark,
       subscription_preview,
+      background_color,
       button_color,
     } = checkout_options;
+
     const checkoutOptionItems = [
       embed,
       checkoutOptionMedia,
@@ -384,17 +400,20 @@ describe("Create a checkout", () => {
       discount,
       skip_trial,
       quantity,
-      dark,
       subscription_preview,
+      background_color,
       button_color,
     ];
+
     for (const item of checkoutOptionItems) expect(item).toBeDefined();
     expect(Object.keys(checkout_options).length).toEqual(
       checkoutOptionItems.length
     );
     expect(logo).toEqual(newCheckout.checkoutOptions.logo);
     expect(desc).toEqual(newCheckout.checkoutOptions.desc);
-    expect(dark).toEqual(newCheckout.checkoutOptions.dark);
+    expect(background_color).toEqual(
+      newCheckout.checkoutOptions.backgroundColor
+    );
     expect(button_color).toEqual(newCheckout.checkoutOptions.buttonColor);
     expect(subscription_preview).toEqual(
       newCheckout.checkoutOptions.subscriptionPreview
@@ -410,6 +429,7 @@ describe("Create a checkout", () => {
       custom,
       variant_quantities,
     } = checkout_data;
+
     const checkoutDataItems = [
       email,
       checkoutDataName,
@@ -419,6 +439,7 @@ describe("Create a checkout", () => {
       custom,
       variant_quantities,
     ];
+
     for (const item of checkoutDataItems) expect(item).toBeDefined();
     expect(Object.keys(checkout_data).length).toEqual(checkoutDataItems.length);
     expect(email).toEqual(newCheckout.checkoutData.email);
@@ -445,6 +466,7 @@ describe("Create a checkout", () => {
         tax_formatted,
         total_formatted,
       } = preview;
+
       const previewItems = [
         currency,
         currency_rate,
@@ -464,6 +486,7 @@ describe("Create a checkout", () => {
         tax_formatted,
         total_formatted,
       ];
+
       for (const item of previewItems) expect(item).toBeDefined();
       expect(Object.keys(preview).length).toEqual(previewItems.length);
     } else {
@@ -497,6 +520,7 @@ describe("Retrieve a checkout", () => {
 
   it("Should return the checkout with the given checkout id", async () => {
     const { error, data: _data, statusCode } = await getCheckout(newCheckoutId);
+
     expect(error).toBeNull();
     expect(statusCode).toEqual(200);
     expect(_data).toBeDefined();
@@ -526,6 +550,7 @@ describe("Retrieve a checkout", () => {
       test_mode,
       url,
     } = attributes;
+
     const items = [
       store_id,
       variant_id,
@@ -540,12 +565,13 @@ describe("Retrieve a checkout", () => {
       test_mode,
       url,
     ];
+
     for (const item of items) expect(item).toBeDefined();
     expect(Object.keys(attributes).length).toEqual(items.length);
     expect(store_id).toEqual(Number(storeId));
     expect(variant_id).toEqual(Number(variantId));
     expect(url).toMatch(id);
-    console.log("url", url);
+    console.log("Checkout url", url);
 
     // product_options
     const {
@@ -561,6 +587,7 @@ describe("Retrieve a checkout", () => {
       confirmation_message,
       confirmation_button_text,
     } = product_options;
+
     const productOptionItems = [
       name,
       description,
@@ -574,6 +601,7 @@ describe("Retrieve a checkout", () => {
       confirmation_message,
       confirmation_button_text,
     ];
+
     for (const item of productOptionItems) expect(item).toBeDefined();
     expect(Object.keys(product_options).length).toEqual(
       productOptionItems.length
@@ -587,11 +615,10 @@ describe("Retrieve a checkout", () => {
       desc,
       discount,
       quantity,
-      dark,
       subscription_preview,
       skip_trial,
-      button_color,
     } = checkout_options;
+
     const checkoutOptionItems = [
       embed,
       checkoutOptionMedia,
@@ -600,10 +627,9 @@ describe("Retrieve a checkout", () => {
       discount,
       quantity,
       skip_trial,
-      dark,
       subscription_preview,
-      button_color,
     ];
+
     for (const item of checkoutOptionItems) expect(item).toBeDefined();
     expect(Object.keys(checkout_options).length).toEqual(
       checkoutOptionItems.length
@@ -619,6 +645,7 @@ describe("Retrieve a checkout", () => {
       custom,
       variant_quantities,
     } = checkout_data;
+
     const checkoutDataItems = [
       email,
       checkoutDataName,
@@ -628,6 +655,7 @@ describe("Retrieve a checkout", () => {
       custom,
       variant_quantities,
     ];
+
     for (const item of checkoutDataItems) expect(item).toBeDefined();
     expect(Object.keys(checkout_data).length).toEqual(checkoutDataItems.length);
 
@@ -673,7 +701,6 @@ describe("Retrieve a checkout", () => {
     const { variant, store } = relationships;
     expect(variant.links).toBeDefined();
     expect(store.links).toBeDefined();
-
     const { self } = links;
     expect(self).toEqual(`${API_BASE_URL}/v1/${DATA_TYPE}/${newCheckoutId}`);
   });
@@ -684,6 +711,7 @@ describe("Retrieve a checkout", () => {
       data: _data,
       statusCode,
     } = await getCheckout(newCheckoutId, { include: ["store"] });
+
     expect(error).toBeNull();
     expect(statusCode).toEqual(200);
     expect(_data).toBeDefined();
@@ -715,6 +743,7 @@ describe("Retrieve a checkout", () => {
       test_mode,
       url,
     } = attributes;
+
     const items = [
       store_id,
       variant_id,
@@ -729,12 +758,13 @@ describe("Retrieve a checkout", () => {
       test_mode,
       url,
     ];
+
     for (const item of items) expect(item).toBeDefined();
     expect(Object.keys(attributes).length).toEqual(items.length);
     expect(store_id).toEqual(Number(storeId));
     expect(variant_id).toEqual(Number(variantId));
     expect(url).toMatch(id);
-    console.log("url", url);
+    console.log("Checkout url", url);
 
     // product_options
     const {
@@ -750,6 +780,7 @@ describe("Retrieve a checkout", () => {
       confirmation_message,
       confirmation_button_text,
     } = product_options;
+
     const productOptionItems = [
       name,
       description,
@@ -763,6 +794,7 @@ describe("Retrieve a checkout", () => {
       confirmation_message,
       confirmation_button_text,
     ];
+
     for (const item of productOptionItems) expect(item).toBeDefined();
     expect(Object.keys(product_options).length).toEqual(
       productOptionItems.length
@@ -777,10 +809,9 @@ describe("Retrieve a checkout", () => {
       discount,
       quantity,
       skip_trial,
-      dark,
       subscription_preview,
-      button_color,
     } = checkout_options;
+
     const checkoutOptionItems = [
       embed,
       checkoutOptionMedia,
@@ -789,10 +820,9 @@ describe("Retrieve a checkout", () => {
       discount,
       skip_trial,
       quantity,
-      dark,
       subscription_preview,
-      button_color,
     ];
+
     for (const item of checkoutOptionItems) expect(item).toBeDefined();
     expect(Object.keys(checkout_options).length).toEqual(
       checkoutOptionItems.length
@@ -817,6 +847,7 @@ describe("Retrieve a checkout", () => {
       custom,
       variant_quantities,
     ];
+
     for (const item of checkoutDataItems) expect(item).toBeDefined();
     expect(Object.keys(checkout_data).length).toEqual(checkoutDataItems.length);
 
@@ -856,7 +887,6 @@ describe("Retrieve a checkout", () => {
       ];
       for (const item of previewItems) expect(item).toBeDefined();
       expect(Object.keys(preview).length).toEqual(previewItems.length);
-    } else {
     }
 
     const { variant, store } = relationships;
@@ -871,11 +901,13 @@ describe("Retrieve a checkout", () => {
 describe("List all checkouts", () => {
   it("Should return a paginated list of checkouts", async () => {
     const { error, data: _data, statusCode } = await listCheckouts();
+
     expect(error).toBeNull();
     expect(statusCode).toEqual(200);
     expect(_data).toBeDefined();
 
     const { meta, data, links } = _data!;
+
     expect(meta).toBeDefined();
     expect(data).toBeDefined();
     expect(data).toBeArray();
@@ -884,6 +916,7 @@ describe("List all checkouts", () => {
 
     const { currentPage, from, to, perPage, lastPage, total } = meta.page;
     const items = [currentPage, from, to, perPage, lastPage, total];
+
     for (const item of items) expect(item).toBeInteger();
     expect(Object.keys(meta.page).length).toEqual(items.length);
   });
@@ -897,7 +930,6 @@ describe("List all checkouts", () => {
     expect(error).toBeNull();
     expect(statusCode).toEqual(200);
     expect(_data).toBeDefined();
-
     const { meta, data, links, included } = _data!;
     expect(meta).toBeDefined();
     expect(data).toBeDefined();
@@ -906,7 +938,6 @@ describe("List all checkouts", () => {
     expect(links.last).toBeDefined();
     expect(included).toBeArray();
     expect(!!included?.filter((item) => item.type === "stores")).toBeTrue();
-
     const { currentPage, from, to, perPage, lastPage, total } = meta.page;
     const items = [currentPage, from, to, perPage, lastPage, total];
     for (const item of items) expect(item).toBeInteger();
@@ -921,11 +952,9 @@ describe("List all checkouts", () => {
     } = await listCheckouts({
       filter: { storeId },
     });
-
     expect(error).toBeNull();
     expect(statusCode).toEqual(200);
     expect(_data).toBeDefined();
-
     const { meta, data, links } = _data!;
     expect(meta).toBeDefined();
     expect(
@@ -933,7 +962,6 @@ describe("List all checkouts", () => {
     ).toEqual(data.length);
     expect(links.first).toBeDefined();
     expect(links.last).toBeDefined();
-
     const { currentPage, from, to, perPage, lastPage, total } = meta.page;
     const items = [currentPage, from, to, perPage, lastPage, total];
     for (const item of items) expect(item).toBeInteger();
@@ -951,7 +979,6 @@ describe("List all checkouts", () => {
     expect(error).toBeNull();
     expect(statusCode).toEqual(200);
     expect(_data).toBeDefined();
-
     const { meta, data, links } = _data!;
     expect(meta).toBeDefined();
     expect(
@@ -960,7 +987,6 @@ describe("List all checkouts", () => {
     ).toEqual(data.length);
     expect(links.first).toBeDefined();
     expect(links.last).toBeDefined();
-
     const { currentPage, from, to, perPage, lastPage, total } = meta.page;
     const items = [currentPage, from, to, perPage, lastPage, total];
     for (const item of items) expect(item).toBeInteger();
@@ -981,13 +1007,11 @@ describe("List all checkouts", () => {
     expect(error).toBeNull();
     expect(statusCode).toEqual(200);
     expect(_data).toBeDefined();
-
     const { meta, data, links } = _data!;
     expect(meta).toBeDefined();
     expect(data).toBeArray();
     expect(links.first).toBeDefined();
     expect(links.last).toBeDefined();
-
     const { currentPage, from, to, perPage, lastPage, total } = meta.page;
     const items = [currentPage, from, to, perPage, lastPage, total];
     for (const item of items) expect(item).toBeInteger();

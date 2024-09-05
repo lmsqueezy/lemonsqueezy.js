@@ -9,6 +9,7 @@ import type {
 } from "../types";
 
 type OrderStatus = "pending" | "failed" | "paid" | "refunded";
+
 type FirstOrderItem = {
   /**
    * The ID of the order item.
@@ -63,6 +64,7 @@ type FirstOrderItem = {
    */
   test_mode: boolean;
 };
+
 type Attributes = {
   /**
    * The ID of the store this order belongs to.
@@ -116,6 +118,12 @@ type Attributes = {
    * A positive integer in cents representing the total cost of the order in the order currency.
    */
   total: number;
+
+  /**
+   * A positive integer in cents representing the refunded amount of the order in the order currency.
+   */
+  refunded_amount: number;
+
   /**
    * A positive integer in cents representing the subtotal of the order in USD.
    */
@@ -136,6 +144,12 @@ type Attributes = {
    * A positive integer in cents representing the total cost of the order in USD.
    */
   total_usd: number;
+
+  /**
+   * A positive integer in cents representing the refunded amount of the order in USD.
+   */
+  refunded_amount_usd: number;
+
   /**
    * The name of the tax rate (e.g. `VAT`, `Sales Tax`, etc) applied to the order. Will be `null` if no tax was applied.
    */
@@ -189,6 +203,12 @@ type Attributes = {
    * A human-readable string representing the total cost of the order in the order currency (e.g. `$9.99`).
    */
   total_formatted: string;
+
+  /**
+   * A human-readable string representing the refunded amount of the order in the order currency (e.g. $9.99).
+   */
+  refunded_amount_formatted: string;
+
   /**
    * An object representing the [first order](https://docs.lemonsqueezy.com/api/order-items) item belonging to this order.
    *
@@ -225,6 +245,7 @@ type Attributes = {
    */
   test_mode: boolean;
 };
+
 type OrderData = Data<
   Attributes,
   Pick<
@@ -242,10 +263,12 @@ export type GetOrderParams = Pick<
   Params<(keyof OrderData["relationships"])[]>,
   "include"
 >;
+
 export type ListOrdersParams = Params<
   GetOrderParams["include"],
   { storeId?: string | number; userEmail?: string }
 >;
+
 export type GenerateOrderInvoiceParams = {
   /**
    * Optional. The full name of the customer.
@@ -276,15 +299,18 @@ export type GenerateOrderInvoiceParams = {
    */
   notes?: string;
 };
+
 export type Order = Omit<
   LemonSqueezyResponse<OrderData, unknown, Pick<Links, "self">>,
   "meta"
 >;
+
 export type ListOrders = LemonSqueezyResponse<
   OrderData[],
   Pick<Meta, "page">,
   Pick<Links, "first" | "last">
 >;
+
 export type OrderInvoice = Pick<
   LemonSqueezyResponse<unknown, Pick<Meta, "urls">, unknown>,
   "meta" | "jsonapi"

@@ -39,6 +39,7 @@ export function createCheckout(
     preview,
     testMode,
   } = checkout;
+
   const relationships = {
     store: {
       data: {
@@ -53,6 +54,7 @@ export function createCheckout(
       },
     },
   };
+
   const attributes = {
     customPrice,
     expiresAt,
