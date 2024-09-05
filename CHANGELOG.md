@@ -1,5 +1,15 @@
 # @lemonsqueezy/lemonsqueezy.js
 
+## 3.3.0
+
+### Minor Changes
+
+- [#124](https://github.com/lmsqueezy/lemonsqueezy.js/pull/124) [`abc2b7e`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/abc2b7e50b14392cd8a8c0ee398cdbc15f9b2316) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Added options for overriding checkout styles
+
+- [#124](https://github.com/lmsqueezy/lemonsqueezy.js/pull/124) [`abc2b7e`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/abc2b7e50b14392cd8a8c0ee398cdbc15f9b2316) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Added options which allow overriding checkout colors
+
+- [#124](https://github.com/lmsqueezy/lemonsqueezy.js/pull/124) [`abc2b7e`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/abc2b7e50b14392cd8a8c0ee398cdbc15f9b2316) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Added new refund endpoints
+
 ## 3.2.0
 
 ### Minor Changes
