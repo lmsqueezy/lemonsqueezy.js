@@ -1,5 +1,13 @@
 # @lemonsqueezy/lemonsqueezy.js
 
+## 3.3.1
+
+### Patch Changes
+
+- [#126](https://github.com/lmsqueezy/lemonsqueezy.js/pull/126) [`3c5c048`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/3c5c0482f676d05261c8e7bd573dce58698088c5) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Added deprecated TSDoc tag for `dark`
+
+- [#126](https://github.com/lmsqueezy/lemonsqueezy.js/pull/126) [`3c5c048`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/3c5c0482f676d05261c8e7bd573dce58698088c5) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Added "deprecated" TSDoc tag to the `dark` option
+
 ## 3.3.0
 
 ### Minor Changes
