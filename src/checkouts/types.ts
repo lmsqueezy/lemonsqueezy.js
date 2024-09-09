@@ -148,7 +148,8 @@ type CheckoutOptions = {
   terms_privacy_color: string;
 
   /**
-   * `Deprecated` If `true`, use the dark theme. Use color options
+   * If `true`, use the dark theme.
+   * @deprecated Use color options instead.
    */
   dark: boolean;
 };
@@ -306,7 +307,7 @@ type Attributes = {
    * - `button_color` - A custom hex color to use for the checkout button.
    * - `button_text_color` - A custom hex color to use for the text within the checkout button.
    * - `terms_privacy_color` - A custom hex color to use for the terms and privacy text on the checkout page. Used only on embedded checkouts.
-   * - `dark` - Deprecated. If `true`, use the dark theme. Use color options instead.
+   * - `dark` - If `true`, use the dark theme. Deprecated. Use color options instead.
    */
   checkout_options: CheckoutOptions;
   /**
@@ -466,7 +467,7 @@ export type NewCheckout = {
    * - `button_color` - A custom hex color to use for the checkout button.
    * - `button_text_color` - A custom hex color to use for the text within the checkout button.
    * - `terms_privacy_color` - A custom hex color to use for the terms and privacy text on the checkout page. Used only on embedded checkouts.
-   * - `dark` - Deprecated. If `true`, use the dark theme. Use color options instead.
+   * - `dark` - If `true`, use the dark theme. Deprecated. Use color options instead.
    */
   checkoutOptions?: {
     /**
@@ -554,7 +555,8 @@ export type NewCheckout = {
     termsPrivacyColor?: string;
 
     /**
-     * `Deprecated` If `true`, use the dark theme. Use color options
+     * If `true`, use the dark theme.
+     * @deprecated Use color options instead.
      */
     dark?: boolean;
   };
