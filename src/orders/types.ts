@@ -8,7 +8,7 @@ import type {
   Relationships,
 } from "../types";
 
-type OrderStatus = "pending" | "failed" | "paid" | "refunded";
+type OrderStatus = "pending" | "failed" | "paid" | "refunded" | "fraudulent";
 
 type FirstOrderItem = {
   /**
@@ -169,6 +169,7 @@ type Attributes = {
    * - `failed`
    * - `paid`
    * - `refunded`
+   * - `fraudulent`
    */
   status: OrderStatus;
   /**
