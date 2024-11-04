@@ -56,19 +56,20 @@ export function listOrders(params: ListOrdersParams = {}) {
  * Generate order invoice.
  *
  * @param orderId The given order id.
- * @param [params] (Optional) The given parameters.
- * @param [params.name] (Optional) The full name of the customer.
- * @param [params.address] (Optional) The street address of the customer.
- * @param [params.city] (Optional) The city of the customer.
- * @param [params.state] (Optional) The state of the customer.
- * @param [params.zipCode] (Optional) The ZIP code of the customer.
- * @param [params.country] (Optional) The country of the customer.
+ * @param [params] The given parameters.
+ * @param [params.name] The full name of the customer.
+ * @param [params.address] The street address of the customer.
+ * @param [params.city] The city of the customer.
+ * @param [params.state] The state of the customer.
+ * @param [params.zipCode] The ZIP code of the customer.
+ * @param [params.country] The country of the customer.
  * @param [params.notes] (Optional) Any additional notes to include on the invoice.
+ * @param [params.locale] (Optional) ISO 639 language code, e.g., ‘en’ for English language.
  * @returns A link to download the generated invoice.
  */
 export function generateOrderInvoice(
   orderId: number | string,
-  params: GenerateOrderInvoiceParams = {}
+  params: GenerateOrderInvoiceParams
 ) {
   requiredCheck({ orderId });
   const searchParams = convertKeys(params);
