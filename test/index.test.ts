@@ -41,6 +41,7 @@ describe("Export", () => {
       "getOrder",
       "listOrders",
       "generateOrderInvoice",
+      "issueOrderRefund",
 
       // Order Items
       "getOrderItem",
@@ -56,6 +57,7 @@ describe("Export", () => {
       "getSubscriptionInvoice",
       "listSubscriptionInvoices",
       "generateSubscriptionInvoice",
+      "issueSubscriptionInvoiceRefund",
 
       // Subscriptions Items
       "getSubscriptionItem",
