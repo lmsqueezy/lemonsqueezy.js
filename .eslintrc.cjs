@@ -27,6 +27,7 @@ module.exports = {
     // Ignore dotfiles
     ".*.js",
     ".*.cjs",
+    "*.json",
     ".*.md",
     ".*.mdx",
     "/dist",

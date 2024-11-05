@@ -81,12 +81,14 @@
   "engines": {
     "node": ">=20"
   },
-  "*": [
-    "bun lint:fix",
-    "bun run format"
-  ],
+  "lint-staged": {
+    "*": [
+      "eslint",
+      "prettier --list-different"
+    ]
+  },
   "simple-git-hooks": {
-    "pre-commit": "bun run lint-staged",
+    "pre-commit": "bunx lint-staged",
     "commit-msg": "bun run commitlint --edit $1"
   }
 }
