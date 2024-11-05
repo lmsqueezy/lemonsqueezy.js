@@ -39,7 +39,7 @@ describe("List all subscriptions", () => {
 
     // Get active subscription
     const activeSubscription = data.find((d) => {
-      d.attributes.status === "active";
+      return d.attributes.status === "active";
     });
 
     const { id, attributes } = activeSubscription ?? data[0];

@@ -145,8 +145,8 @@ describe("Retrieve a product", () => {
     const { id, type, attributes, relationships } = data;
     expect(id).toEqual(productId.toString());
     expect(type).toEqual(DATA_TYPE);
-    expect(attributes).toBeDefined;
-    expect(relationships).toBeDefined;
+    expect(attributes).toBeDefined();
+    expect(relationships).toBeDefined();
 
     const {
       store_id,
@@ -222,8 +222,8 @@ describe("Retrieve a product", () => {
     const { id, type, attributes, relationships } = data;
     expect(id).toEqual(productId.toString());
     expect(type).toEqual(DATA_TYPE);
-    expect(attributes).toBeDefined;
-    expect(relationships).toBeDefined;
+    expect(attributes).toBeDefined();
+    expect(relationships).toBeDefined();
 
     const {
       store_id,
