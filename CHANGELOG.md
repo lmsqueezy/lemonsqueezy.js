@@ -1,5 +1,15 @@
 # @lemonsqueezy/lemonsqueezy.js
 
+## 4.0.0
+
+### Major Changes
+
+- [#132](https://github.com/lmsqueezy/lemonsqueezy.js/pull/132) [`0945ebe`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/0945ebeeeff19d8ae982cd5a783866fa07c3b2ec) Thanks [@branko-stripe](https://github.com/branko-stripe)! - Make the address fields required when generating invoices
+
+### Patch Changes
+
+- [#129](https://github.com/lmsqueezy/lemonsqueezy.js/pull/129) [`250afcb`](https://github.com/lmsqueezy/lemonsqueezy.js/commit/250afcb0bbcecc6ca566c0ad393864513accf292) Thanks [@brankoconjic](https://github.com/brankoconjic)! - Include `fraudulent` in Order `status` type
+
 ## 3.3.1
 
 ### Patch Changes
