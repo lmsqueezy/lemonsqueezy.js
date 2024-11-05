@@ -1,6 +1,7 @@
 import type {
   Data,
   ISO4217CurrencyCode,
+  LanguageCode,
   LemonSqueezyResponse,
   Links,
   Meta,
@@ -215,33 +216,37 @@ export type ListSubscriptionInvoicesParams = Params<
 >;
 export type GenerateSubscriptionInvoiceParams = {
   /**
-   * Optional. The full name of the customer.
+   * The full name of the customer.
    */
-  name?: string;
+  name: string;
   /**
-   * Optional. The street address of the customer.
+   * The street address of the customer.
    */
-  address?: string;
+  address: string;
   /**
-   * Optional. The city of the customer.
+   * The city of the customer.
    */
-  city?: string;
+  city: string;
   /**
-   * Optional. The state of the customer.
+   * The state of the customer. Required if the country is the United States or Canada.
    */
   state?: string;
   /**
-   * Optional. The ZIP code of the customer.
+   * The ZIP code of the customer.
    */
-  zipCode?: number;
+  zipCode: number;
   /**
-   * Optional. The country of the customer.
+   * The country of the customer.
    */
-  country?: string;
+  country: string;
   /**
    * Optional. Any additional notes to include on the invoice.
    */
   notes?: string;
+  /**
+   * Optional. The locale to use for the invoice. Defaults to 'en' locale.
+   */
+  locale?: LanguageCode;
 };
 export type SubscriptionInvoice = Omit<
   LemonSqueezyResponse<SubscriptionInvoiceData, unknown, Pick<Links, "self">>,
