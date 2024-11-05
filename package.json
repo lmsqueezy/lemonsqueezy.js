@@ -82,8 +82,11 @@
     "node": ">=20"
   },
   "lint-staged": {
-    "*": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint",
+      "prettier --list-different"
+    ],
+    "!(*.css|*.js|*.jsx|*.ts|*.tsx)": [
       "prettier --list-different"
     ]
   },
