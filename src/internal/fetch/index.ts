@@ -84,7 +84,10 @@ export async function $fetch<T>(options: FetchOptions, needApiKey = true) {
     Object.assign(response, { error: error as Error });
   }
 
-  response.error && onError?.(response.error);
+  if (response.error) {
+    onError?.(response.error);
+  }
+
   return response as FetchResponse<T>;
 }
 
